@@ -1,0 +1,920 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Word embedding &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Tugas4/Word embedding';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../markdown.html">Markdown Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Content with notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tugas2/vsm.html"><strong>PENCARIAN DAN PENAMBANGAN WEB - TUGAS 2 : Membuat VSM dan Menghitung TF-IDF berdasarkan hasil crawling berita</strong></a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FTugas4/Word embedding.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Tugas4/Word embedding.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Word embedding</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Word embedding</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skip-gram">Skip-gram</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-hot-encoding"><strong>1. One-Hot Encoding</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-skip-gram"><strong>2. Model Skip-Gram</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#proses-forward-propagation"><strong>3. Proses Forward Propagation</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backpropagation-dan-update-bobot"><strong>4. Backpropagation dan Update Bobot</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-skip-gram-dengan-iterasi"><strong>5. Training Skip-Gram dengan Iterasi</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#representasi-kata-dalam-vektor-dengan-3-elemen-untuk-setiap-kata"><em><strong>Representasi kata dalam vektor dengan 3 elemen untuk setiap kata:</strong></em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#vektor-one-hot-encoding-3-elemen"><strong>Vektor One-Hot Encoding (3 Elemen)</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#training-samples-dengan-one-hot-encoding-3-elemen"><strong>Training Samples dengan One-Hot Encoding (3 Elemen)</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-dengan-3-elemen"><strong>Ringkasan dengan 3 Elemen</strong>:</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-model-skip-gram-dengan-one-hot-encoding"><strong>Perhitungan Manual Model Skip-Gram dengan One-Hot Encoding</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-tentukan-kata-pusat-dan-kata-konteks"><strong>Langkah 1: Tentukan kata pusat dan kata konteks</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-forward-propagation-lanjutan"><strong>Langkah 2: Forward Propagation (Lanjutan)</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kata-pusat-mahasiswa"><strong>Kata pusat: “mahasiswa”</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output-probabilitas-prediksi"><strong>Output: Probabilitas Prediksi</strong></a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="word-embedding">
+<h1>Word embedding<a class="headerlink" href="#word-embedding" title="Link to this heading">#</a></h1>
+<section id="skip-gram">
+<h2>Skip-gram<a class="headerlink" href="#skip-gram" title="Link to this heading">#</a></h2>
+<p><strong>Penjelasan Model Skip-Gram dan One-Hot Encoding:</strong></p>
+<p><em>Dalam arsitektur skip-gram word2vec</em> , inputnya adalah kata tengah dan prediksinya adalah kata konteks. Pertimbangkan array kata W, jika W(i) adalah input (kata tengah), maka W(i-2), W(i-1), W(i+1), dan W(i+2) adalah kata konteks jika ukuran jendela geser adalah 2.
+<img alt="image" src="https://hackmd.io/_uploads/S1zVrIMCC.png" />
+adalah diagram yang disajikan dalam paper Word2Vec asli. Pada dasarnya diagram ini menjelaskan bahwa model tersebut menggunakan jaringan saraf dengan satu lapisan tersembunyi(proyeksi)untuk memprediksi kata konteks dengan benar.
+Dengan kata lain, model tersebut mencoba memaksimalkan probabilitas mengamati keempat kata konteks secara bersamaan, jika diberikan kata tengah. Secara matematis, hal ini dapat dilambangkan sebagai eq-1</p>
+<p>seperti contoh di bawah ini! :
+<img alt="image" src="https://hackmd.io/_uploads/H1kHGUzCC.png" /></p>
+<section id="one-hot-encoding">
+<h3><strong>1. One-Hot Encoding</strong><a class="headerlink" href="#one-hot-encoding" title="Link to this heading">#</a></h3>
+<p><em>One-hot encoding</em> adalah metode untuk merepresentasikan kata-kata dalam bentuk vektor biner. Misalnya, dalam sebuah kosakata yang terdiri dari <code class="docutils literal notranslate"><span class="pre">V</span></code> kata unik, kita membuat vektor dengan panjang <code class="docutils literal notranslate"><span class="pre">V</span></code>. Untuk kata tertentu, kita mengatur satu posisi dalam vektor menjadi <code class="docutils literal notranslate"><span class="pre">1</span></code> (yang merepresentasikan kata tersebut), dan posisi lainnya diatur menjadi <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<p>Sebagai contoh, misalnya kita punya kosakata berikut:</p>
+<ul class="simple">
+<li><p>Kosakata: [“saya”, “mahasiswa”, “universitas”, “trunojoyo”, “madura”]</p></li>
+</ul>
+<p>Setiap kata direpresentasikan sebagai vektor satu-hot (one-hot vector) seperti berikut:</p>
+<ul class="simple">
+<li><p>“saya”        → <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0]</span></code></p></li>
+<li><p>“mahasiswa”   → <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0]</span></code></p></li>
+<li><p>“universitas” → <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">0,</span> <span class="pre">0]</span></code></p></li>
+<li><p>“trunojoyo”   → <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">0]</span></code></p></li>
+<li><p>“madura”      → <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">1]</span></code></p></li>
+</ul>
+<p><strong>Rumus One-Hot Encoding</strong>:</p>
+<p>Jika <code class="docutils literal notranslate"><span class="pre">x</span></code> adalah kata yang direpresentasikan, maka vektor one-hot untuk <code class="docutils literal notranslate"><span class="pre">x</span></code> di kosakata V dapat direpresentasikan sebagai:
+$<span class="math notranslate nohighlight">\(x = [0, 0, \dots, 1, \dots, 0] \quad (\text{panjang} = V)
+\)</span>$</p>
+<p>Dimana hanya ada satu <code class="docutils literal notranslate"><span class="pre">1</span></code> yang menandakan posisi kata <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</section>
+<hr class="docutils" />
+<section id="model-skip-gram">
+<h3><strong>2. Model Skip-Gram</strong><a class="headerlink" href="#model-skip-gram" title="Link to this heading">#</a></h3>
+<p>Skip-Gram adalah model pembelajaran kata yang menggunakan neural network sederhana untuk memprediksi kata-kata konteks di sekitar kata pusat. Tujuannya adalah memaksimalkan probabilitas kata-kata konteks yang muncul di sekitar kata pusat. Skip-Gram berfungsi dengan memprediksi konteks berdasarkan kata pusat.</p>
+<p><strong>2.1. Arsitektur Model:</strong></p>
+<ul>
+<li><p><strong>Input Layer</strong>: Merupakan vektor one-hot dari kata pusat dengan dimensi <code class="docutils literal notranslate"><span class="pre">V</span></code> (jumlah kosakata).</p></li>
+<li><p><strong>Hidden Layer</strong>: Merupakan lapisan tersembunyi dengan dimensi <code class="docutils literal notranslate"><span class="pre">N</span></code> (dimensi embedding kata). Input one-hot dikalikan dengan matriks bobot <code class="docutils literal notranslate"><span class="pre">W_in</span></code> (V x N) untuk menghasilkan vektor tersembunyi <code class="docutils literal notranslate"><span class="pre">h</span></code>.</p>
+<p>Rumus:
+$<span class="math notranslate nohighlight">\(h = W_{\text{input}}^T \cdot x
+\)</span>$
+Dimana:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">h</span></code> adalah vektor hasil di hidden layer (N-dim).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">W_{\text{input}}</span></code> adalah matriks bobot input (V x N).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code> adalah vektor one-hot kata pusat (V-dim).</p></li>
+</ul>
+</li>
+<li><p><strong>Output Layer</strong>: Menghasilkan distribusi probabilitas dari semua kata dalam kosakata menggunakan fungsi <strong>Softmax</strong>.</p>
+<p>Softmax digunakan untuk menghasilkan probabilitas setiap kata dalam kosakata, berdasarkan konteks kata pusat.</p>
+<p>Rumus Softmax:
+$<span class="math notranslate nohighlight">\(p(w_{\text{context}} \mid w_{\text{center}}) = \frac{\exp(W_{\text{output}}(w_{\text{context}}) \cdot h)}{\sum_{i=1}^{V} \exp(W_{\text{output}}(i) \cdot h)}
+\)</span>$
+Dimana:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">W_{\text{output}}</span></code> adalah matriks bobot output (N x V).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">h</span></code> adalah vektor tersembunyi dari kata pusat (N-dim).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">w_{\text{context}}</span></code> adalah kata konteks.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">V</span></code> adalah jumlah kata dalam kosakata.</p></li>
+</ul>
+<p>Output softmax adalah probabilitas dari setiap kata dalam kosakata muncul sebagai konteks, mengingat kata pusat tertentu.</p>
+</li>
+</ul>
+<hr class="docutils" />
+<p><strong>2.2. Training Skip-Gram:</strong></p>
+<p><strong>Tujuan Utama</strong>: Optimalkan representasi vektor kata (embedding) sedemikian rupa sehingga prediksi kata konteks menjadi lebih akurat.</p>
+<p><strong>Fungsi Cost (Objective Function)</strong>:
+Model Skip-Gram mencoba memaksimalkan probabilitas semua kata konteks yang benar diberikan kata pusat <code class="docutils literal notranslate"><span class="pre">w_{t}</span></code>, dengan tujuan meminimalkan kesalahan prediksi.</p>
+<p>Rumus fungsi cost untuk model Skip-Gram adalah:
+$<span class="math notranslate nohighlight">\(
+J(\theta) = -\frac{1}{T} \sum^T_{t=1} \sum_{-c\leq j \leq c,j\neq 0} \log p(w_{t+j} \mid w_t ;\, \theta)
+\)</span>$</p>
+<p>Dimana:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">T</span></code> adalah jumlah total kata dalam corpus.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">c</span></code> adalah ukuran window (jumlah kata di sekitar kata pusat).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">w_{t}</span></code> adalah kata pusat pada posisi <code class="docutils literal notranslate"><span class="pre">t</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">w_{t+j}</span></code> adalah kata konteks pada posisi <code class="docutils literal notranslate"><span class="pre">t+j</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p(w_{t+j}</span> <span class="pre">|</span> <span class="pre">w_t;</span> <span class="pre">\theta)</span></code> adalah probabilitas prediksi konteks yang benar.</p></li>
+</ul>
+<p><strong>Perluasan Rumus dengan Softmax</strong>:
+Rumus ini dapat diperluas dengan memasukkan fungsi softmax di dalamnya:
+$<span class="math notranslate nohighlight">\(J(\theta) = - \sum_{-c \leq j \leq c, j \neq 0} \left( W_{\text{output}}(w_{t+j}) \cdot h + C \cdot \log \sum_{i=1}^{V} \exp(W_{\text{output}}(i) \cdot h) \right)
+\)</span>$</p>
+</section>
+<hr class="docutils" />
+<section id="proses-forward-propagation">
+<h3><strong>3. Proses Forward Propagation</strong><a class="headerlink" href="#proses-forward-propagation" title="Link to this heading">#</a></h3>
+<p>Proses ini adalah bagaimana model memproses data input (kata pusat) dan menghasilkan output (prediksi kata konteks):</p>
+<ul class="simple">
+<li><p><strong>Langkah 1</strong>: Input berupa vektor one-hot dari kata pusat.</p></li>
+<li><p><strong>Langkah 2</strong>: Vektor input dikalikan dengan matriks bobot <code class="docutils literal notranslate"><span class="pre">W_input</span></code> untuk mendapatkan representasi tersembunyi <code class="docutils literal notranslate"><span class="pre">h</span></code>.</p></li>
+<li><p><strong>Langkah 3</strong>: Hasil <code class="docutils literal notranslate"><span class="pre">h</span></code> dikalikan dengan matriks bobot output <code class="docutils literal notranslate"><span class="pre">W_output</span></code> dan kemudian diterapkan fungsi softmax untuk menghasilkan probabilitas prediksi.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="backpropagation-dan-update-bobot">
+<h3><strong>4. Backpropagation dan Update Bobot</strong><a class="headerlink" href="#backpropagation-dan-update-bobot" title="Link to this heading">#</a></h3>
+<p>Setelah forward propagation selesai, kita melakukan backpropagation untuk menghitung <strong>error</strong> dan memperbarui bobot <code class="docutils literal notranslate"><span class="pre">W_input</span></code> dan <code class="docutils literal notranslate"><span class="pre">W_output</span></code>. Kesalahan prediksi dihitung sebagai selisih antara probabilitas yang diprediksi dengan probabilitas yang benar (y_true):
+$<span class="math notranslate nohighlight">\(\text{Error} = y_{\text{pred}} - y_{\text{true}}
+\)</span>$</p>
+<p><strong>Update Bobot dengan Gradient Descent</strong>:
+Bobot diperbarui dengan aturan berikut:
+$<span class="math notranslate nohighlight">\(W_{\text{new}} = W_{\text{old}} - \eta \cdot \nabla J(W)
+\)</span>$
+na:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">\eta</span></code> adalah learning rate.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">\nabla</span> <span class="pre">J(W)</span></code> adalah gradien dari fungsi cost terhadap bobot.</p></li>
+</ul>
+<p>Untuk matriks bobot input <code class="docutils literal notranslate"><span class="pre">W_input</span></code> dan output <code class="docutils literal notranslate"><span class="pre">W_output</span></code>, rumus gradiennya adalah sebagai berikut:
+$<span class="math notranslate nohighlight">\(\nabla W_{\text{input}} = x \cdot \left(W_{\text{output}}^T \cdot \sum_{c=1}^{C} e_c \right)
+\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(\nabla W_{\text{output}} = h \cdot \sum_{c=1}^{C} e_c
+\)</span>$</p>
+<p>Disini <code class="docutils literal notranslate"><span class="pre">e_c</span></code> adalah error untuk kata konteks <code class="docutils literal notranslate"><span class="pre">c</span></code> dalam window, dan <code class="docutils literal notranslate"><span class="pre">x</span></code> adalah vektor one-hot dari kata pusat.</p>
+</section>
+<hr class="docutils" />
+<section id="training-skip-gram-dengan-iterasi">
+<h3><strong>5. Training Skip-Gram dengan Iterasi</strong><a class="headerlink" href="#training-skip-gram-dengan-iterasi" title="Link to this heading">#</a></h3>
+<p>Training melibatkan melakukan forward propagation dan backpropagation dalam banyak iterasi, untuk meminimalkan kesalahan prediksi.</p>
+<p><strong>Contoh Training dengan 2 Iterasi:</strong></p>
+<ul class="simple">
+<li><p><strong>Iterasi 1</strong>:</p>
+<ul>
+<li><p>Forward propagation untuk kata pusat “passes”, prediksi kata konteks “who” dan “the”.</p></li>
+<li><p>Backpropagation untuk menghitung error dan memperbarui bobot.</p></li>
+</ul>
+</li>
+<li><p><strong>Iterasi 2</strong>:</p>
+<ul>
+<li><p>Forward propagation untuk kata pusat “man”, prediksi kata konteks “the” dan “who”.</p></li>
+<li><p>Backpropagation untuk memperbarui bobot.</p></li>
+</ul>
+</li>
+</ul>
+<p>Setelah dua iterasi, bobot di matriks <code class="docutils literal notranslate"><span class="pre">W_input</span></code> dan <code class="docutils literal notranslate"><span class="pre">W_output</span></code> telah diperbarui dua kali, sehingga model semakin baik dalam memprediksi kata-kata konteks di sekitar kata pusat.</p>
+</section>
+<hr class="docutils" />
+<section id="representasi-kata-dalam-vektor-dengan-3-elemen-untuk-setiap-kata">
+<h3><em><strong>Representasi kata dalam vektor dengan 3 elemen untuk setiap kata:</strong></em><a class="headerlink" href="#representasi-kata-dalam-vektor-dengan-3-elemen-untuk-setiap-kata" title="Link to this heading">#</a></h3>
+<hr class="docutils" />
+<section id="vektor-one-hot-encoding-3-elemen">
+<h4><strong>Vektor One-Hot Encoding (3 Elemen)</strong><a class="headerlink" href="#vektor-one-hot-encoding-3-elemen" title="Link to this heading">#</a></h4>
+<p>Kosakata yang digunakan tetap sama:</p>
+<ul class="simple">
+<li><p><strong>Saya</strong></p></li>
+<li><p><strong>mahasiswa</strong></p></li>
+<li><p><strong>teknik</strong></p></li>
+<li><p><strong>informatika</strong></p></li>
+</ul>
+<p>Namun, setiap kata sekarang direpresentasikan dengan <strong>vektor 3 elemen</strong>.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Kata</p></th>
+<th class="head"><p>Vektor One-Hot  (3 Elemen)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Saya</p></td>
+<td><p>[1, 0, 0]</p></td>
+</tr>
+<tr class="row-odd"><td><p>mahasiswa</p></td>
+<td><p>[0, 1, 0]</p></td>
+</tr>
+<tr class="row-even"><td><p>teknik</p></td>
+<td><p>[0, 0, 1]</p></td>
+</tr>
+<tr class="row-odd"><td><p>informatika</p></td>
+<td><p>[1, 1, 0]</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Catatan: Dalam kasus ini, saya memodifikasi representasi “informatika” agar sesuai dengan dimensi 3.</p>
+<hr class="docutils" />
+</section>
+</section>
+</section>
+</section>
+<section id="training-samples-dengan-one-hot-encoding-3-elemen">
+<h1><strong>Training Samples dengan One-Hot Encoding (3 Elemen)</strong><a class="headerlink" href="#training-samples-dengan-one-hot-encoding-3-elemen" title="Link to this heading">#</a></h1>
+<p>Setelah membuat vektor one-hot dengan 3 elemen, setiap kalimat dari <strong>training samples</strong> akan direpresentasikan sebagai urutan vektor one-hot encoding dengan dimensi 3. Berikut ini adalah representasi 3 elemen untuk setiap kalimat:</p>
+<ol class="arabic simple">
+<li><p><strong>Training Sample 1</strong>: “Saya mahasiswa teknik informatika”</p>
+<ul class="simple">
+<li><p>Vektor: <code class="docutils literal notranslate"><span class="pre">[[1,</span> <span class="pre">0,</span> <span class="pre">0],</span> <span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">0],</span> <span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">1],</span> <span class="pre">[1,</span> <span class="pre">1,</span> <span class="pre">0]]</span></code></p></li>
+</ul>
+</li>
+<li><p><strong>Training Sample 2</strong>: “Saya mahasiswa”</p>
+<ul class="simple">
+<li><p>Vektor: <code class="docutils literal notranslate"><span class="pre">[[1,</span> <span class="pre">0,</span> <span class="pre">0],</span> <span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">0]]</span></code></p></li>
+</ul>
+</li>
+<li><p><strong>Training Sample 3</strong>: “Mahasiswa teknik”</p>
+<ul class="simple">
+<li><p>Vektor: <code class="docutils literal notranslate"><span class="pre">[[0,</span> <span class="pre">1,</span> <span class="pre">0],</span> <span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">1]]</span></code></p></li>
+</ul>
+</li>
+<li><p><strong>Training Sample 4</strong>: “Teknik informatika”</p>
+<ul class="simple">
+<li><p>Vektor: <code class="docutils literal notranslate"><span class="pre">[[0,</span> <span class="pre">0,</span> <span class="pre">1],</span> <span class="pre">[1,</span> <span class="pre">1,</span> <span class="pre">0]]</span></code></p></li>
+</ul>
+</li>
+</ol>
+<hr class="docutils" />
+<section id="ringkasan-dengan-3-elemen">
+<h2><strong>Ringkasan dengan 3 Elemen</strong>:<a class="headerlink" href="#ringkasan-dengan-3-elemen" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Training Sample</p></th>
+<th class="head"><p>Vektor One-Hot (3 Elemen)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>“Saya mahasiswa teknik informatika”</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[[1,</span> <span class="pre">0,</span> <span class="pre">0],</span> <span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">0],</span> <span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">1],</span> <span class="pre">[1,</span> <span class="pre">1,</span> <span class="pre">0]]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>“Saya mahasiswa”</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[[1,</span> <span class="pre">0,</span> <span class="pre">0],</span> <span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">0]]</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>“Mahasiswa teknik”</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[[0,</span> <span class="pre">1,</span> <span class="pre">0],</span> <span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">1]]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>“Teknik informatika”</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[[0,</span> <span class="pre">0,</span> <span class="pre">1],</span> <span class="pre">[1,</span> <span class="pre">1,</span> <span class="pre">0]]</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr class="docutils" />
+<hr class="docutils" />
+</section>
+</section>
+<section id="perhitungan-manual-model-skip-gram-dengan-one-hot-encoding">
+<h1><strong>Perhitungan Manual Model Skip-Gram dengan One-Hot Encoding</strong><a class="headerlink" href="#perhitungan-manual-model-skip-gram-dengan-one-hot-encoding" title="Link to this heading">#</a></h1>
+<p>Sebagai contoh, kita akan menggunakan <strong>kosakata</strong> berikut:</p>
+<ul class="simple">
+<li><p><strong>Kosakata</strong>: [“saya”, “mahasiswa”, “teknik”, “informatika”]</p></li>
+<li><p><strong>One-Hot Encoding</strong> dari kosakata:</p></li>
+</ul>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Kata</p></th>
+<th class="head"><p>Vektor One-Hot</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>“saya”</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>“mahasiswa”</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">0,</span> <span class="pre">0]</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>“teknik”</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">0]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>“informatika”</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">1]</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr class="docutils" />
+<section id="langkah-1-tentukan-kata-pusat-dan-kata-konteks">
+<h2><strong>Langkah 1: Tentukan kata pusat dan kata konteks</strong><a class="headerlink" href="#langkah-1-tentukan-kata-pusat-dan-kata-konteks" title="Link to this heading">#</a></h2>
+<p>Misalkan kalimatnya adalah “saya mahasiswa teknik informatika”, dan kita akan menggunakan jendela konteks dengan ukuran 1. Jadi, kita akan memprediksi kata konteks di sekitar setiap kata pusat.</p>
+<ul class="simple">
+<li><p>Kata pusat: <strong>“mahasiswa”</strong><br />
+Konteks: <strong>“saya”</strong>, <strong>“teknik”</strong></p></li>
+<li><p>Kata pusat: <strong>“teknik”</strong><br />
+Konteks: <strong>“mahasiswa”</strong>, <strong>“informatika”</strong></p></li>
+</ul>
+<hr class="docutils" />
+</section>
+<section id="langkah-2-forward-propagation-lanjutan">
+<h2><strong>Langkah 2: Forward Propagation (Lanjutan)</strong><a class="headerlink" href="#langkah-2-forward-propagation-lanjutan" title="Link to this heading">#</a></h2>
+<section id="kata-pusat-mahasiswa">
+<h3><strong>Kata pusat: “mahasiswa”</strong><a class="headerlink" href="#kata-pusat-mahasiswa" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Input</strong>: Vektor one-hot dari kata “mahasiswa” adalah <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">0,</span> <span class="pre">0]</span></code>.</p></li>
+</ul>
+<ol class="arabic">
+<li><p><strong>Hitung Hidden Layer</strong><br />
+Seperti yang sudah dihitung sebelumnya, kita kalikan vektor one-hot <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">0,</span> <span class="pre">0]</span></code> dengan matriks bobot <code class="docutils literal notranslate"><span class="pre">W_{\text{input}}</span></code>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+   W_{\text{input}} = \begin{pmatrix}
+   0.1 &amp; 0.3 \\
+   0.4 &amp; 0.7 \\
+   0.5 &amp; 0.2 \\
+   0.6 &amp; 0.8
+   \end{pmatrix}
+   \end{split}\]</div>
+<p>Kalikan dengan vektor one-hot “mahasiswa”:
+$<span class="math notranslate nohighlight">\(
+h = [0, 1, 0, 0] \cdot W_{\text{input}} = [0.4, 0.7]
+\)</span>$
+Jadi, vektor tersembunyi adalah <code class="docutils literal notranslate"><span class="pre">h</span> <span class="pre">=</span> <span class="pre">[0.4,</span> <span class="pre">0.7]</span></code>.</p>
+</li>
+<li><p><strong>Hitung Output Layer</strong><br />
+Sekarang, kalikan hasil dari hidden layer <code class="docutils literal notranslate"><span class="pre">[0.4,</span> <span class="pre">0.7]</span></code> dengan matriks bobot <code class="docutils literal notranslate"><span class="pre">W_{\text{output}}</span></code>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+   W_{\text{output}} = \begin{pmatrix}
+   0.2 &amp; 0.4 &amp; 0.1 &amp; 0.3 \\
+   0.5 &amp; 0.6 &amp; 0.3 &amp; 0.2
+   \end{pmatrix}
+   \end{split}\]</div>
+<p>Kalikan dengan hidden layer <code class="docutils literal notranslate"><span class="pre">[0.4,</span> <span class="pre">0.7]</span></code>:
+$<span class="math notranslate nohighlight">\(
+z = [0.4, 0.7] \cdot W_{\text{output}} = [0.2 \cdot 0.4 + 0.5 \cdot 0.7, 0.4 \cdot 0.4 + 0.6 \cdot 0.7, 0.1 \cdot 0.4 + 0.3 \cdot 0.7, 0.3 \cdot 0.4 + 0.2 \cdot 0.7]
+\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(
+z = [0.38, 0.64, 0.29, 0.34]
+\)</span>$</p>
+</li>
+<li><p><strong>Softmax Function</strong><br />
+Kita gunakan fungsi <strong>softmax</strong> untuk mengonversi hasil <code class="docutils literal notranslate"><span class="pre">z</span></code> menjadi probabilitas:</p>
+<div class="math notranslate nohighlight">
+\[
+   p(y_i) = \frac{\exp(z_i)}{\sum_{k=1}^{V} \exp(z_k)}
+   \]</div>
+<p>Hitung eksponensial dari setiap elemen <code class="docutils literal notranslate"><span class="pre">z</span></code>:
+$<span class="math notranslate nohighlight">\(
+\exp(z) = [\exp(0.38), \exp(0.64), \exp(0.29), \exp(0.34)] = [1.46, 1.90, 1.34, 1.40]
+\)</span><span class="math notranslate nohighlight">\(
+Jumlahkan semua nilai eksponensial:
+\)</span><span class="math notranslate nohighlight">\(
+\sum \exp(z) = 1.46 + 1.90 + 1.34 + 1.40 = 6.10
+\)</span>$</p>
+<p>Sekarang hitung probabilitas untuk setiap kata dalam kosakata:</p>
+<div class="math notranslate nohighlight">
+\[
+   p(y_1) = \frac{1.46}{6.10} \approx 0.24
+   \]</div>
+<div class="math notranslate nohighlight">
+\[
+   p(y_2) = \frac{1.90}{6.10} \approx 0.31
+   \]</div>
+<div class="math notranslate nohighlight">
+\[
+   p(y_3) = \frac{1.34}{6.10} \approx 0.22
+   \]</div>
+<div class="math notranslate nohighlight">
+\[
+   p(y_4) = \frac{1.40}{6.10} \approx 0.23
+   \]</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="output-probabilitas-prediksi">
+<h2><strong>Output: Probabilitas Prediksi</strong><a class="headerlink" href="#output-probabilitas-prediksi" title="Link to this heading">#</a></h2>
+<p>Probabilitas prediksi dari model Skip-Gram untuk kata pusat “mahasiswa” adalah:</p>
+<ul class="simple">
+<li><p>Probabilitas “saya” sebagai kata konteks: <strong>24%</strong></p></li>
+<li><p>Probabilitas “mahasiswa” sebagai kata konteks: <strong>31%</strong></p></li>
+<li><p>Probabilitas “teknik” sebagai kata konteks: <strong>22%</strong></p></li>
+<li><p>Probabilitas “informatika” sebagai kata konteks: <strong>23%</strong></p></li>
+</ul>
+<p>Ini adalah output yang dihasilkan dari forward propagation berdasarkan kata pusat “mahasiswa”.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Tugas4"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Word embedding</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skip-gram">Skip-gram</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-hot-encoding"><strong>1. One-Hot Encoding</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-skip-gram"><strong>2. Model Skip-Gram</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#proses-forward-propagation"><strong>3. Proses Forward Propagation</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backpropagation-dan-update-bobot"><strong>4. Backpropagation dan Update Bobot</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-skip-gram-dengan-iterasi"><strong>5. Training Skip-Gram dengan Iterasi</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#representasi-kata-dalam-vektor-dengan-3-elemen-untuk-setiap-kata"><em><strong>Representasi kata dalam vektor dengan 3 elemen untuk setiap kata:</strong></em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#vektor-one-hot-encoding-3-elemen"><strong>Vektor One-Hot Encoding (3 Elemen)</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#training-samples-dengan-one-hot-encoding-3-elemen"><strong>Training Samples dengan One-Hot Encoding (3 Elemen)</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-dengan-3-elemen"><strong>Ringkasan dengan 3 Elemen</strong>:</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-manual-model-skip-gram-dengan-one-hot-encoding"><strong>Perhitungan Manual Model Skip-Gram dengan One-Hot Encoding</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-tentukan-kata-pusat-dan-kata-konteks"><strong>Langkah 1: Tentukan kata pusat dan kata konteks</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-forward-propagation-lanjutan"><strong>Langkah 2: Forward Propagation (Lanjutan)</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kata-pusat-mahasiswa"><strong>Kata pusat: “mahasiswa”</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output-probabilitas-prediksi"><strong>Output: Probabilitas Prediksi</strong></a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
