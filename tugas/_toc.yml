@@ -1,0 +1,11 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+chapters:
+    - file: tugas2/vsm
+    - file: Tugas3/training
+    - file: Tugas5/centrality
+    - file: Tugas6/summary
+    - file: Tugas7/Keyword_Extraction
