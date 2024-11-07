@@ -61,7 +61,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Tugas 3 - Implementasi Hasil VSM dengan Algoritma Logistic Regression" href="../Tugas3/training.html" />
-    <link rel="prev" title="Welcome to your Jupyter Book" href="../intro.html" />
+    <link rel="prev" title="TUGAS 2 : Crawling 100 Berita Online 2 Kategori" href="crawl_berita.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -180,11 +180,14 @@
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Tugas1/Crawling_Berita_Online.html"><strong>Tugas 1 - Crawling Berita Online</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="crawl_berita.html"><strong>TUGAS 2 : Crawling 100 Berita Online 2 Kategori</strong></a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>TUGAS 2 : Membuat VSM dan Menghitung TF-IDF berdasarkan hasil crawling berita</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Tugas3/training.html">Tugas 3 - Implementasi Hasil VSM dengan Algoritma Logistic Regression</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Tugas5/centrality.html">Tugas 5 - Centrality Graph</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Tugas6/summary.html">Tugas 6 - Summary Dokumen Menggunakan Centrality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas3/training.html"><strong>Tugas 3 - Implementasi Hasil VSM dengan Algoritma Logistic Regression</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas5/centrality.html"><strong>Tugas 5 - Centrality Graph</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas6/summary.html"><strong>Tugas 6 - Summary Dokumen Menggunakan Centrality</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas7/Keyword_Extraction.html"><strong>Tugas 7 - Keyword Extraction Menggunakan Centrality</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas8/Matriks_SVD.html"><strong>Tugas 8 - Pengurangan Dimensi Bertahap pada Dokumen</strong></a></li>
 </ul>
 
     </div>
@@ -382,7 +385,8 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-space-model-dalam-pengolahan-teks"><strong>Vector Space Model dalam Pengolahan Teks</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tf-idf-term-frequency-inverse-document-frequency"><strong>TF-IDF (Term Frequency-Inverse Document Frequency)</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">Import Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-pustaka">Install Pustaka</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-pustaka">Import Pustaka</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load Data</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengonversi-semua-huruf-besar-menjadi-huruf-kecil">Mengonversi Semua Huruf Besar Menjadi Huruf Kecil</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menghapus-simbol-dan-angka-dari-teks">Menghapus Simbol dan Angka dari Teks</a></li>
@@ -426,28 +430,21 @@ Kelas : IF 7A</p>
 <p>Setelah mendapatkan nilai TF dan IDF, nilai TF-IDF dapat dihitung dengan rumus berikut:</p>
 <p><img alt="Picture2.png" src="data:image/png;base64,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" /></p>
 </section>
-<section id="import-library">
-<h2>Import Library<a class="headerlink" href="#import-library" title="Link to this heading">#</a></h2>
+<section id="install-pustaka">
+<h2>Install Pustaka<a class="headerlink" href="#install-pustaka" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>Sastrawi
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>pandas
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>Sastrawi<span class="w"> </span>pandas
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: Sastrawi in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (1.0.1)
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[notice] A new release of pip available: 22.2.1 -&gt; 24.3.1
-[notice] To update, run: python.exe -m pip install --upgrade pip
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: pandas in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (2.0.3)
-Requirement already satisfied: tzdata&gt;=2022.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
-Requirement already satisfied: python-dateutil&gt;=2.8.2 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from pandas) (2.8.2)
+Requirement already satisfied: pandas in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (2.0.3)
 Requirement already satisfied: numpy&gt;=1.21.0 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (1.25.2)
+Requirement already satisfied: tzdata&gt;=2022.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
 Requirement already satisfied: pytz&gt;=2020.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
+Requirement already satisfied: python-dateutil&gt;=2.8.2 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from pandas) (2.8.2)
 Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas) (1.16.0)
 </pre></div>
 </div>
@@ -457,6 +454,9 @@ Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\py
 </div>
 </div>
 </div>
+</section>
+<section id="import-pustaka">
+<h2>Import Pustaka<a class="headerlink" href="#import-pustaka" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -495,14 +495,10 @@ Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\py
 <h2>Load Data<a class="headerlink" href="#load-data" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ganti &#39;crawling_berita.csv&#39; dengan nama file CSV yang ingin diimpor</span>
-<span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;crawl_berita.csv&#39;</span>
-
-<span class="c1"># Mengimpor data dari file CSV</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;crawl_berita.csv&#39;</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
 
-<span class="c1"># Menampilkan DataFrame yang diimpor</span>
-<span class="n">df</span>  <span class="c1"># Menampilkan seluruh DataFrame</span>
+<span class="n">df</span>
 </pre></div>
 </div>
 </div>
@@ -534,38 +530,38 @@ Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\py
   <tbody>
     <tr>
       <th>0</th>
-      <td>Karyawan Boeing Akhiri Mogok Kerja usai Sepaka...</td>
-      <td>Ribuan pekerja Boeing akhirnya mengakhiri mogo...</td>
-      <td>Selasa, 05 Nov 2024 22:06 WIB</td>
-      <td>Kategori tidak ditemukan</td>
+      <td>Bos BI Antisipasi 3 Dampak 'Bahaya' Kemenangan...</td>
+      <td>Gubernur Bank Indonesia (BI) Perry Warjiyo men...</td>
+      <td>Kamis, 07 Nov 2024 06:45 WIB</td>
+      <td>ekonomi</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Pakar: BPA Bahaya Bagi Kesehatan, Jangan Diang...</td>
-      <td>Bahaya paparan Bisphenol A (BPA) dalam wadah p...</td>
-      <td>Selasa, 05 Nov 2024 21:57 WIB</td>
-      <td>Kategori tidak ditemukan</td>
+      <td>IHSG Diprediksi Berbalik Menguat Hari Ini</td>
+      <td>Indeks Harga Saham Gabungan (IHSG) diperkiraka...</td>
+      <td>Kamis, 07 Nov 2024 06:15 WIB</td>
+      <td>ekonomi</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Respons AHY dan Nusron soal Pelantikan Basuki ...</td>
-      <td>Menteri Koordinator Infrastruktur dan Pembangu...</td>
-      <td>Selasa, 05 Nov 2024 21:28 WIB</td>
-      <td>Kategori tidak ditemukan</td>
+      <td>Menteri PPMI Ungkap Sebab TKI Masih Miskin Mes...</td>
+      <td>Menteri Pelindungan Pekerja Migran Indonesia (...</td>
+      <td>Kamis, 07 Nov 2024 05:32 WIB</td>
+      <td>ekonomi</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Airlangga soal Ekonomi Kuartal III Tumbuh di B...</td>
-      <td>Menteri Koordinator Bidang Perekonomian Airlan...</td>
-      <td>Selasa, 05 Nov 2024 21:03 WIB</td>
-      <td>Kategori tidak ditemukan</td>
+      <td>Pertamina Gelar Eco RunFest 2024, Ajang Lari K...</td>
+      <td>PT Pertamina (Persero) akan menyelenggarakan a...</td>
+      <td>Rabu, 06 Nov 2024 22:02 WIB</td>
+      <td>ekonomi</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>Tak Lagi BUMN, Bulog Bakal Jadi Badan Otonom d...</td>
-      <td>Direktur Utama Perum Bulog Wahyu Suparyono men...</td>
-      <td>Selasa, 05 Nov 2024 20:46 WIB</td>
-      <td>Kategori tidak ditemukan</td>
+      <td>Genjot Investasi di DKI Jakarta, Kun Wardana J...</td>
+      <td>Calon Wakil Gubernur DKI Jakarta nomor urut 2 ...</td>
+      <td>Rabu, 06 Nov 2024 21:02 WIB</td>
+      <td>ekonomi</td>
     </tr>
     <tr>
       <th>...</th>
@@ -576,38 +572,38 @@ Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\py
     </tr>
     <tr>
       <th>95</th>
-      <td>Malaysia Gagal Lolos Semifinal Piala AFF Futsa...</td>
-      <td>Thailand berhasil mengalahkan Malaysia 3-1 dal...</td>
-      <td>Selasa, 05 Nov 2024 19:58 WIB</td>
-      <td>Kategori tidak ditemukan</td>
+      <td>Jadwal 5 Wakil Indonesia di 16 Besar Korea Mas...</td>
+      <td>Sebanyak lima wakil Indonesia akan tampil pada...</td>
+      <td>Kamis, 07 Nov 2024 04:15 WIB</td>
+      <td>olahraga</td>
     </tr>
     <tr>
       <th>96</th>
-      <td>Akmal: Indonesia Perlu Anut Paspor Ganda untuk...</td>
-      <td>Pengamat sepak bola nasional, Akmal Marhali, m...</td>
-      <td>Selasa, 05 Nov 2024 19:33 WIB</td>
-      <td>Kategori tidak ditemukan</td>
+      <td>Klasemen Liga Voli Korea: IBK Altos Ancam Gusu...</td>
+      <td>IBK Altos berpeluang menggusur Red Sparks dala...</td>
+      <td>Kamis, 07 Nov 2024 03:35 WIB</td>
+      <td>olahraga</td>
     </tr>
     <tr>
       <th>97</th>
-      <td>Prediksi Susunan Pemain Real Madrid vs AC Mila...</td>
-      <td>Real Madrid akan menjamu AC Milan dalam lanjut...</td>
-      <td>Selasa, 05 Nov 2024 19:10 WIB</td>
-      <td>Kategori tidak ditemukan</td>
+      <td>Hasil Liga Champions: Imbas Penalti Konyol, As...</td>
+      <td>Aston Villa kalah 0-1 dari Culb Brugge dalam p...</td>
+      <td>Kamis, 07 Nov 2024 02:42 WIB</td>
+      <td>olahraga</td>
     </tr>
     <tr>
       <th>98</th>
-      <td>Resmi, Final Martin vs Bagnaia di MotoGP Catal...</td>
-      <td>Dorna Sports selaku penyelenggara MotoGP menet...</td>
-      <td>Selasa, 05 Nov 2024 18:47 WIB</td>
-      <td>Kategori tidak ditemukan</td>
+      <td>Exco PSSI Sebut Program Naturalisasi Timnas Bi...</td>
+      <td>Anggota Komite Eksekutif (Exco) PSSI Arya Sinu...</td>
+      <td>Kamis, 07 Nov 2024 02:00 WIB</td>
+      <td>olahraga</td>
     </tr>
     <tr>
       <th>99</th>
-      <td>FOTO: Indonesia ke Semifinal Piala AFF Futsal ...</td>
-      <td>NaN</td>
-      <td>Tanggal tidak ditemukan</td>
-      <td>Kategori tidak ditemukan</td>
+      <td>Klasemen Liga 1 2024/2025: Persija Geser PSM</td>
+      <td>Perubahan klasemen Liga 1 2024/2025 terjadi se...</td>
+      <td>Kamis, 07 Nov 2024 01:00 WIB</td>
+      <td>olahraga</td>
     </tr>
   </tbody>
 </table>
@@ -627,7 +623,6 @@ Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\py
 
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;lower case&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Isi&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">clean_lower</span><span class="p">)</span>
 
-<span class="c1"># Membuat DataFrame Baru</span>
 <span class="n">casefolding</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;lower case&#39;</span><span class="p">])</span>
 <span class="n">casefolding</span>
 </pre></div>
@@ -658,23 +653,23 @@ Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\py
   <tbody>
     <tr>
       <th>0</th>
-      <td>ribuan pekerja boeing akhirnya mengakhiri mogo...</td>
+      <td>gubernur bank indonesia (bi) perry warjiyo men...</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>bahaya paparan bisphenol a (bpa) dalam wadah p...</td>
+      <td>indeks harga saham gabungan (ihsg) diperkiraka...</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>menteri koordinator infrastruktur dan pembangu...</td>
+      <td>menteri pelindungan pekerja migran indonesia (...</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>menteri koordinator bidang perekonomian airlan...</td>
+      <td>pt pertamina (persero) akan menyelenggarakan a...</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>direktur utama perum bulog wahyu suparyono men...</td>
+      <td>calon wakil gubernur dki jakarta nomor urut 2 ...</td>
     </tr>
     <tr>
       <th>...</th>
@@ -682,23 +677,23 @@ Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\py
     </tr>
     <tr>
       <th>95</th>
-      <td>thailand berhasil mengalahkan malaysia 3-1 dal...</td>
+      <td>sebanyak lima wakil indonesia akan tampil pada...</td>
     </tr>
     <tr>
       <th>96</th>
-      <td>pengamat sepak bola nasional, akmal marhali, m...</td>
+      <td>ibk altos berpeluang menggusur red sparks dala...</td>
     </tr>
     <tr>
       <th>97</th>
-      <td>real madrid akan menjamu ac milan dalam lanjut...</td>
+      <td>aston villa kalah 0-1 dari culb brugge dalam p...</td>
     </tr>
     <tr>
       <th>98</th>
-      <td>dorna sports selaku penyelenggara motogp menet...</td>
+      <td>anggota komite eksekutif (exco) pssi arya sinu...</td>
     </tr>
     <tr>
       <th>99</th>
-      <td>NaN</td>
+      <td>perubahan klasemen liga 1 2024/2025 terjadi se...</td>
     </tr>
   </tbody>
 </table>
@@ -729,17 +724,17 @@ Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\py
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0     ribuan pekerja boeing akhirnya mengakhiri mogo...
-1     bahaya paparan bisphenol a bpa dalam wadah pem...
-2     menteri koordinator infrastruktur dan pembangu...
-3     menteri koordinator bidang perekonomian airlan...
-4     direktur utama perum bulog wahyu suparyono men...
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0     gubernur bank indonesia bi perry warjiyo menga...
+1     indeks harga saham gabungan ihsg diperkirakan ...
+2     menteri pelindungan pekerja migran indonesia p...
+3     pt pertamina persero akan menyelenggarakan aja...
+4     calon wakil gubernur dki jakarta nomor urut ku...
                             ...                        
-95    thailand berhasil mengalahkan malaysia dalam p...
-96    pengamat sepak bola nasional akmal marhali men...
-97    real madrid akan menjamu ac milan dalam lanjut...
-98    dorna sports selaku penyelenggara motogp menet...
-99                                                  NaN
+95    sebanyak lima wakil indonesia akan tampil pada...
+96    ibk altos berpeluang menggusur red sparks dala...
+97    aston villa kalah dari culb brugge dalam perta...
+98    anggota komite eksekutif exco pssi arya sinuli...
+99    perubahan klasemen liga terjadi setelah persij...
 Name: tanda baca, Length: 100, dtype: object
 </pre></div>
 </div>
@@ -765,17 +760,17 @@ Name: tanda baca, Length: 100, dtype: object
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0     ribuan pekerja boeing akhirnya mengakhiri mogo...
-1     bahaya paparan bisphenol a bpa dalam wadah pem...
-2     menteri koordinator infrastruktur dan pembangu...
-3     menteri koordinator bidang perekonomian airlan...
-4     direktur utama perum bulog wahyu suparyono men...
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0     gubernur bank indonesia bi perry warjiyo menga...
+1     indeks harga saham gabungan ihsg diperkirakan ...
+2     menteri pelindungan pekerja migran indonesia p...
+3     pt pertamina persero akan menyelenggarakan aja...
+4     calon wakil gubernur dki jakarta nomor urut ku...
                             ...                        
-95    thailand berhasil mengalahkan malaysia dalam p...
-96    pengamat sepak bola nasional akmal marhali men...
-97    real madrid akan menjamu ac milan dalam lanjut...
-98    dorna sports selaku penyelenggara motogp menet...
-99                                                  NaN
+95    sebanyak lima wakil indonesia akan tampil pada...
+96    ibk altos berpeluang menggusur red sparks dala...
+97    aston villa kalah dari culb brugge dalam perta...
+98    anggota komite eksekutif exco pssi arya sinuli...
+99    perubahan klasemen liga terjadi setelah persij...
 Name: spasi, Length: 100, dtype: object
 </pre></div>
 </div>
@@ -803,17 +798,17 @@ Name: spasi, Length: 100, dtype: object
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0     ribuan pekerja boeing mogok kerja tujuh pekan ...
-1     bahaya paparan bisphenol a bpa wadah pembungku...
-2     menteri koordinator infrastruktur pembangunan ...
-3     menteri koordinator bidang perekonomian airlan...
-4     direktur utama perum bulog wahyu suparyono bul...
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0     gubernur bank indonesia bi perry warjiyo menga...
+1     indeks harga saham gabungan ihsg menguat perda...
+2     menteri pelindungan pekerja migran indonesia p...
+3     pt pertamina persero menyelenggarakan ajang la...
+4     calon wakil gubernur dki jakarta nomor urut ku...
                             ...                        
-95    thailand berhasil mengalahkan malaysia pertand...
-96    pengamat sepak bola nasional akmal marhali men...
-97    real madrid menjamu ac milan lanjutan liga cha...
-98    dorna sports penyelenggara motogp menetapkan m...
-99                                                  NaN
+95    wakil indonesia tampil babak korea masters gim...
+96    ibk altos berpeluang menggusur red sparks klas...
+97    aston villa kalah culb brugge pertandingan kee...
+98    anggota komite eksekutif exco pssi arya sinuli...
+99    perubahan klasemen liga persija jakarta mengha...
 Name: stopwords, Length: 100, dtype: object
 </pre></div>
 </div>
@@ -838,223 +833,361 @@ Name: stopwords, Length: 100, dtype: object
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/256 [00:00&lt;?, ?it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/206 [00:00&lt;?, ?it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|▉                                                                                 | 3/256 [00:00&lt;00:08, 29.03it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3%|██▍                                                                               | 6/206 [00:00&lt;00:04, 47.07it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  5%|███▊                                                                             | 12/256 [00:00&lt;00:03, 63.22it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  5%|████▎                                                                            | 11/206 [00:00&lt;00:04, 40.99it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  8%|██████▋                                                                          | 21/256 [00:00&lt;00:03, 69.76it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  8%|██████▎                                                                          | 16/206 [00:00&lt;00:04, 40.10it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 11%|█████████▏                                                                       | 29/256 [00:00&lt;00:03, 62.21it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 15%|███████████▊                                                                     | 30/206 [00:00&lt;00:02, 65.45it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 15%|████████████▎                                                                    | 39/256 [00:00&lt;00:03, 61.64it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 24%|███████████████████▎                                                             | 49/206 [00:00&lt;00:01, 98.87it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 18%|██████████████▌                                                                  | 46/256 [00:00&lt;00:04, 42.59it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 29%|███████████████████████▌                                                         | 60/206 [00:00&lt;00:02, 63.64it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 23%|██████████████████▉                                                              | 60/256 [00:01&lt;00:03, 61.44it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 33%|██████████████████████████▋                                                      | 68/206 [00:01&lt;00:02, 49.88it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 39%|██████████████████████████████▉                                                 | 99/256 [00:01&lt;00:01, 133.22it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 47%|██████████████████████████████████████▏                                          | 97/206 [00:01&lt;00:01, 83.41it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 48%|██████████████████████████████████████▎                                        | 124/256 [00:01&lt;00:00, 140.12it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 52%|█████████████████████████████████████████▌                                      | 107/206 [00:01&lt;00:01, 83.66it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 57%|████████████████████████████████████████████▋                                  | 145/256 [00:01&lt;00:00, 150.49it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 64%|██████████████████████████████████████████████████▏                            | 131/206 [00:01&lt;00:00, 106.86it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 63%|█████████████████████████████████████████████████▉                             | 162/256 [00:01&lt;00:00, 141.77it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 74%|██████████████████████████████████████████████████████████▎                    | 152/206 [00:01&lt;00:00, 114.92it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 76%|████████████████████████████████████████████████████████████▏                  | 195/256 [00:01&lt;00:00, 184.63it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 80%|████████████████████████████████████████████████████████████████                | 165/206 [00:02&lt;00:00, 96.36it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 88%|█████████████████████████████████████████████████████████████████████▋         | 226/256 [00:01&lt;00:00, 215.20it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 85%|████████████████████████████████████████████████████████████████████▎           | 176/206 [00:02&lt;00:00, 74.15it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 98%|█████████████████████████████████████████████████████████████████████████████▏ | 250/256 [00:01&lt;00:00, 175.10it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████████████████████████████████████████| 256/256 [00:01&lt;00:00, 128.71it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 206/206 [00:02&lt;00:00, 87.26it/s]
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/319 [00:00&lt;?, ?it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/121 [00:00&lt;?, ?it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3%|██▎                                                                               | 9/319 [00:00&lt;00:03, 89.74it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  6%|████▋                                                                             | 7/121 [00:00&lt;00:01, 66.92it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 10%|███████▊                                                                        | 31/319 [00:00&lt;00:01, 163.18it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 12%|█████████▎                                                                       | 14/121 [00:00&lt;00:01, 54.44it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 15%|████████████▏                                                                    | 48/319 [00:00&lt;00:02, 97.37it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 28%|██████████████████████▍                                                         | 34/121 [00:00&lt;00:00, 104.97it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 19%|███████████████▎                                                                | 61/319 [00:00&lt;00:02, 106.31it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 40%|████████████████████████████████▍                                               | 49/121 [00:00&lt;00:00, 105.50it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 23%|██████████████████▊                                                              | 74/319 [00:00&lt;00:03, 75.80it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 50%|████████████████████████████████████████▏                                        | 60/121 [00:00&lt;00:00, 69.02it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 26%|█████████████████████▎                                                           | 84/319 [00:01&lt;00:03, 69.98it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 57%|██████████████████████████████████████████████▏                                  | 69/121 [00:01&lt;00:01, 35.72it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 29%|███████████████████████▌                                                         | 93/319 [00:01&lt;00:03, 72.03it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 62%|██████████████████████████████████████████████████▏                              | 75/121 [00:01&lt;00:01, 34.81it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 34%|███████████████████████████▎                                                    | 109/319 [00:01&lt;00:02, 89.81it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 67%|██████████████████████████████████████████████████████▏                          | 81/121 [00:01&lt;00:01, 29.25it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 45%|███████████████████████████████████▉                                           | 145/319 [00:01&lt;00:01, 144.86it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 73%|██████████████████████████████████████████████████████████▉                      | 88/121 [00:02&lt;00:00, 33.68it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 50%|███████████████████████████████████████▊                                       | 161/319 [00:01&lt;00:01, 111.56it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 91%|████████████████████████████████████████████████████████████████████████▋       | 110/121 [00:02&lt;00:00, 58.06it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 55%|███████████████████████████████████████████▉                                    | 175/319 [00:01&lt;00:01, 99.60it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 59%|██████████████████████████████████████████████▉                                 | 187/319 [00:01&lt;00:01, 96.90it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 63%|██████████████████████████████████████████████████                             | 202/319 [00:02&lt;00:01, 105.90it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 75%|██████████████████████████████████████████████████████████▉                    | 238/319 [00:02&lt;00:00, 143.24it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 79%|██████████████████████████████████████████████████████████████▋                | 253/319 [00:02&lt;00:00, 141.06it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 86%|███████████████████████████████████████████████████████████████████▊           | 274/319 [00:02&lt;00:00, 150.77it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 94%|██████████████████████████████████████████████████████████████████████████     | 299/319 [00:02&lt;00:00, 168.54it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████████████████████████████████████████| 319/319 [00:02&lt;00:00, 121.93it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 121/121 [00:02&lt;00:00, 55.52it/s]
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/150 [00:00&lt;?, ?it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/137 [00:00&lt;?, ?it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  5%|███▊                                                                              | 7/150 [00:00&lt;00:03, 44.52it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4%|███▌                                                                              | 6/137 [00:00&lt;00:03, 35.75it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  9%|███████▌                                                                         | 14/150 [00:00&lt;00:02, 45.81it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  7%|█████▉                                                                           | 10/137 [00:00&lt;00:04, 31.36it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 13%|██████████▎                                                                      | 19/150 [00:00&lt;00:03, 37.70it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 23%|██████████████████▉                                                              | 32/137 [00:00&lt;00:01, 94.26it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 15%|████████████▍                                                                    | 23/150 [00:00&lt;00:04, 27.24it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 31%|█████████████████████████▍                                                       | 43/137 [00:00&lt;00:01, 51.80it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 21%|████████████████▋                                                                | 31/150 [00:00&lt;00:03, 35.41it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 37%|██████████████████████████████▏                                                  | 51/137 [00:01&lt;00:01, 47.38it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 24%|███████████████████▍                                                             | 36/150 [00:00&lt;00:03, 37.25it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 55%|████████████████████████████████████████████▉                                    | 76/137 [00:01&lt;00:00, 84.16it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 35%|████████████████████████████▌                                                    | 53/150 [00:01&lt;00:01, 61.59it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 80%|██████████████████████████████████████████████████████████████▊                | 109/137 [00:01&lt;00:00, 124.84it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 40%|████████████████████████████████▍                                                | 60/150 [00:01&lt;00:02, 44.27it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 44%|███████████████████████████████████▋                                             | 66/150 [00:01&lt;00:02, 36.95it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 91%|███████████████████████████████████████████████████████████████████████▋       | 136/150 [00:01&lt;00:00, 139.00it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 150/150 [00:01&lt;00:00, 76.67it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████████████████████████████████████████| 137/137 [00:01&lt;00:00, 106.29it/s]
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/171 [00:00&lt;?, ?it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/209 [00:00&lt;?, ?it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4%|██▉                                                                               | 6/171 [00:00&lt;00:04, 35.58it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  6%|████▋                                                                            | 12/209 [00:00&lt;00:02, 75.95it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 15%|███████████▊                                                                     | 25/171 [00:00&lt;00:01, 88.76it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 10%|███████▊                                                                         | 20/209 [00:00&lt;00:03, 47.64it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 34%|███████████████████████████▏                                                    | 58/171 [00:00&lt;00:00, 141.72it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 13%|██████████▍                                                                      | 27/209 [00:00&lt;00:04, 42.18it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 43%|██████████████████████████████████▌                                              | 73/171 [00:00&lt;00:01, 74.22it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 15%|████████████▍                                                                    | 32/209 [00:00&lt;00:04, 41.05it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 64%|██████████████████████████████████████████████████▎                            | 109/171 [00:01&lt;00:00, 124.48it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 18%|██████████████▎                                                                  | 37/209 [00:00&lt;00:05, 33.85it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 75%|███████████████████████████████████████████████████████████▌                   | 129/171 [00:01&lt;00:00, 124.41it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 20%|████████████████▎                                                                | 42/209 [00:01&lt;00:04, 34.74it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 85%|███████████████████████████████████████████████████████████████████▍           | 146/171 [00:01&lt;00:00, 104.69it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 22%|█████████████████▊                                                               | 46/209 [00:01&lt;00:05, 32.26it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████████████████████████████████████████| 171/171 [00:01&lt;00:00, 114.84it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 26%|████████████████████▉                                                            | 54/209 [00:01&lt;00:04, 38.58it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 28%|██████████████████████▍                                                          | 58/209 [00:01&lt;00:04, 32.49it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 40%|████████████████████████████████▌                                                | 84/209 [00:01&lt;00:01, 80.17it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 45%|████████████████████████████████████▊                                            | 95/209 [00:01&lt;00:01, 79.82it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 50%|████████████████████████████████████████▏                                       | 105/209 [00:01&lt;00:01, 74.73it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 57%|█████████████████████████████████████████████▉                                  | 120/209 [00:02&lt;00:01, 84.65it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 64%|██████████████████████████████████████████████████▉                             | 133/209 [00:02&lt;00:00, 86.48it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 68%|██████████████████████████████████████████████████████▋                         | 143/209 [00:02&lt;00:00, 79.28it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 73%|██████████████████████████████████████████████████████████▏                     | 152/209 [00:02&lt;00:00, 64.36it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 77%|█████████████████████████████████████████████████████████████▏                  | 160/209 [00:02&lt;00:01, 48.71it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 80%|████████████████████████████████████████████████████████████████▎               | 168/209 [00:03&lt;00:00, 51.90it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 83%|██████████████████████████████████████████████████████████████████▌             | 174/209 [00:03&lt;00:00, 40.28it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 209/209 [00:03&lt;00:00, 61.96it/s]
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/182 [00:00&lt;?, ?it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/149 [00:00&lt;?, ?it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3%|██▋                                                                               | 6/182 [00:00&lt;00:04, 38.27it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  6%|████▉                                                                             | 9/149 [00:00&lt;00:02, 61.31it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 16%|████████████▉                                                                    | 29/182 [00:00&lt;00:01, 88.87it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 12%|█████████▊                                                                       | 18/149 [00:00&lt;00:02, 63.66it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 21%|█████████████████▎                                                               | 39/182 [00:00&lt;00:01, 81.56it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 23%|███████████████████                                                              | 35/149 [00:00&lt;00:01, 83.45it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 26%|████████████████████▉                                                            | 47/182 [00:00&lt;00:02, 64.40it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 30%|███████████████████████▉                                                         | 44/149 [00:00&lt;00:01, 67.74it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 30%|████████████████████████                                                         | 54/182 [00:00&lt;00:02, 51.22it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 42%|█████████████████████████████████▋                                               | 62/149 [00:00&lt;00:01, 83.38it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 37%|██████████████████████████████▎                                                  | 68/182 [00:01&lt;00:01, 64.35it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 48%|██████████████████████████████████████▌                                          | 71/149 [00:01&lt;00:01, 61.21it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 41%|█████████████████████████████████▍                                               | 75/182 [00:01&lt;00:01, 58.62it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 54%|███████████████████████████████████████████▍                                     | 80/149 [00:01&lt;00:01, 66.68it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 53%|███████████████████████████████████████████▏                                     | 97/182 [00:01&lt;00:00, 93.48it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 62%|██████████████████████████████████████████████████▌                              | 93/149 [00:01&lt;00:00, 78.34it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 74%|██████████████████████████████████████████████████████████▏                    | 134/182 [00:01&lt;00:00, 121.50it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 81%|███████████████████████████████████████████████████████████████▌               | 120/149 [00:01&lt;00:00, 122.68it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 81%|███████████████████████████████████████████████████████████████▊               | 147/182 [00:01&lt;00:00, 123.12it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 94%|██████████████████████████████████████████████████████████████████████████▏    | 140/149 [00:01&lt;00:00, 139.79it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 95%|███████████████████████████████████████████████████████████████████████████    | 173/182 [00:01&lt;00:00, 153.51it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████████████████████████████████████████| 149/149 [00:01&lt;00:00, 100.29it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████████████████████████████████████████| 182/182 [00:01&lt;00:00, 103.34it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/188 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  7%|█████▌                                                                           | 13/188 [00:00&lt;00:02, 65.35it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 11%|████████▌                                                                        | 20/188 [00:00&lt;00:03, 53.56it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 14%|███████████▏                                                                     | 26/188 [00:00&lt;00:03, 40.73it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 24%|███████████████████▍                                                             | 45/188 [00:00&lt;00:01, 76.55it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 29%|███████████████████████▋                                                         | 55/188 [00:00&lt;00:01, 67.47it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 34%|███████████████████████████▏                                                     | 63/188 [00:01&lt;00:02, 50.43it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 41%|█████████████████████████████████▏                                               | 77/188 [00:01&lt;00:01, 67.65it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 47%|██████████████████████████████████████▎                                          | 89/188 [00:01&lt;00:01, 64.53it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 55%|███████████████████████████████████████████▊                                    | 103/188 [00:01&lt;00:01, 75.81it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 60%|███████████████████████████████████████████████▋                                | 112/188 [00:01&lt;00:00, 76.05it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 64%|███████████████████████████████████████████████████▍                            | 121/188 [00:01&lt;00:00, 78.18it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 74%|██████████████████████████████████████████████████████████▍                    | 139/188 [00:01&lt;00:00, 102.88it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 82%|█████████████████████████████████████████████████████████████████▏             | 155/188 [00:01&lt;00:00, 117.18it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 89%|██████████████████████████████████████████████████████████████████████▌        | 168/188 [00:02&lt;00:00, 103.54it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 188/188 [00:02&lt;00:00, 83.57it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/360 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2%|█▌                                                                                | 7/360 [00:00&lt;00:07, 46.19it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3%|██▋                                                                              | 12/360 [00:00&lt;00:12, 28.12it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  7%|█████▍                                                                           | 24/360 [00:00&lt;00:06, 52.81it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  9%|██████▉                                                                          | 31/360 [00:00&lt;00:06, 50.94it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 11%|█████████                                                                        | 40/360 [00:00&lt;00:05, 60.35it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 13%|██████████▌                                                                      | 47/360 [00:01&lt;00:07, 44.46it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 17%|█████████████▌                                                                   | 60/360 [00:01&lt;00:04, 61.47it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 19%|███████████████▎                                                                 | 68/360 [00:01&lt;00:07, 39.18it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 21%|████████████████▋                                                                | 74/360 [00:01&lt;00:07, 39.91it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 26%|████████████████████▉                                                            | 93/360 [00:01&lt;00:04, 62.98it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 28%|██████████████████████▋                                                         | 102/360 [00:02&lt;00:05, 46.38it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 31%|████████████████████████▋                                                       | 111/360 [00:02&lt;00:04, 51.96it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 33%|██████████████████████████▏                                                     | 118/360 [00:02&lt;00:05, 42.08it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 41%|█████████████████████████████████                                               | 149/360 [00:02&lt;00:02, 83.63it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 55%|███████████████████████████████████████████▏                                   | 197/360 [00:02&lt;00:01, 142.30it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 60%|███████████████████████████████████████████████▏                               | 215/360 [00:03&lt;00:01, 113.16it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 64%|██████████████████████████████████████████████████▍                            | 230/360 [00:03&lt;00:01, 100.36it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 69%|██████████████████████████████████████████████████████▏                        | 247/360 [00:03&lt;00:01, 103.54it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 72%|█████████████████████████████████████████████████████████▌                      | 259/360 [00:03&lt;00:01, 73.34it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 75%|███████████████████████████████████████████████████████████▊                    | 269/360 [00:04&lt;00:02, 41.21it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 77%|█████████████████████████████████████████████████████████████▎                  | 276/360 [00:04&lt;00:02, 31.85it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 78%|██████████████████████████████████████████████████████████████▋                 | 282/360 [00:05&lt;00:02, 33.73it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 81%|████████████████████████████████████████████████████████████████▉               | 292/360 [00:05&lt;00:01, 39.95it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 88%|██████████████████████████████████████████████████████████████████████▋         | 318/360 [00:05&lt;00:00, 70.83it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 92%|█████████████████████████████████████████████████████████████████████████▊      | 332/360 [00:05&lt;00:00, 77.14it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 98%|██████████████████████████████████████████████████████████████████████████████▏ | 352/360 [00:05&lt;00:00, 99.20it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 360/360 [00:05&lt;00:00, 61.81it/s]
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
@@ -1063,433 +1196,263 @@ Name: stopwords, Length: 100, dtype: object
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/141 [00:00&lt;?, ?it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  5%|████                                                                              | 7/141 [00:00&lt;00:04, 28.57it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4%|███▍                                                                              | 6/141 [00:00&lt;00:03, 39.80it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  9%|███████▍                                                                         | 13/141 [00:00&lt;00:03, 34.81it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 15%|████████████                                                                     | 21/141 [00:00&lt;00:01, 74.80it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 19%|███████████████▌                                                                 | 27/141 [00:00&lt;00:01, 66.04it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 21%|████████████████▋                                                                | 29/141 [00:00&lt;00:02, 54.67it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 28%|██████████████████████▉                                                          | 40/141 [00:00&lt;00:01, 71.62it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 33%|██████████████████████████▍                                                      | 46/141 [00:00&lt;00:01, 75.31it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 34%|███████████████████████████▌                                                     | 48/141 [00:00&lt;00:01, 56.65it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 38%|███████████████████████████████                                                  | 54/141 [00:01&lt;00:02, 42.40it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 40%|████████████████████████████████▏                                                | 56/141 [00:00&lt;00:01, 59.97it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 50%|████████████████████████████████████████▊                                        | 71/141 [00:01&lt;00:01, 62.98it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 45%|████████████████████████████████████▏                                            | 63/141 [00:01&lt;00:01, 54.12it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 57%|██████████████████████████████████████████████▌                                  | 81/141 [00:01&lt;00:00, 66.36it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 60%|████████████████████████████████████████████████▊                                | 85/141 [00:01&lt;00:00, 91.59it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 66%|█████████████████████████████████████████████████████▍                           | 93/141 [00:01&lt;00:00, 68.90it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 68%|███████████████████████████████████████████████████████▏                         | 96/141 [00:01&lt;00:00, 73.91it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 84%|██████████████████████████████████████████████████████████████████▋            | 119/141 [00:01&lt;00:00, 105.22it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 141/141 [00:01&lt;00:00, 90.58it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/161 [00:00&lt;?, ?it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  8%|██████▍                                                                         | 13/161 [00:00&lt;00:01, 124.82it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 22%|█████████████████▉                                                              | 36/161 [00:00&lt;00:00, 178.14it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 34%|██████████████████████████▊                                                     | 54/161 [00:00&lt;00:00, 118.21it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 42%|██████████████████████████████████▏                                              | 68/161 [00:00&lt;00:01, 52.80it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 49%|███████████████████████████████████████▋                                         | 79/161 [00:01&lt;00:01, 61.32it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 64%|███████████████████████████████████████████████████▏                            | 103/161 [00:01&lt;00:00, 90.50it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 75%|██████████████████████████████████████████████████████████▉                    | 120/161 [00:01&lt;00:00, 103.01it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████████████████████████████████████████| 161/161 [00:01&lt;00:00, 115.83it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 141/141 [00:01&lt;00:00, 85.70it/s]
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/148 [00:00&lt;?, ?it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/169 [00:00&lt;?, ?it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  9%|███████▋                                                                         | 14/148 [00:00&lt;00:01, 82.02it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  5%|████▎                                                                             | 9/169 [00:00&lt;00:02, 56.20it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 16%|████████████▌                                                                    | 23/148 [00:00&lt;00:03, 38.28it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 11%|████████▋                                                                        | 18/169 [00:00&lt;00:02, 71.99it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 25%|████████████████████▎                                                            | 37/148 [00:00&lt;00:02, 45.57it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 15%|████████████▍                                                                    | 26/169 [00:00&lt;00:02, 53.68it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 36%|█████████████████████████████                                                    | 53/148 [00:00&lt;00:01, 62.51it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 24%|███████████████████▏                                                             | 40/169 [00:00&lt;00:01, 74.66it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 41%|█████████████████████████████████▍                                               | 61/148 [00:01&lt;00:01, 54.07it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 33%|██████████████████████████▊                                                      | 56/169 [00:00&lt;00:01, 88.29it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 53%|███████████████████████████████████████████▏                                     | 79/148 [00:01&lt;00:00, 76.83it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 39%|███████████████████████████████▋                                                 | 66/169 [00:00&lt;00:01, 80.02it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 60%|████████████████████████████████████████████████▋                                | 89/148 [00:01&lt;00:00, 62.16it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 44%|███████████████████████████████████▉                                             | 75/169 [00:01&lt;00:01, 50.65it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 70%|████████████████████████████████████████████████████████▏                       | 104/148 [00:01&lt;00:00, 64.39it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 58%|██████████████████████████████████████████████▉                                  | 98/169 [00:01&lt;00:00, 71.49it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 94%|██████████████████████████████████████████████████████████████████████████▏    | 139/148 [00:01&lt;00:00, 102.92it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 67%|█████████████████████████████████████████████████████▉                          | 114/169 [00:01&lt;00:00, 85.91it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 148/148 [00:02&lt;00:00, 72.65it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 74%|███████████████████████████████████████████████████████████▏                    | 125/169 [00:01&lt;00:00, 80.22it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 89%|██████████████████████████████████████████████████████████████████████▌        | 151/169 [00:01&lt;00:00, 116.53it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/145 [00:00&lt;?, ?it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  5%|███▉                                                                              | 7/145 [00:00&lt;00:02, 65.32it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 10%|████████▍                                                                        | 15/145 [00:00&lt;00:02, 52.36it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 21%|█████████████████▎                                                               | 31/145 [00:00&lt;00:01, 74.98it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 34%|███████████████████████████▌                                                    | 50/145 [00:00&lt;00:00, 102.48it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 42%|██████████████████████████████████                                               | 61/145 [00:00&lt;00:01, 58.65it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 53%|███████████████████████████████████████████                                      | 77/145 [00:01&lt;00:00, 76.87it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 61%|█████████████████████████████████████████████████▏                               | 88/145 [00:01&lt;00:00, 81.38it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 68%|███████████████████████████████████████████████████████▎                         | 99/145 [00:01&lt;00:00, 74.82it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 77%|█████████████████████████████████████████████████████████████▊                  | 112/145 [00:01&lt;00:00, 77.34it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 87%|█████████████████████████████████████████████████████████████████████▌          | 126/145 [00:01&lt;00:00, 78.58it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 96%|████████████████████████████████████████████████████████████████████████████▋   | 139/145 [00:01&lt;00:00, 85.45it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 145/145 [00:01&lt;00:00, 77.02it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 169/169 [00:01&lt;00:00, 93.02it/s]
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/151 [00:00&lt;?, ?it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/224 [00:00&lt;?, ?it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  8%|██████▎                                                                         | 12/151 [00:00&lt;00:01, 116.73it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4%|███▎                                                                              | 9/224 [00:00&lt;00:03, 57.84it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 19%|██████████████▊                                                                 | 28/151 [00:00&lt;00:00, 127.34it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  7%|█████▍                                                                           | 15/224 [00:00&lt;00:05, 38.12it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 27%|█████████████████████▋                                                          | 41/151 [00:00&lt;00:01, 103.91it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 16%|████████████▋                                                                    | 35/224 [00:00&lt;00:02, 73.88it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 34%|███████████████████████████▉                                                     | 52/151 [00:00&lt;00:02, 47.11it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 21%|█████████████████▎                                                               | 48/224 [00:00&lt;00:02, 86.89it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 42%|█████████████████████████████████▊                                               | 63/151 [00:00&lt;00:01, 57.91it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 26%|█████████████████████▎                                                           | 59/224 [00:00&lt;00:01, 83.80it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 48%|██████████████████████████████████████▌                                          | 72/151 [00:01&lt;00:01, 50.52it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 30%|████████████████████████▌                                                        | 68/224 [00:01&lt;00:02, 59.15it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 52%|██████████████████████████████████████████▍                                      | 79/151 [00:01&lt;00:01, 44.71it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 34%|███████████████████████████▊                                                     | 77/224 [00:01&lt;00:02, 54.45it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 85%|██████████████████████████████████████████████████████████████████▉            | 128/151 [00:01&lt;00:00, 112.23it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 40%|████████████████████████████████▌                                                | 90/224 [00:01&lt;00:02, 63.81it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 94%|██████████████████████████████████████████████████████████████████████████▎    | 142/151 [00:01&lt;00:00, 113.62it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 44%|███████████████████████████████████▍                                             | 98/224 [00:01&lt;00:02, 57.28it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 151/151 [00:01&lt;00:00, 84.15it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 50%|███████████████████████████████████████▋                                        | 111/224 [00:01&lt;00:01, 71.41it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 57%|█████████████████████████████████████████████▎                                  | 127/224 [00:01&lt;00:01, 75.68it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/135 [00:00&lt;?, ?it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 63%|██████████████████████████████████████████████████▎                             | 141/224 [00:02&lt;00:01, 81.51it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 12%|█████████▍                                                                      | 16/135 [00:00&lt;00:00, 137.91it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 67%|█████████████████████████████████████████████████████▌                          | 150/224 [00:02&lt;00:00, 78.79it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 33%|██████████████████████████▋                                                     | 45/135 [00:00&lt;00:00, 158.69it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 79%|██████████████████████████████████████████████████████████████                 | 176/224 [00:02&lt;00:00, 111.82it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 45%|████████████████████████████████████▌                                            | 61/135 [00:00&lt;00:01, 57.55it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 99%|█████████████████████████████████████████████████████████████████████████████▉ | 221/224 [00:02&lt;00:00, 189.76it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 79%|██████████████████████████████████████████████████████████████▌                | 107/135 [00:00&lt;00:00, 119.31it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████████████████████████████████████████| 135/135 [00:01&lt;00:00, 133.61it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 224/224 [00:02&lt;00:00, 94.31it/s]
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/163 [00:00&lt;?, ?it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/198 [00:00&lt;?, ?it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2%|█▌                                                                                | 3/163 [00:00&lt;00:08, 18.32it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2%|█▏                                                                                | 3/198 [00:00&lt;00:09, 20.44it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  6%|████▌                                                                             | 9/163 [00:00&lt;00:04, 36.29it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  5%|████                                                                             | 10/198 [00:00&lt;00:04, 42.13it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 11%|████████▉                                                                        | 18/163 [00:00&lt;00:03, 37.70it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  9%|███████▎                                                                         | 18/198 [00:00&lt;00:03, 47.71it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 21%|████████████████▉                                                                | 34/163 [00:00&lt;00:01, 70.31it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 22%|█████████████████▊                                                              | 44/198 [00:00&lt;00:01, 103.05it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 28%|██████████████████████▎                                                          | 45/163 [00:00&lt;00:01, 79.77it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 28%|██████████████████████▌                                                          | 55/198 [00:00&lt;00:02, 69.07it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 38%|██████████████████████████████▊                                                  | 62/163 [00:00&lt;00:01, 92.12it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 36%|█████████████████████████████                                                    | 71/198 [00:00&lt;00:01, 88.28it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 44%|███████████████████████████████████▊                                             | 72/163 [00:01&lt;00:01, 69.25it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 52%|█████████████████████████████████████████                                      | 103/198 [00:01&lt;00:00, 132.07it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 56%|█████████████████████████████████████████████▋                                   | 92/163 [00:01&lt;00:00, 91.65it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 95%|███████████████████████████████████████████████████████████████████████████▍   | 189/198 [00:01&lt;00:00, 296.08it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 63%|██████████████████████████████████████████████████▌                             | 103/163 [00:01&lt;00:00, 90.81it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 71%|████████████████████████████████████████████████████████▍                       | 115/163 [00:01&lt;00:00, 96.71it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 82%|████████████████████████████████████████████████████████████████▉              | 134/163 [00:01&lt;00:00, 114.21it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 96%|███████████████████████████████████████████████████████████████████████████▌   | 156/163 [00:01&lt;00:00, 130.86it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 163/163 [00:01&lt;00:00, 94.85it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████████████████████████████████████████| 198/198 [00:01&lt;00:00, 163.91it/s]
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/207 [00:00&lt;?, ?it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/104 [00:00&lt;?, ?it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|█▏                                                                                | 3/207 [00:00&lt;00:10, 20.10it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3%|██▎                                                                               | 3/104 [00:00&lt;00:05, 18.60it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3%|██▍                                                                               | 6/207 [00:00&lt;00:11, 17.90it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  5%|███▉                                                                              | 5/104 [00:00&lt;00:06, 16.31it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4%|███▌                                                                              | 9/207 [00:00&lt;00:11, 17.80it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 12%|█████████▎                                                                       | 12/104 [00:00&lt;00:02, 32.84it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  7%|█████▊                                                                           | 15/207 [00:00&lt;00:07, 26.19it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 28%|██████████████████████▌                                                          | 29/104 [00:00&lt;00:01, 67.65it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 13%|██████████▌                                                                      | 27/207 [00:00&lt;00:03, 50.30it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 35%|████████████████████████████                                                     | 36/104 [00:00&lt;00:01, 40.17it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 16%|████████████▉                                                                    | 33/207 [00:00&lt;00:03, 46.37it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 42%|██████████████████████████████████▎                                              | 44/104 [00:01&lt;00:01, 46.83it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 21%|█████████████████▏                                                               | 44/207 [00:01&lt;00:03, 53.80it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 70%|████████████████████████████████████████████████████████▊                        | 73/104 [00:01&lt;00:00, 97.50it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 24%|███████████████████▌                                                             | 50/207 [00:01&lt;00:04, 32.39it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 35%|████████████████████████████▏                                                    | 72/207 [00:01&lt;00:02, 62.04it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 40%|████████████████████████████████                                                 | 82/207 [00:01&lt;00:02, 62.08it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 48%|██████████████████████████████████████▋                                          | 99/207 [00:01&lt;00:01, 82.57it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 53%|██████████████████████████████████████████▌                                     | 110/207 [00:02&lt;00:01, 67.99it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 57%|█████████████████████████████████████████████▉                                  | 119/207 [00:02&lt;00:01, 62.80it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 75%|███████████████████████████████████████████████████████████▌                   | 156/207 [00:02&lt;00:00, 118.80it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 99%|█████████████████████████████████████████████████████████████████████████████▊ | 204/207 [00:02&lt;00:00, 194.88it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 207/207 [00:02&lt;00:00, 83.62it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 104/104 [00:01&lt;00:00, 88.77it/s]
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/125 [00:00&lt;?, ?it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/221 [00:00&lt;?, ?it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 12%|█████████▌                                                                      | 15/125 [00:00&lt;00:00, 127.27it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|█                                                                                 | 3/221 [00:00&lt;00:10, 20.72it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 38%|██████████████████████████████                                                  | 47/125 [00:00&lt;00:00, 165.00it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  5%|████▍                                                                            | 12/221 [00:00&lt;00:04, 42.12it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 50%|████████████████████████████████████████▎                                       | 63/125 [00:00&lt;00:00, 109.41it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  9%|███████▎                                                                         | 20/221 [00:00&lt;00:04, 47.55it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 60%|████████████████████████████████████████████████▌                                | 75/125 [00:00&lt;00:00, 70.07it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 11%|█████████▏                                                                       | 25/221 [00:00&lt;00:04, 40.46it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 84%|██████████████████████████████████████████████████████████████████▎            | 105/125 [00:00&lt;00:00, 111.08it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 19%|███████████████▍                                                                 | 42/221 [00:00&lt;00:02, 67.37it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████████████████████████████████████████| 125/125 [00:01&lt;00:00, 123.37it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 22%|█████████████████▉                                                               | 49/221 [00:01&lt;00:03, 45.67it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 28%|██████████████████████▋                                                          | 62/221 [00:01&lt;00:02, 60.93it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/152 [00:00&lt;?, ?it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 44%|███████████████████████████████████▍                                            | 98/221 [00:01&lt;00:00, 124.53it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  9%|███████▎                                                                        | 14/152 [00:00&lt;00:01, 107.66it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 59%|██████████████████████████████████████████████▍                                | 130/221 [00:01&lt;00:00, 148.93it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 16%|█████████████▎                                                                   | 25/152 [00:00&lt;00:02, 61.81it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 71%|███████████████████████████████████████████████████████▊                       | 156/221 [00:01&lt;00:00, 158.90it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 22%|█████████████████▌                                                               | 33/152 [00:00&lt;00:02, 57.50it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 85%|██████████████████████████████████████████████████████████████████▊            | 187/221 [00:01&lt;00:00, 178.46it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 28%|██████████████████████▉                                                          | 43/152 [00:00&lt;00:01, 68.54it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 94%|█████████████████████████████████████████████████████████████████████████▉     | 207/221 [00:01&lt;00:00, 139.39it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 34%|███████████████████████████▏                                                     | 51/152 [00:00&lt;00:02, 41.71it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 47%|██████████████████████████████████████▎                                          | 72/152 [00:01&lt;00:01, 66.72it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 53%|███████████████████████████████████████████▏                                     | 81/152 [00:01&lt;00:01, 56.97it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 64%|████████████████████████████████████████████████████▏                            | 98/152 [00:01&lt;00:00, 77.44it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 73%|██████████████████████████████████████████████████████████▍                     | 111/152 [00:01&lt;00:00, 86.20it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 80%|████████████████████████████████████████████████████████████████▏               | 122/152 [00:02&lt;00:00, 53.08it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 89%|███████████████████████████████████████████████████████████████████████▌        | 136/152 [00:02&lt;00:00, 65.87it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 152/152 [00:02&lt;00:00, 71.19it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████████████████████████████████████████| 221/221 [00:01&lt;00:00, 111.49it/s]
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/115 [00:00&lt;?, ?it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/172 [00:00&lt;?, ?it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  6%|████▉                                                                             | 7/115 [00:00&lt;00:02, 43.05it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3%|██▊                                                                               | 6/172 [00:00&lt;00:05, 32.98it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 10%|████████▍                                                                        | 12/115 [00:00&lt;00:03, 29.41it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 15%|███████████▋                                                                    | 25/172 [00:00&lt;00:01, 101.71it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 14%|███████████▎                                                                     | 16/115 [00:00&lt;00:03, 32.48it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 22%|█████████████████▉                                                               | 38/172 [00:00&lt;00:01, 73.85it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 20%|████████████████▏                                                                | 23/115 [00:00&lt;00:02, 43.12it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 40%|███████████████████████████████▋                                                | 68/172 [00:00&lt;00:00, 124.00it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 33%|██████████████████████████▊                                                      | 38/115 [00:00&lt;00:01, 63.05it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 39%|███████████████████████████████▋                                                 | 45/115 [00:01&lt;00:01, 41.03it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 45%|████████████████████████████████████▋                                            | 52/115 [00:01&lt;00:01, 44.54it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 51%|█████████████████████████████████████████▌                                       | 59/115 [00:01&lt;00:01, 47.38it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 63%|██████████████████████████████████████████████████▋                              | 72/115 [00:01&lt;00:00, 58.10it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 69%|███████████████████████████████████████████████████████▋                         | 79/115 [00:01&lt;00:00, 53.27it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 79%|████████████████████████████████████████████████████████████████                 | 91/115 [00:01&lt;00:00, 67.38it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 88%|██████████████████████████████████████████████████████████████████████▎         | 101/115 [00:01&lt;00:00, 68.19it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 95%|███████████████████████████████████████████████████████████████████████████▊    | 109/115 [00:02&lt;00:00, 62.43it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 115/115 [00:02&lt;00:00, 52.07it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 48%|███████████████████████████████████████                                          | 83/172 [00:00&lt;00:01, 87.14it/s]
+ 48%|███████████████████████████████████████                                          | 83/172 [00:00&lt;00:01, 87.41it/s]
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                           | 0/96 [00:00&lt;?, ?it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  5%|████▎                                                                              | 5/96 [00:00&lt;00:03, 29.95it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  8%|██████▉                                                                            | 8/96 [00:00&lt;00:04, 18.01it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 11%|█████████▍                                                                        | 11/96 [00:00&lt;00:04, 18.64it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 18%|██████████████▌                                                                   | 17/96 [00:00&lt;00:03, 26.07it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 34%|████████████████████████████▏                                                     | 33/96 [00:00&lt;00:01, 59.06it/s]
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
@@ -1547,68 +1510,92 @@ Name: stopwords, Length: 100, dtype: object
 <span class="nn">----&gt; 5 text = &#39; &#39;.join(st.stem(word) for word</span> in <span class="ni">tqdm(text.split</span><span class="nt">()) if word in text)</span>
 <span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="k">return</span> <span class="n">text</span>
 
-<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\CachedStemmer.py:20,</span> in <span class="ni">CachedStemmer.stem</span><span class="nt">(self, text)</span>
-<span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="n">stems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">word</span><span class="p">))</span>
-<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="k">else</span><span class="p">:</span>
-<span class="ne">---&gt; </span><span class="mi">20</span>     <span class="n">stem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegatedStemmer</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">21</span>     <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">stem</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">22</span>     <span class="n">stems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stem</span><span class="p">)</span>
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\tqdm\std.py:1191,</span> in <span class="ni">tqdm.__iter__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1189</span> <span class="n">dt</span> <span class="o">=</span> <span class="n">cur_t</span> <span class="o">-</span> <span class="n">last_print_t</span>
+<span class="g g-Whitespace">   </span><span class="mi">1190</span> <span class="k">if</span> <span class="n">dt</span> <span class="o">&gt;=</span> <span class="n">mininterval</span> <span class="ow">and</span> <span class="n">cur_t</span> <span class="o">&gt;=</span> <span class="n">min_start_t</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1191</span>     <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">last_print_n</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1192</span>     <span class="n">last_print_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_print_n</span>
+<span class="g g-Whitespace">   </span><span class="mi">1193</span>     <span class="n">last_print_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_print_t</span>
 
-<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Stemmer.py:27,</span> in <span class="ni">Stemmer.stem</span><span class="nt">(self, text)</span>
-<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="n">stems</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="g g-Whitespace">     </span><span class="mi">26</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
-<span class="ne">---&gt; </span><span class="mi">27</span>     <span class="n">stems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stem_word</span><span class="p">(</span><span class="n">word</span><span class="p">))</span>
-<span class="g g-Whitespace">     </span><span class="mi">29</span> <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stems</span><span class="p">)</span>
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\tqdm\std.py:1242,</span> in <span class="ni">tqdm.update</span><span class="nt">(self, n)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1240</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_ema_dn</span><span class="p">(</span><span class="n">dn</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1241</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_ema_dt</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1242</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">lock_args</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">lock_args</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1243</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dynamic_miniters</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1244</span>     <span class="c1"># If no `miniters` was specified, adjust automatically to the</span>
+<span class="g g-Whitespace">   </span><span class="mi">1245</span>     <span class="c1"># maximum iteration rate seen so far between two prints.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1246</span>     <span class="c1"># e.g.: After running `tqdm.update(5)`, subsequent</span>
+<span class="g g-Whitespace">   </span><span class="mi">1247</span>     <span class="c1"># calls to `tqdm.update()` will only cause an update after</span>
+<span class="g g-Whitespace">   </span><span class="mi">1248</span>     <span class="c1"># at least 5 more iterations.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1249</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxinterval</span> <span class="ow">and</span> <span class="n">dt</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxinterval</span><span class="p">:</span>
 
-<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Stemmer.py:36,</span> in <span class="ni">Stemmer.stem_word</span><span class="nt">(self, word)</span>
-<span class="g g-Whitespace">     </span><span class="mi">34</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stem_plural_word</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">35</span> <span class="k">else</span><span class="p">:</span>
-<span class="ne">---&gt; </span><span class="mi">36</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stem_singular_word</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\tqdm\std.py:1347,</span> in <span class="ni">tqdm.refresh</span><span class="nt">(self, nolock, lock_args)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1345</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1346</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+<span class="ne">-&gt; </span><span class="mi">1347</span> <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1348</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">nolock</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1349</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
 
-<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Stemmer.py:84,</span> in <span class="ni">Stemmer.stem_singular_word</span><span class="nt">(self, word)</span>
-<span class="g g-Whitespace">     </span><span class="mi">82</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Stem a singular word to its common stem form.&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">     </span><span class="mi">83</span> <span class="n">context</span> <span class="o">=</span> <span class="n">Context</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">visitor_provider</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">84</span> <span class="n">context</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">86</span> <span class="k">return</span> <span class="n">context</span><span class="o">.</span><span class="n">result</span>
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\tqdm\std.py:1495,</span> in <span class="ni">tqdm.display</span><span class="nt">(self, msg, pos)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1493</span> <span class="k">if</span> <span class="n">pos</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1494</span>     <span class="bp">self</span><span class="o">.</span><span class="n">moveto</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1495</span> <span class="bp">self</span><span class="o">.</span><span class="n">sp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span> <span class="k">if</span> <span class="n">msg</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">msg</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1496</span> <span class="k">if</span> <span class="n">pos</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1497</span>     <span class="bp">self</span><span class="o">.</span><span class="n">moveto</span><span class="p">(</span><span class="o">-</span><span class="n">pos</span><span class="p">)</span>
 
-<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Context\Context.py:37,</span> in <span class="ni">Context.execute</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">     </span><span class="mi">34</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Execute stemming process; the result can be retrieved with result&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">     </span><span class="mi">36</span> <span class="c1">#step 1 - 5</span>
-<span class="ne">---&gt; </span><span class="mi">37</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_stemming_process</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">39</span> <span class="c1">#step 6</span>
-<span class="g g-Whitespace">     </span><span class="mi">40</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_word</span><span class="p">):</span>
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\tqdm\std.py:459,</span> in <span class="ni">tqdm.status_printer.&lt;locals&gt;.print_status</span><span class="nt">(s)</span>
+<span class="g g-Whitespace">    </span><span class="mi">457</span> <span class="k">def</span> <span class="nf">print_status</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">458</span>     <span class="n">len_s</span> <span class="o">=</span> <span class="n">disp_len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">459</span>     <span class="n">fp_write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">s</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="n">last_len</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">len_s</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+<span class="g g-Whitespace">    </span><span class="mi">460</span>     <span class="n">last_len</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">len_s</span>
 
-<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Context\Context.py:80,</span> in <span class="ni">Context.start_stemming_process</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">     </span><span class="mi">77</span>     <span class="k">return</span>
-<span class="g g-Whitespace">     </span><span class="mi">79</span> <span class="c1">#step 4, 5</span>
-<span class="ne">---&gt; </span><span class="mi">80</span> <span class="bp">self</span><span class="o">.</span><span class="n">remove_prefixes</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">81</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_word</span><span class="p">):</span>
-<span class="g g-Whitespace">     </span><span class="mi">82</span>     <span class="k">return</span>
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\tqdm\std.py:452,</span> in <span class="ni">tqdm.status_printer.&lt;locals&gt;.fp_write</span><span class="nt">(s)</span>
+<span class="g g-Whitespace">    </span><span class="mi">451</span> <span class="k">def</span> <span class="nf">fp_write</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">452</span>     <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">453</span>     <span class="n">fp_flush</span><span class="p">()</span>
 
-<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Context\Context.py:89,</span> in <span class="ni">Context.remove_prefixes</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">     </span><span class="mi">87</span> <span class="k">def</span> <span class="nf">remove_prefixes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="g g-Whitespace">     </span><span class="mi">88</span>     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-<span class="ne">---&gt; </span><span class="mi">89</span>         <span class="bp">self</span><span class="o">.</span><span class="n">accept_prefix_visitors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix_pisitors</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">90</span>         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_word</span><span class="p">):</span>
-<span class="g g-Whitespace">     </span><span class="mi">91</span>             <span class="k">return</span>
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\tqdm\utils.py:196,</span> in <span class="ni">DisableOnWriteError.disable_on_exception.&lt;locals&gt;.inner</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">194</span> <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">195</span>     <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">196</span>         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">197</span>     <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">198</span>         <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">errno</span> <span class="o">!=</span> <span class="mi">5</span><span class="p">:</span>
 
-<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Context\Context.py:110,</span> in <span class="ni">Context.accept_prefix_visitors</span><span class="nt">(self, visitors)</span>
-<span class="g g-Whitespace">    </span><span class="mi">108</span> <span class="n">removalCount</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">removals</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">109</span> <span class="k">for</span> <span class="n">visitor</span> <span class="ow">in</span> <span class="n">visitors</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">110</span>     <span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">(</span><span class="n">visitor</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">111</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_word</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">112</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_word</span>
+<span class="nn">File ~\AppData\Roaming\Python\Python310\site-packages\ipykernel\iostream.py:648,</span> in <span class="ni">OutStream.write</span><span class="nt">(self, string)</span>
+<span class="g g-Whitespace">    </span><span class="mi">646</span>         <span class="bp">self</span><span class="o">.</span><span class="n">pub_thread</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_flush</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">647</span>     <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">648</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_schedule_flush</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">650</span> <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
 
-<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Context\Context.py:97,</span> in <span class="ni">Context.accept</span><span class="nt">(self, visitor)</span>
-<span class="g g-Whitespace">     </span><span class="mi">96</span> <span class="k">def</span> <span class="nf">accept</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">visitor</span><span class="p">):</span>
-<span class="ne">---&gt; </span><span class="mi">97</span>     <span class="n">visitor</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<span class="nn">File ~\AppData\Roaming\Python\Python310\site-packages\ipykernel\iostream.py:545,</span> in <span class="ni">OutStream._schedule_flush</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">542</span> <span class="k">def</span> <span class="nf">_schedule_in_thread</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">543</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_io_loop</span><span class="o">.</span><span class="n">call_later</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flush_interval</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flush</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">545</span> <span class="bp">self</span><span class="o">.</span><span class="n">pub_thread</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="n">_schedule_in_thread</span><span class="p">)</span>
 
-<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Context\Visitor\AbstractDisambiguatePrefixRule.py:15,</span> in <span class="ni">AbstractDisambiguatePrefixRule.visit</span><span class="nt">(self, context)</span>
-<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="k">for</span> <span class="n">disambiguator</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">disambiguators</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">14</span>     <span class="n">result</span> <span class="o">=</span> <span class="n">disambiguator</span><span class="o">.</span><span class="n">disambiguate</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">current_word</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">15</span>     <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">dictionary</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
-<span class="g g-Whitespace">     </span><span class="mi">16</span>         <span class="k">break</span>
-<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="p">:</span>
+<span class="nn">File ~\AppData\Roaming\Python\Python310\site-packages\ipykernel\iostream.py:251,</span> in <span class="ni">IOPubThread.schedule</span><span class="nt">(self, f)</span>
+<span class="g g-Whitespace">    </span><span class="mi">249</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">250</span>     <span class="c1"># wake event thread (message content is ignored)</span>
+<span class="ne">--&gt; </span><span class="mi">251</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_event_pipe</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">252</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">253</span>     <span class="n">f</span><span class="p">()</span>
+
+<span class="nn">File ~\AppData\Roaming\Python\Python310\site-packages\zmq\sugar\socket.py:696,</span> in <span class="ni">Socket.send</span><span class="nt">(self, data, flags, copy, track, routing_id, group)</span>
+<span class="g g-Whitespace">    </span><span class="mi">689</span>         <span class="n">data</span> <span class="o">=</span> <span class="n">zmq</span><span class="o">.</span><span class="n">Frame</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">690</span>             <span class="n">data</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">691</span>             <span class="n">track</span><span class="o">=</span><span class="n">track</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">692</span>             <span class="n">copy</span><span class="o">=</span><span class="n">copy</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">693</span>             <span class="n">copy_threshold</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">copy_threshold</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">694</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">695</span>     <span class="n">data</span><span class="o">.</span><span class="n">group</span> <span class="o">=</span> <span class="n">group</span>
+<span class="ne">--&gt; </span><span class="mi">696</span> <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">flags</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="n">copy</span><span class="p">,</span> <span class="n">track</span><span class="o">=</span><span class="n">track</span><span class="p">)</span>
+
+<span class="nn">File zmq\\backend\\cython\\socket.pyx:742,</span> in <span class="ni">zmq.backend.cython.socket.Socket.send</span><span class="nt">()</span>
+
+<span class="nn">File zmq\\backend\\cython\\socket.pyx:789,</span> in <span class="ni">zmq.backend.cython.socket.Socket.send</span><span class="nt">()</span>
+
+<span class="nn">File zmq\\backend\\cython\\socket.pyx:250,</span> in <span class="ni">zmq.backend.cython.socket._send_copy</span><span class="nt">()</span>
+
+<span class="nn">File ~\AppData\Roaming\Python\Python310\site-packages\zmq\backend\cython\checkrc.pxd:13,</span> in <span class="ni">zmq.backend.cython.checkrc._check_rc</span><span class="nt">()</span>
 
 <span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
@@ -2877,12 +2864,12 @@ Name: stopwords, Length: 100, dtype: object
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../intro.html"
+       href="crawl_berita.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Welcome to your Jupyter Book</p>
+        <p class="prev-next-title"><strong>TUGAS 2 : Crawling 100 Berita Online 2 Kategori</strong></p>
       </div>
     </a>
     <a class="right-next"
@@ -2890,7 +2877,7 @@ Name: stopwords, Length: 100, dtype: object
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Tugas 3 - Implementasi Hasil VSM dengan Algoritma Logistic Regression</p>
+        <p class="prev-next-title"><strong>Tugas 3 - Implementasi Hasil VSM dengan Algoritma Logistic Regression</strong></p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -2912,7 +2899,8 @@ Name: stopwords, Length: 100, dtype: object
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-space-model-dalam-pengolahan-teks"><strong>Vector Space Model dalam Pengolahan Teks</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tf-idf-term-frequency-inverse-document-frequency"><strong>TF-IDF (Term Frequency-Inverse Document Frequency)</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">Import Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-pustaka">Install Pustaka</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-pustaka">Import Pustaka</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load Data</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengonversi-semua-huruf-besar-menjadi-huruf-kecil">Mengonversi Semua Huruf Besar Menjadi Huruf Kecil</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menghapus-simbol-dan-angka-dari-teks">Menghapus Simbol dan Angka dari Teks</a></li>

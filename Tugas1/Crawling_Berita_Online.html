@@ -60,7 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'Tugas1/Crawling_Berita_Online';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="TUGAS 2 : Membuat VSM dan Menghitung TF-IDF berdasarkan hasil crawling berita" href="../tugas2/vsm.html" />
+    <link rel="next" title="TUGAS 2 : Crawling 100 Berita Online 2 Kategori" href="../tugas2/crawl_berita.html" />
     <link rel="prev" title="Welcome to your Jupyter Book" href="../intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -180,12 +180,14 @@
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tugas 1 - Crawling Berita Online</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>Tugas 1 - Crawling Berita Online</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tugas2/crawl_berita.html"><strong>TUGAS 2 : Crawling 100 Berita Online 2 Kategori</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tugas2/vsm.html"><strong>TUGAS 2 : Membuat VSM dan Menghitung TF-IDF berdasarkan hasil crawling berita</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Tugas3/training.html">Tugas 3 - Implementasi Hasil VSM dengan Algoritma Logistic Regression</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Tugas5/centrality.html">Tugas 5 - Centrality Graph</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Tugas6/summary.html">Tugas 6 - Summary Dokumen Menggunakan Centrality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas3/training.html"><strong>Tugas 3 - Implementasi Hasil VSM dengan Algoritma Logistic Regression</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas5/centrality.html"><strong>Tugas 5 - Centrality Graph</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas6/summary.html"><strong>Tugas 6 - Summary Dokumen Menggunakan Centrality</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas7/Keyword_Extraction.html"><strong>Tugas 7 - Keyword Extraction Menggunakan Centrality</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas8/Matriks_SVD.html"><strong>Tugas 8 - Pengurangan Dimensi Bertahap pada Dokumen</strong></a></li>
 </ul>
 
     </div>
@@ -401,7 +403,7 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="tugas-1-crawling-berita-online">
-<h1>Tugas 1 - Crawling Berita Online<a class="headerlink" href="#tugas-1-crawling-berita-online" title="Link to this heading">#</a></h1>
+<h1><strong>Tugas 1 - Crawling Berita Online</strong><a class="headerlink" href="#tugas-1-crawling-berita-online" title="Link to this heading">#</a></h1>
 <p>Nama : Isnita Widyur Rahmah
 NIM : 220411100048
 Kelas : IF 7A</p>
@@ -418,15 +420,15 @@ Kelas : IF 7A</p>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: requests in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (2.31.0)
 Requirement already satisfied: beautifulsoup4 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (4.12.3)
 Requirement already satisfied: pandas in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (2.0.3)
-Requirement already satisfied: idna&lt;4,&gt;=2.5 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (3.4)
-Requirement already satisfied: charset-normalizer&lt;4,&gt;=2 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (3.3.2)
 Requirement already satisfied: certifi&gt;=2017.4.17 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (2023.7.22)
+Requirement already satisfied: charset-normalizer&lt;4,&gt;=2 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (3.3.2)
+Requirement already satisfied: idna&lt;4,&gt;=2.5 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (3.4)
 Requirement already satisfied: urllib3&lt;3,&gt;=1.21.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (2.0.4)
 Requirement already satisfied: soupsieve&gt;1.2 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from beautifulsoup4) (2.6)
-Requirement already satisfied: numpy&gt;=1.21.0 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (1.25.2)
 Requirement already satisfied: python-dateutil&gt;=2.8.2 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from pandas) (2.8.2)
 Requirement already satisfied: pytz&gt;=2020.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
 Requirement already satisfied: tzdata&gt;=2022.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
+Requirement already satisfied: numpy&gt;=1.21.0 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (1.25.2)
 Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas) (1.16.0)
 Note: you may need to restart the kernel to use updated packages.
 </pre></div>
@@ -562,72 +564,72 @@ Note: you may need to restart the kernel to use updated packages.
   <tbody>
     <tr>
       <th>0</th>
+      <td>Bos BI Antisipasi 3 Dampak 'Bahaya' Kemenangan...</td>
+      <td>Gubernur Bank Indonesia (BI) Perry Warjiyo men...</td>
+      <td>Kamis, 07 Nov 2024 06:45 WIB</td>
+      <td>ekonomi</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>IHSG Diprediksi Berbalik Menguat Hari Ini</td>
+      <td>Indeks Harga Saham Gabungan (IHSG) diperkiraka...</td>
+      <td>Kamis, 07 Nov 2024 06:15 WIB</td>
+      <td>ekonomi</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Menteri PPMI Ungkap Sebab TKI Masih Miskin Mes...</td>
+      <td>Menteri Pelindungan Pekerja Migran Indonesia (...</td>
+      <td>Kamis, 07 Nov 2024 05:32 WIB</td>
+      <td>ekonomi</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Pertamina Gelar Eco RunFest 2024, Ajang Lari K...</td>
+      <td>PT Pertamina (Persero) akan menyelenggarakan a...</td>
+      <td>Rabu, 06 Nov 2024 22:02 WIB</td>
+      <td>ekonomi</td>
+    </tr>
+    <tr>
+      <th>4</th>
       <td>Genjot Investasi di DKI Jakarta, Kun Wardana J...</td>
       <td>Calon Wakil Gubernur DKI Jakarta nomor urut 2 ...</td>
       <td>Rabu, 06 Nov 2024 21:02 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
-      <th>1</th>
+      <th>5</th>
       <td>Utang Pinjol Warga RI Tembus Rp74,48 T per Sep...</td>
       <td>Otoritas Jasa Keuangan (OJK) mencatat total pe...</td>
       <td>Rabu, 06 Nov 2024 20:46 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
-      <th>2</th>
+      <th>6</th>
       <td>Pertamina Eco RunFest 2024, Ajang Lari Karbon ...</td>
       <td>PT Pertamina (Persero) kembali menyelenggaraka...</td>
       <td>Rabu, 06 Nov 2024 20:33 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
-      <th>3</th>
+      <th>7</th>
       <td>Bantuan Pangan Lanjut hingga Februari 2025, Pe...</td>
       <td>Kepala Badan Pangan Nasional Arief Prasetyo Ad...</td>
       <td>Rabu, 06 Nov 2024 20:28 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
-      <th>4</th>
+      <th>8</th>
       <td>Kun Wardana Klaim Bisa Kurangi PHK hingga 1.00...</td>
       <td>Calon Wakil Gubernur DKI Jakarta nomor urut 2 ...</td>
       <td>Rabu, 06 Nov 2024 20:16 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
-      <th>5</th>
+      <th>9</th>
       <td>Komitmen Keselamatan Kerja, SPTP Sosialisasika...</td>
       <td>Dalam rangka mewujudkan lingkungan kerja yang ...</td>
       <td>Rabu, 06 Nov 2024 20:07 WIB</td>
-      <td>ekonomi</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>Prabowo Tambah Dua Ditjen Baru di Kemenkeu, Sr...</td>
-      <td>Presiden Prabowo Subianto menambah dua direkto...</td>
-      <td>Rabu, 06 Nov 2024 20:03 WIB</td>
-      <td>ekonomi</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>Menaker Pastikan UMP 2025 Naik: Tingkatkan Pen...</td>
-      <td>Menteri Ketenagakerjaan (Menaker) Yassierli me...</td>
-      <td>Rabu, 06 Nov 2024 19:47 WIB</td>
-      <td>ekonomi</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>Prabowo Batal Luncurkan Badan Pengelola Invest...</td>
-      <td>Presiden Prabowo Subianto batal meluncurkan Ba...</td>
-      <td>Rabu, 06 Nov 2024 19:36 WIB</td>
-      <td>ekonomi</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>Bos Badan Pangan Klaim Harga Beras-Telur RI Le...</td>
-      <td>Kepala Badan Pangan Nasional Arief Prasetyo Ad...</td>
-      <td>Rabu, 06 Nov 2024 19:22 WIB</td>
       <td>ekonomi</td>
     </tr>
   </tbody>
@@ -687,11 +689,11 @@ Note: you may need to restart the kernel to use updated packages.
       </div>
     </a>
     <a class="right-next"
-       href="../tugas2/vsm.html"
+       href="../tugas2/crawl_berita.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><strong>TUGAS 2 : Membuat VSM dan Menghitung TF-IDF berdasarkan hasil crawling berita</strong></p>
+        <p class="prev-next-title"><strong>TUGAS 2 : Crawling 100 Berita Online 2 Kategori</strong></p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

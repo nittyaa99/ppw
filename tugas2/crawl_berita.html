@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>&lt;no title&gt; &#8212; My sample book</title>
+    <title>TUGAS 2 : Crawling 100 Berita Online 2 Kategori &#8212; My sample book</title>
   
   
   
@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -60,6 +60,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tugas2/crawl_berita';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TUGAS 2 : Membuat VSM dan Menghitung TF-IDF berdasarkan hasil crawling berita" href="vsm.html" />
+    <link rel="prev" title="Tugas 1 - Crawling Berita Online" href="../Tugas1/Crawling_Berita_Online.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -122,8 +124,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -179,10 +179,15 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../markdown.html">Markdown Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Content with notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Tugas1/Crawling_Berita_Online.html"><strong>Tugas 1 - Crawling Berita Online</strong></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>TUGAS 2 : Crawling 100 Berita Online 2 Kategori</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="vsm.html"><strong>TUGAS 2 : Membuat VSM dan Menghitung TF-IDF berdasarkan hasil crawling berita</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas3/training.html"><strong>Tugas 3 - Implementasi Hasil VSM dengan Algoritma Logistic Regression</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas5/centrality.html"><strong>Tugas 5 - Centrality Graph</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas6/summary.html"><strong>Tugas 6 - Summary Dokumen Menggunakan Centrality</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas7/Keyword_Extraction.html"><strong>Tugas 7 - Keyword Extraction Menggunakan Centrality</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas8/Matriks_SVD.html"><strong>Tugas 8 - Pengurangan Dimensi Bertahap pada Dokumen</strong></a></li>
 </ul>
 
     </div>
@@ -368,7 +373,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1><no title></h1>
+    <h1>TUGAS 2 : Crawling 100 Berita Online 2 Kategori</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -377,9 +382,18 @@ document.write(`
                 <h2> Contents </h2>
             </div>
             <nav aria-label="Page">
-                <ul class="simple visible nav section-nav flex-column">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#crawling-berita-online-cnn-indonesia">Crawling Berita Online (CNN Indonesia)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-library">Install Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">Import Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menetapkan-url">Menetapkan URL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengambil-judul-isi-tanggal-dan-kategori-berita">Mengambil Judul, Isi, Tanggal dan Kategori Berita</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#crawling-berita">Crawling Berita</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengumpulkan-artikel-berita">Mengumpulkan Artikel Berita</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengambil-artikel-berita-dengan-maksimal-kategori-yang-telah-ditentukan">Mengambil Artikel Berita dengan Maksimal Kategori yang telah ditentukan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menampilkan-data-berita">Menampilkan Data Berita</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simpan-dalam-bentuk-csv">Simpan dalam bentuk CSV</a></li>
 </ul>
-
             </nav>
         </div>
     </div>
@@ -390,14 +404,18 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <p><strong>PENCARIAN DAN PENAMBANGAN WEB - TUGAS 2 : Membuat VSM dan Menghitung TF-IDF berdasarkan hasil crawling berita</strong></p>
+  <section class="tex2jax_ignore mathjax_ignore" id="tugas-2-crawling-100-berita-online-2-kategori">
+<h1><strong>TUGAS 2 : Crawling 100 Berita Online 2 Kategori</strong><a class="headerlink" href="#tugas-2-crawling-100-berita-online-2-kategori" title="Link to this heading">#</a></h1>
 <p>Nama : Isnita Widyur Rahmah
 NIM : 220411100048
 Kelas : IF 7A</p>
-<p>Link Project : <a class="github reference external" href="https://github.com/taawdyy/ppw">taawdyy/ppw</a></p>
-<p><strong>Crawling Berita Online (CNN Indonesia)</strong></p>
+<p>Link Project : <a class="github reference external" href="https://github.com/nittyaa99/ppw">nittyaa99/ppw</a></p>
+<section id="crawling-berita-online-cnn-indonesia">
+<h2>Crawling Berita Online (CNN Indonesia)<a class="headerlink" href="#crawling-berita-online-cnn-indonesia" title="Link to this heading">#</a></h2>
 <p>Crawling berita adalah proses otomatisasi pengambilan data dari situs web berita atau sumber informasi lainnya untuk tujuan analisis, penyimpanan, atau penyajian informasi. Proses ini dilakukan oleh program atau skrip yang dikenal sebagai web crawler atau spider</p>
-<p>Import Library</p>
+</section>
+<section id="install-library">
+<h2>Install Library<a class="headerlink" href="#install-library" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">requests</span> <span class="n">beautifulsoup4</span> <span class="n">pandas</span>
@@ -408,15 +426,15 @@ Kelas : IF 7A</p>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: requests in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (2.31.0)
 Requirement already satisfied: beautifulsoup4 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (4.12.3)
 Requirement already satisfied: pandas in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (2.0.3)
-Requirement already satisfied: charset-normalizer&lt;4,&gt;=2 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (3.3.2)
-Requirement already satisfied: certifi&gt;=2017.4.17 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (2023.7.22)
 Requirement already satisfied: urllib3&lt;3,&gt;=1.21.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (2.0.4)
 Requirement already satisfied: idna&lt;4,&gt;=2.5 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (3.4)
+Requirement already satisfied: charset-normalizer&lt;4,&gt;=2 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (3.3.2)
+Requirement already satisfied: certifi&gt;=2017.4.17 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (2023.7.22)
 Requirement already satisfied: soupsieve&gt;1.2 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from beautifulsoup4) (2.6)
 Requirement already satisfied: numpy&gt;=1.21.0 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (1.25.2)
 Requirement already satisfied: tzdata&gt;=2022.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
-Requirement already satisfied: pytz&gt;=2020.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
 Requirement already satisfied: python-dateutil&gt;=2.8.2 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from pandas) (2.8.2)
+Requirement already satisfied: pytz&gt;=2020.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
 Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas) (1.16.0)
 Note: you may need to restart the kernel to use updated packages.
 </pre></div>
@@ -427,6 +445,10 @@ Note: you may need to restart the kernel to use updated packages.
 </div>
 </div>
 </div>
+</section>
+<section id="import-library">
+<h2>Import Library<a class="headerlink" href="#import-library" title="Link to this heading">#</a></h2>
+<p>requests digunakan untuk mengambil halaman web, BeautifulSoup untuk mengekstrak informasi dari konten HTML, dan pandas untuk menyimpan dan mengolah data yang diambil.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
@@ -436,8 +458,9 @@ Note: you may need to restart the kernel to use updated packages.
 </div>
 </div>
 </div>
-<p>requests digunakan untuk mengambil halaman web, BeautifulSoup untuk mengekstrak informasi dari konten HTML, dan pandas untuk menyimpan dan mengolah data yang diambil.</p>
-<p>Mendefinisikan URL</p>
+</section>
+<section id="menetapkan-url">
+<h2>Menetapkan URL<a class="headerlink" href="#menetapkan-url" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">category_urls</span> <span class="o">=</span> <span class="p">[</span>
@@ -448,7 +471,9 @@ Note: you may need to restart the kernel to use updated packages.
 </div>
 </div>
 </div>
-<p>Mengumpulkan Data</p>
+</section>
+<section id="mengambil-judul-isi-tanggal-dan-kategori-berita">
+<h2>Mengambil Judul, Isi, Tanggal dan Kategori Berita<a class="headerlink" href="#mengambil-judul-isi-tanggal-dan-kategori-berita" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">crawl_article</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
@@ -472,15 +497,17 @@ Note: you may need to restart the kernel to use updated packages.
     <span class="n">date_text</span> <span class="o">=</span> <span class="n">date_div</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="n">date_div</span> <span class="k">else</span> <span class="s1">&#39;Tanggal tidak ditemukan&#39;</span>
 
     <span class="c1"># Mengambil kategori</span>
-    <span class="n">cattegory_div</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s2">&quot;text-sm text-cnn_black_light3 hover:text-cnn_red gtm_breadcrumb_kanal&quot;</span><span class="p">)</span>
-    <span class="n">cattegory</span> <span class="o">=</span> <span class="n">cattegory_div</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="n">cattegory_div</span> <span class="k">else</span> <span class="s1">&#39;Kategori tidak ditemukan&#39;</span>
+    <span class="n">category_div</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;meta&quot;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;dtk:namakanal&#39;</span><span class="p">})</span>
+    <span class="n">cattegory</span> <span class="o">=</span> <span class="n">category_div</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="n">category_div</span> <span class="ow">and</span> <span class="s1">&#39;content&#39;</span> <span class="ow">in</span> <span class="n">category_div</span><span class="o">.</span><span class="n">attrs</span> <span class="k">else</span> <span class="s1">&#39;Kategori tidak ditemukan&#39;</span>
 
     <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;Judul&#39;</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span> <span class="s1">&#39;Isi&#39;</span><span class="p">:</span> <span class="n">content</span><span class="p">,</span> <span class="s1">&#39;Tanggal&#39;</span><span class="p">:</span> <span class="n">date_text</span><span class="p">,</span> <span class="s1">&#39;Kategori&#39;</span><span class="p">:</span> <span class="n">cattegory</span><span class="p">}</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>Melakukan Crawling Web</p>
+</section>
+<section id="crawling-berita">
+<h2>Crawling Berita<a class="headerlink" href="#crawling-berita" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">crawl_page</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">article_count</span><span class="p">,</span> <span class="n">max_articles</span><span class="p">,</span> <span class="n">articles</span><span class="p">):</span>
@@ -507,7 +534,9 @@ Note: you may need to restart the kernel to use updated packages.
 </div>
 </div>
 </div>
-<p>Mengumpulkan Artikel Berita dari berbagai Kategori</p>
+</section>
+<section id="mengumpulkan-artikel-berita">
+<h2>Mengumpulkan Artikel Berita<a class="headerlink" href="#mengumpulkan-artikel-berita" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">crawl_category</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">max_articles</span><span class="p">):</span>
@@ -520,7 +549,9 @@ Note: you may need to restart the kernel to use updated packages.
 </div>
 </div>
 </div>
-<p>Mengambil Artikel Berita dari beberapa Kategori yang telah ditentukan dalam category_urls.</p>
+</section>
+<section id="mengambil-artikel-berita-dengan-maksimal-kategori-yang-telah-ditentukan">
+<h2>Mengambil Artikel Berita dengan Maksimal Kategori yang telah ditentukan<a class="headerlink" href="#mengambil-artikel-berita-dengan-maksimal-kategori-yang-telah-ditentukan" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_articles_per_category</span> <span class="o">=</span> <span class="mi">50</span>
@@ -541,7 +572,9 @@ Note: you may need to restart the kernel to use updated packages.
 </div>
 </div>
 </div>
-<p>Konversi ke dalam DataFrame</p>
+</section>
+<section id="menampilkan-data-berita">
+<h2>Menampilkan Data Berita<a class="headerlink" href="#menampilkan-data-berita" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">all_articles</span><span class="p">)</span>
@@ -577,38 +610,38 @@ Note: you may need to restart the kernel to use updated packages.
   <tbody>
     <tr>
       <th>0</th>
-      <td>Karyawan Boeing Akhiri Mogok Kerja usai Sepaka...</td>
-      <td>Ribuan pekerja Boeing akhirnya mengakhiri mogo...</td>
-      <td>Selasa, 05 Nov 2024 22:06 WIB</td>
-      <td>Kategori tidak ditemukan</td>
+      <td>Bos BI Antisipasi 3 Dampak 'Bahaya' Kemenangan...</td>
+      <td>Gubernur Bank Indonesia (BI) Perry Warjiyo men...</td>
+      <td>Kamis, 07 Nov 2024 06:45 WIB</td>
+      <td>ekonomi</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Pakar: BPA Bahaya Bagi Kesehatan, Jangan Diang...</td>
-      <td>Bahaya paparan Bisphenol A (BPA) dalam wadah p...</td>
-      <td>Selasa, 05 Nov 2024 21:57 WIB</td>
-      <td>Kategori tidak ditemukan</td>
+      <td>IHSG Diprediksi Berbalik Menguat Hari Ini</td>
+      <td>Indeks Harga Saham Gabungan (IHSG) diperkiraka...</td>
+      <td>Kamis, 07 Nov 2024 06:15 WIB</td>
+      <td>ekonomi</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Respons AHY dan Nusron soal Pelantikan Basuki ...</td>
-      <td>Menteri Koordinator Infrastruktur dan Pembangu...</td>
-      <td>Selasa, 05 Nov 2024 21:28 WIB</td>
-      <td>Kategori tidak ditemukan</td>
+      <td>Menteri PPMI Ungkap Sebab TKI Masih Miskin Mes...</td>
+      <td>Menteri Pelindungan Pekerja Migran Indonesia (...</td>
+      <td>Kamis, 07 Nov 2024 05:32 WIB</td>
+      <td>ekonomi</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Airlangga soal Ekonomi Kuartal III Tumbuh di B...</td>
-      <td>Menteri Koordinator Bidang Perekonomian Airlan...</td>
-      <td>Selasa, 05 Nov 2024 21:03 WIB</td>
-      <td>Kategori tidak ditemukan</td>
+      <td>Pertamina Gelar Eco RunFest 2024, Ajang Lari K...</td>
+      <td>PT Pertamina (Persero) akan menyelenggarakan a...</td>
+      <td>Rabu, 06 Nov 2024 22:02 WIB</td>
+      <td>ekonomi</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>Tak Lagi BUMN, Bulog Bakal Jadi Badan Otonom d...</td>
-      <td>Direktur Utama Perum Bulog Wahyu Suparyono men...</td>
-      <td>Selasa, 05 Nov 2024 20:46 WIB</td>
-      <td>Kategori tidak ditemukan</td>
+      <td>Genjot Investasi di DKI Jakarta, Kun Wardana J...</td>
+      <td>Calon Wakil Gubernur DKI Jakarta nomor urut 2 ...</td>
+      <td>Rabu, 06 Nov 2024 21:02 WIB</td>
+      <td>ekonomi</td>
     </tr>
     <tr>
       <th>...</th>
@@ -619,45 +652,47 @@ Note: you may need to restart the kernel to use updated packages.
     </tr>
     <tr>
       <th>95</th>
-      <td>Malaysia Gagal Lolos Semifinal Piala AFF Futsa...</td>
-      <td>Thailand berhasil mengalahkan Malaysia 3-1 dal...</td>
-      <td>Selasa, 05 Nov 2024 19:58 WIB</td>
-      <td>Kategori tidak ditemukan</td>
+      <td>Jadwal 5 Wakil Indonesia di 16 Besar Korea Mas...</td>
+      <td>Sebanyak lima wakil Indonesia akan tampil pada...</td>
+      <td>Kamis, 07 Nov 2024 04:15 WIB</td>
+      <td>olahraga</td>
     </tr>
     <tr>
       <th>96</th>
-      <td>Akmal: Indonesia Perlu Anut Paspor Ganda untuk...</td>
-      <td>Pengamat sepak bola nasional, Akmal Marhali, m...</td>
-      <td>Selasa, 05 Nov 2024 19:33 WIB</td>
-      <td>Kategori tidak ditemukan</td>
+      <td>Klasemen Liga Voli Korea: IBK Altos Ancam Gusu...</td>
+      <td>IBK Altos berpeluang menggusur Red Sparks dala...</td>
+      <td>Kamis, 07 Nov 2024 03:35 WIB</td>
+      <td>olahraga</td>
     </tr>
     <tr>
       <th>97</th>
-      <td>Prediksi Susunan Pemain Real Madrid vs AC Mila...</td>
-      <td>Real Madrid akan menjamu AC Milan dalam lanjut...</td>
-      <td>Selasa, 05 Nov 2024 19:10 WIB</td>
-      <td>Kategori tidak ditemukan</td>
+      <td>Hasil Liga Champions: Imbas Penalti Konyol, As...</td>
+      <td>Aston Villa kalah 0-1 dari Culb Brugge dalam p...</td>
+      <td>Kamis, 07 Nov 2024 02:42 WIB</td>
+      <td>olahraga</td>
     </tr>
     <tr>
       <th>98</th>
-      <td>Resmi, Final Martin vs Bagnaia di MotoGP Catal...</td>
-      <td>Dorna Sports selaku penyelenggara MotoGP menet...</td>
-      <td>Selasa, 05 Nov 2024 18:47 WIB</td>
-      <td>Kategori tidak ditemukan</td>
+      <td>Exco PSSI Sebut Program Naturalisasi Timnas Bi...</td>
+      <td>Anggota Komite Eksekutif (Exco) PSSI Arya Sinu...</td>
+      <td>Kamis, 07 Nov 2024 02:00 WIB</td>
+      <td>olahraga</td>
     </tr>
     <tr>
       <th>99</th>
-      <td>FOTO: Indonesia ke Semifinal Piala AFF Futsal ...</td>
-      <td></td>
-      <td>Tanggal tidak ditemukan</td>
-      <td>Kategori tidak ditemukan</td>
+      <td>Klasemen Liga 1 2024/2025: Persija Geser PSM</td>
+      <td>Perubahan klasemen Liga 1 2024/2025 terjadi se...</td>
+      <td>Kamis, 07 Nov 2024 01:00 WIB</td>
+      <td>olahraga</td>
     </tr>
   </tbody>
 </table>
 <p>100 rows × 4 columns</p>
 </div></div></div>
 </div>
-<p>Simpan dalam bentuk CSV</p>
+</section>
+<section id="simpan-dalam-bentuk-csv">
+<h2>Simpan dalam bentuk CSV<a class="headerlink" href="#simpan-dalam-bentuk-csv" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;crawl_berita.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
@@ -665,6 +700,8 @@ Note: you may need to restart the kernel to use updated packages.
 </div>
 </div>
 </div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -696,6 +733,24 @@ Note: you may need to restart the kernel to use updated packages.
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="../Tugas1/Crawling_Berita_Online.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><strong>Tugas 1 - Crawling Berita Online</strong></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="vsm.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><strong>TUGAS 2 : Membuat VSM dan Menghitung TF-IDF berdasarkan hasil crawling berita</strong></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -711,9 +766,18 @@ Note: you may need to restart the kernel to use updated packages.
     <i class="fa-solid fa-list"></i> Contents
   </div>
   <nav class="bd-toc-nav page-toc">
-    <ul class="simple visible nav section-nav flex-column">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#crawling-berita-online-cnn-indonesia">Crawling Berita Online (CNN Indonesia)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-library">Install Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">Import Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menetapkan-url">Menetapkan URL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengambil-judul-isi-tanggal-dan-kategori-berita">Mengambil Judul, Isi, Tanggal dan Kategori Berita</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#crawling-berita">Crawling Berita</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengumpulkan-artikel-berita">Mengumpulkan Artikel Berita</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengambil-artikel-berita-dengan-maksimal-kategori-yang-telah-ditentukan">Mengambil Artikel Berita dengan Maksimal Kategori yang telah ditentukan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menampilkan-data-berita">Menampilkan Data Berita</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simpan-dalam-bentuk-csv">Simpan dalam bentuk CSV</a></li>
 </ul>
-
   </nav></div>
 
 </div></div>

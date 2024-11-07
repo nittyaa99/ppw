@@ -180,11 +180,14 @@
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Tugas1/Crawling_Berita_Online.html"><strong>Tugas 1 - Crawling Berita Online</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tugas2/crawl_berita.html"><strong>TUGAS 2 : Crawling 100 Berita Online 2 Kategori</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tugas2/vsm.html"><strong>TUGAS 2 : Membuat VSM dan Menghitung TF-IDF berdasarkan hasil crawling berita</strong></a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tugas 3 - Implementasi Hasil VSM dengan Algoritma Logistic Regression</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Tugas5/centrality.html">Tugas 5 - Centrality Graph</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Tugas6/summary.html">Tugas 6 - Summary Dokumen Menggunakan Centrality</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>Tugas 3 - Implementasi Hasil VSM dengan Algoritma Logistic Regression</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas5/centrality.html"><strong>Tugas 5 - Centrality Graph</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas6/summary.html"><strong>Tugas 6 - Summary Dokumen Menggunakan Centrality</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas7/Keyword_Extraction.html"><strong>Tugas 7 - Keyword Extraction Menggunakan Centrality</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas8/Matriks_SVD.html"><strong>Tugas 8 - Pengurangan Dimensi Bertahap pada Dokumen</strong></a></li>
 </ul>
 
     </div>
@@ -382,7 +385,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">Import Library</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menampilkan-data-dari-file-csv">Menampilkan Data dari File CSV</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengonversi-kategori-teks-menjadi-label-numerik-menggunakan-labelencoder">Mengonversi Kategori Teks Menjadi Label Numerik Menggunakan LabelEncoder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengonversi-teks-menjadi-numerik-menggunakan-labelencoder">Mengonversi Teks Menjadi Numerik Menggunakan LabelEncoder</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memisahkan-fitur-dan-target-untuk-training-model">Memisahkan Fitur dan Target untuk Training Model</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#membuat-dataframe-untuk-menampilkan-nilai-aktual-dan-prediksi">Membuat DataFrame untuk Menampilkan Nilai Aktual dan Prediksi</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-dan-visualisasi-confusion-matrix-serta-menampilkan-laporan-klasifikasi">Menghitung dan Visualisasi Confusion Matrix serta Menampilkan Laporan Klasifikasi</a></li>
@@ -399,7 +402,7 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="tugas-3-implementasi-hasil-vsm-dengan-algoritma-logistic-regression">
-<h1>Tugas 3 - Implementasi Hasil VSM dengan Algoritma Logistic Regression<a class="headerlink" href="#tugas-3-implementasi-hasil-vsm-dengan-algoritma-logistic-regression" title="Link to this heading">#</a></h1>
+<h1><strong>Tugas 3 - Implementasi Hasil VSM dengan Algoritma Logistic Regression</strong><a class="headerlink" href="#tugas-3-implementasi-hasil-vsm-dengan-algoritma-logistic-regression" title="Link to this heading">#</a></h1>
 <p>Nama : Isnita Widyur Rahmah
 NIM : 220411100048
 Kelas : IF 7A</p>
@@ -409,7 +412,6 @@ Kelas : IF 7A</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># library awal untuk perhitungan dan pengolahan teks</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="c1"># library untuk proses modeling</span>
@@ -432,12 +434,12 @@ Kelas : IF 7A</p>
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">15</span>
-<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="c1"># plotting</span>
-<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="ne">---&gt; </span><span class="mi">15</span> <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="c1"># save model</span>
-<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="kn">import</span> <span class="nn">pickle</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">14</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="c1"># plotting</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="ne">---&gt; </span><span class="mi">14</span> <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="c1"># save model</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="kn">import</span> <span class="nn">pickle</span>
 
 <span class="ne">ModuleNotFoundError</span>: No module named &#39;seaborn&#39;
 </pre></div>
@@ -1036,12 +1038,11 @@ Kelas : IF 7A</p>
 </div></div>
 </div>
 </section>
-<section id="mengonversi-kategori-teks-menjadi-label-numerik-menggunakan-labelencoder">
-<h2>Mengonversi Kategori Teks Menjadi Label Numerik Menggunakan LabelEncoder<a class="headerlink" href="#mengonversi-kategori-teks-menjadi-label-numerik-menggunakan-labelencoder" title="Link to this heading">#</a></h2>
+<section id="mengonversi-teks-menjadi-numerik-menggunakan-labelencoder">
+<h2>Mengonversi Teks Menjadi Numerik Menggunakan LabelEncoder<a class="headerlink" href="#mengonversi-teks-menjadi-numerik-menggunakan-labelencoder" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># menggunakan label_encoder untuk merubah kata menjadi angka</span>
-<span class="n">label_encoder</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="o">.</span><span class="n">LabelEncoder</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">label_encoder</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="o">.</span><span class="n">LabelEncoder</span><span class="p">()</span>
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Kategori&#39;</span><span class="p">]</span><span class="o">=</span> <span class="n">label_encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Kategori&#39;</span><span class="p">])</span>
 
 <span class="n">df</span>
@@ -2024,7 +2025,7 @@ weighted avg       1.00      1.00      1.00        20
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Tugas 5 - Centrality Graph</p>
+        <p class="prev-next-title"><strong>Tugas 5 - Centrality Graph</strong></p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -2046,7 +2047,7 @@ weighted avg       1.00      1.00      1.00        20
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">Import Library</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menampilkan-data-dari-file-csv">Menampilkan Data dari File CSV</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengonversi-kategori-teks-menjadi-label-numerik-menggunakan-labelencoder">Mengonversi Kategori Teks Menjadi Label Numerik Menggunakan LabelEncoder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengonversi-teks-menjadi-numerik-menggunakan-labelencoder">Mengonversi Teks Menjadi Numerik Menggunakan LabelEncoder</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memisahkan-fitur-dan-target-untuk-training-model">Memisahkan Fitur dan Target untuk Training Model</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#membuat-dataframe-untuk-menampilkan-nilai-aktual-dan-prediksi">Membuat DataFrame untuk Menampilkan Nilai Aktual dan Prediksi</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-dan-visualisasi-confusion-matrix-serta-menampilkan-laporan-klasifikasi">Menghitung dan Visualisasi Confusion Matrix serta Menampilkan Laporan Klasifikasi</a></li>
