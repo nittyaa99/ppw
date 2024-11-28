@@ -60,7 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'Tugas7/Keyword_Extraction';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Tugas 8 - Pengurangan Dimensi Bertahap pada Dokumen" href="../Tugas8/Matriks_SVD.html" />
+    <link rel="next" title="Tugas 8 - Implementasi Pencarian Dokumen Berbasis Latent Semantic Analysis (LSA) dengan Cosine Similarity" href="../Tugas8/Search.html" />
     <link rel="prev" title="Tugas 6 - Summary Dokumen Menggunakan Centrality" href="../Tugas6/summary.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -187,7 +187,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../Tugas5/centrality.html"><strong>Tugas 5 - Centrality Graph</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas6/summary.html"><strong>Tugas 6 - Summary Dokumen Menggunakan Centrality</strong></a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>Tugas 7 - Keyword Extraction Menggunakan Centrality</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Tugas8/Matriks_SVD.html"><strong>Tugas 8 - Pengurangan Dimensi Bertahap pada Dokumen</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas8/Search.html"><strong>Tugas 8 - Implementasi Pencarian Dokumen Berbasis Latent Semantic Analysis (LSA) dengan Cosine Similarity</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas9/Matriks_SVD.html"><strong>Tugas 9 - Pengurangan Dimensi Bertahap pada Dokumen</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas10/Clustering_Data.html"><strong>Tugas 10 - Implementasi Reduksi Dimensi PCA dan Fuzzy C-Means untuk Clustering Data</strong></a></li>
 </ul>
 
     </div>
@@ -426,13 +428,13 @@ Requirement already satisfied: pandas in c:\users\isnita\appdata\local\programs\
 Requirement already satisfied: requests in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (2.31.0)
 Requirement already satisfied: beautifulsoup4 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (4.12.3)
 Requirement already satisfied: joblib in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from nltk) (1.4.0)
-Requirement already satisfied: tqdm in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from nltk) (4.66.2)
 Requirement already satisfied: regex&gt;=2021.8.3 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from nltk) (2024.4.16)
 Requirement already satisfied: click in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from nltk) (8.1.7)
-Requirement already satisfied: python-dateutil&gt;=2.8.2 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from pandas) (2.8.2)
+Requirement already satisfied: tqdm in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from nltk) (4.66.2)
 Requirement already satisfied: tzdata&gt;=2022.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
-Requirement already satisfied: numpy&gt;=1.21.0 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (1.25.2)
 Requirement already satisfied: pytz&gt;=2020.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
+Requirement already satisfied: numpy&gt;=1.21.0 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (1.25.2)
+Requirement already satisfied: python-dateutil&gt;=2.8.2 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from pandas) (2.8.2)
 Requirement already satisfied: urllib3&lt;3,&gt;=1.21.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (2.0.4)
 Requirement already satisfied: idna&lt;4,&gt;=2.5 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (3.4)
 Requirement already satisfied: certifi&gt;=2017.4.17 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (2023.7.22)
@@ -451,18 +453,23 @@ Requirement already satisfied: colorama in c:\users\isnita\appdata\local\program
 </section>
 <section id="impor-pustaka">
 <h2>Impor Pustaka<a class="headerlink" href="#impor-pustaka" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>pandas digunakan untuk membuat DataFrame dan melakukan manipulasi data.</p></li>
+<li><p>requests digunakan untuk melakukan HTTP request untuk mendownload konten artikel.</p></li>
+<li><p>re digunakan untuk membersihkan tanda baca dan angka dari teks.</p></li>
+<li><p>BeautifulSoup digunakan untuk mem-parsing HTML dan mengambil data dari artikel.</p></li>
+<li><p>nltk digunakan untuk tokenisasi, menghapus stopwords, dan fungsi terkait pengolahan teks.</p></li>
+<li><p>word_tokenize dan sent_tokenize digunakan untuk memecah teks menjadi kata dan kalimat.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 
 <span class="kn">import</span> <span class="nn">nltk</span>
 <span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;stopwords&#39;</span><span class="p">)</span>
-<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;wordnet&#39;</span><span class="p">)</span>
-<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;punkt&#39;</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">sent_tokenize</span> <span class="p">,</span> <span class="n">word_tokenize</span>
 <span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">stopwords</span>
 </pre></div>
@@ -472,12 +479,6 @@ Requirement already satisfied: colorama in c:\users\isnita\appdata\local\program
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[nltk_data] Downloading package stopwords to
 [nltk_data]     C:\Users\ISNITA\AppData\Roaming\nltk_data...
 [nltk_data]   Package stopwords is already up-to-date!
-[nltk_data] Downloading package wordnet to
-[nltk_data]     C:\Users\ISNITA\AppData\Roaming\nltk_data...
-[nltk_data]   Package wordnet is already up-to-date!
-[nltk_data] Downloading package punkt to
-[nltk_data]     C:\Users\ISNITA\AppData\Roaming\nltk_data...
-[nltk_data]   Package punkt is already up-to-date!
 </pre></div>
 </div>
 </div>
@@ -610,7 +611,6 @@ Requirement already satisfied: colorama in c:\users\isnita\appdata\local\program
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">clean_patterns</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[0-9]|[/()</span><span class="si">{}</span><span class="s1">\[\]\|@,;_]|[^a-z .]+&#39;</span><span class="p">)</span>  <span class="c1"># Koma dihilangkan dari pengecualian</span>
         <span class="n">text</span> <span class="o">=</span> <span class="n">clean_patterns</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
-        <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">text</span>
     <span class="k">return</span> <span class="n">text</span>
 
@@ -1583,7 +1583,7 @@ Requirement already satisfied: colorama in c:\users\isnita\appdata\local\program
 <span class="n">keyword</span> <span class="o">=</span> <span class="mi">3</span>
 
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">freq</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sorted_word_frequencies</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
-    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">keyword</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">keyword</span><span class="p">:</span> 
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rank </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">word</span><span class="si">}</span><span class="s2"> (Frequency: </span><span class="si">{</span><span class="n">freq</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1639,11 +1639,11 @@ Rank 3: indonesia (Frequency: 9)
       </div>
     </a>
     <a class="right-next"
-       href="../Tugas8/Matriks_SVD.html"
+       href="../Tugas8/Search.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><strong>Tugas 8 - Pengurangan Dimensi Bertahap pada Dokumen</strong></p>
+        <p class="prev-next-title"><strong>Tugas 8 - Implementasi Pencarian Dokumen Berbasis Latent Semantic Analysis (LSA) dengan Cosine Similarity</strong></p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

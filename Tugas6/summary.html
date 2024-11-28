@@ -187,7 +187,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../Tugas5/centrality.html"><strong>Tugas 5 - Centrality Graph</strong></a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>Tugas 6 - Summary Dokumen Menggunakan Centrality</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas7/Keyword_Extraction.html"><strong>Tugas 7 - Keyword Extraction Menggunakan Centrality</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Tugas8/Matriks_SVD.html"><strong>Tugas 8 - Pengurangan Dimensi Bertahap pada Dokumen</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas8/Search.html"><strong>Tugas 8 - Implementasi Pencarian Dokumen Berbasis Latent Semantic Analysis (LSA) dengan Cosine Similarity</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas9/Matriks_SVD.html"><strong>Tugas 9 - Pengurangan Dimensi Bertahap pada Dokumen</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas10/Clustering_Data.html"><strong>Tugas 10 - Implementasi Reduksi Dimensi PCA dan Fuzzy C-Means untuk Clustering Data</strong></a></li>
 </ul>
 
     </div>
@@ -478,29 +480,34 @@ hint: See above for details.
 </section>
 <section id="impor-pustaka-untuk-analisis-dan-visualisasi-data-dan-graf">
 <h2>Impor Pustaka untuk Analisis dan Visualisasi Data dan Graf<a class="headerlink" href="#impor-pustaka-untuk-analisis-dan-visualisasi-data-dan-graf" title="Link to this heading">#</a></h2>
-<p>pandas dan numpy digunakan untuk analisis data, networkx untuk bekerja dengan graf.</p>
+<ul class="simple">
+<li><p>pandas digunakan untuk membuat DataFrame.</p></li>
+<li><p>requests digunakan untuk mengambil konten dari URL artikel.</p></li>
+<li><p>re digunakan untuk membersihkan teks, seperti penghapusan tanda baca dan normalisasi spasi.</p></li>
+<li><p>networkx digunakan untuk membuat dan memproses graf yang merepresentasikan hubungan antar kalimat dalam artikel.</p></li>
+<li><p>matplotlib.pyplot digunakan untuk menampilkan visualisasi graf.</p></li>
+<li><p>BeautifulSoup digunakan untuk mem-parsing HTML dari artikel yang diambil.</p></li>
+<li><p>nltk digunakan untuk tokenisasi kalimat dan kata (sent_tokenize, word_tokenize).</p></li>
+<li><p>cosine_similarity digunakan untuk menghitung kemiripan antar kalimat dalam bentuk matriks kosinus.</p></li>
+<li><p>TfidfVectorizer digunakan untuk mengubah teks menjadi representasi numerik berbasis TF-IDF.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
-
-<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span>
-<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
-
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
-
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">nltk</span>
-<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;stopwords&#39;</span><span class="p">)</span>
-<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;wordnet&#39;</span><span class="p">)</span>
-<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;punkt&#39;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">sent_tokenize</span> <span class="p">,</span> <span class="n">word_tokenize</span>
-<span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">stopwords</span>
 
-<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">cosine_similarity</span>
-<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">preprocessing</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;stopwords&#39;</span><span class="p">)</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;punkt&#39;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">sent_tokenize</span><span class="p">,</span> <span class="n">word_tokenize</span>
+<span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">stopwords</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">cosine_similarity</span> 
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
 </pre></div>
 </div>
 </div>
@@ -508,9 +515,6 @@ hint: See above for details.
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[nltk_data] Downloading package stopwords to
 [nltk_data]     C:\Users\ISNITA\AppData\Roaming\nltk_data...
 [nltk_data]   Package stopwords is already up-to-date!
-[nltk_data] Downloading package wordnet to
-[nltk_data]     C:\Users\ISNITA\AppData\Roaming\nltk_data...
-[nltk_data]   Package wordnet is already up-to-date!
 [nltk_data] Downloading package punkt to
 [nltk_data]     C:\Users\ISNITA\AppData\Roaming\nltk_data...
 [nltk_data]   Package punkt is already up-to-date!

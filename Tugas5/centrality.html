@@ -187,7 +187,9 @@
 <li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>Tugas 5 - Centrality Graph</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas6/summary.html"><strong>Tugas 6 - Summary Dokumen Menggunakan Centrality</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas7/Keyword_Extraction.html"><strong>Tugas 7 - Keyword Extraction Menggunakan Centrality</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Tugas8/Matriks_SVD.html"><strong>Tugas 8 - Pengurangan Dimensi Bertahap pada Dokumen</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas8/Search.html"><strong>Tugas 8 - Implementasi Pencarian Dokumen Berbasis Latent Semantic Analysis (LSA) dengan Cosine Similarity</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas9/Matriks_SVD.html"><strong>Tugas 9 - Pengurangan Dimensi Bertahap pada Dokumen</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas10/Clustering_Data.html"><strong>Tugas 10 - Implementasi Reduksi Dimensi PCA dan Fuzzy C-Means untuk Clustering Data</strong></a></li>
 </ul>
 
     </div>
@@ -426,10 +428,10 @@ Kelas : IF 7A</p>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: Sastrawi in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (1.0.1)
 Requirement already satisfied: pandas in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (2.0.3)
-Requirement already satisfied: python-dateutil&gt;=2.8.2 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from pandas) (2.8.2)
-Requirement already satisfied: tzdata&gt;=2022.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
 Requirement already satisfied: pytz&gt;=2020.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
 Requirement already satisfied: numpy&gt;=1.21.0 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (1.25.2)
+Requirement already satisfied: python-dateutil&gt;=2.8.2 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from pandas) (2.8.2)
+Requirement already satisfied: tzdata&gt;=2022.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
 Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas) (1.16.0)
 </pre></div>
 </div>
@@ -442,28 +444,34 @@ Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\py
 </section>
 <section id="impor-pustaka-untuk-analisis-dan-visualisasi-data-dan-graf">
 <h2>Impor Pustaka untuk Analisis dan Visualisasi Data dan Graf<a class="headerlink" href="#impor-pustaka-untuk-analisis-dan-visualisasi-data-dan-graf" title="Link to this heading">#</a></h2>
-<p>pandas dan numpy digunakan untuk analisis data, networkx untuk bekerja dengan graf, dan matpolib untuk visualisasi data.</p>
+<ul class="simple">
+<li><p>pandas digunakan untuk memuat dan memproses dataset.</p></li>
+<li><p>re digunakan untuk menghapus tanda baca dan memodifikasi teks menggunakan ekspresi reguler.</p></li>
+<li><p>tqdm digunakan untuk menampilkan progress bar, khususnya pada bagian stemming.</p></li>
+<li><p>nltk digunakan untuk mengunduh dan memanfaatkan stopwords dalam bahasa Indonesia.</p></li>
+<li><p>networkx digunakan untuk membuat dan memvisualisasikan graf hubungan antar dokumen.</p></li>
+<li><p>matplotlib.pyplot digunakan untuk visualisasi graf menggunakan NetworkX.</p></li>
+<li><p>stopwords digunakan untuk menghapus stopword dari teks.</p></li>
+<li><p>Sastrawi digunakan untuk stemming dalam bahasa Indonesia.</p></li>
+<li><p>cosine_similarity digunakan untuk menghitung kemiripan antara vektor dokumen.</p></li>
+<li><p>CountVectorizer dan TfidfVectorizer digunakan untuk mengubah teks menjadi representasi numerik (bag-of-words dan TF-IDF).</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">re</span>
-
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
-
-<span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">nltk</span>
 <span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
 <span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;stopwords&#39;</span><span class="p">)</span>
-<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;wordnet&#39;</span><span class="p">)</span>
-<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;punkt&#39;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
 <span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">stopwords</span>
 <span class="kn">from</span> <span class="nn">Sastrawi.Stemmer.StemmerFactory</span> <span class="kn">import</span> <span class="n">StemmerFactory</span>
-
 <span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">cosine_similarity</span>
 <span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">CountVectorizer</span>
 <span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">cosine_similarity</span>
 </pre></div>
 </div>
 </div>
@@ -471,12 +479,6 @@ Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\py
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[nltk_data] Downloading package stopwords to
 [nltk_data]     C:\Users\ISNITA\AppData\Roaming\nltk_data...
 [nltk_data]   Package stopwords is already up-to-date!
-[nltk_data] Downloading package wordnet to
-[nltk_data]     C:\Users\ISNITA\AppData\Roaming\nltk_data...
-[nltk_data]   Package wordnet is already up-to-date!
-[nltk_data] Downloading package punkt to
-[nltk_data]     C:\Users\ISNITA\AppData\Roaming\nltk_data...
-[nltk_data]   Package punkt is already up-to-date!
 </pre></div>
 </div>
 </div>

@@ -187,7 +187,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../Tugas5/centrality.html"><strong>Tugas 5 - Centrality Graph</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas6/summary.html"><strong>Tugas 6 - Summary Dokumen Menggunakan Centrality</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas7/Keyword_Extraction.html"><strong>Tugas 7 - Keyword Extraction Menggunakan Centrality</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Tugas8/Matriks_SVD.html"><strong>Tugas 8 - Pengurangan Dimensi Bertahap pada Dokumen</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas8/Search.html"><strong>Tugas 8 - Implementasi Pencarian Dokumen Berbasis Latent Semantic Analysis (LSA) dengan Cosine Similarity</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas9/Matriks_SVD.html"><strong>Tugas 9 - Pengurangan Dimensi Bertahap pada Dokumen</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas10/Clustering_Data.html"><strong>Tugas 10 - Implementasi Reduksi Dimensi PCA dan Fuzzy C-Means untuk Clustering Data</strong></a></li>
 </ul>
 
     </div>
@@ -412,25 +414,25 @@ Kelas : IF 7A</p>
 <h2>Install Pustaka<a class="headerlink" href="#install-pustaka" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">requests</span> <span class="n">beautifulsoup4</span> <span class="n">pandas</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">requests</span> <span class="n">beautifulsoup4</span> <span class="n">pandas</span> 
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: requests in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (2.31.0)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: requests in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (2.31.0)Note: you may need to restart the kernel to use updated packages.
+
 Requirement already satisfied: beautifulsoup4 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (4.12.3)
 Requirement already satisfied: pandas in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (2.0.3)
-Requirement already satisfied: certifi&gt;=2017.4.17 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (2023.7.22)
 Requirement already satisfied: charset-normalizer&lt;4,&gt;=2 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (3.3.2)
-Requirement already satisfied: idna&lt;4,&gt;=2.5 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (3.4)
+Requirement already satisfied: certifi&gt;=2017.4.17 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (2023.7.22)
 Requirement already satisfied: urllib3&lt;3,&gt;=1.21.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (2.0.4)
+Requirement already satisfied: idna&lt;4,&gt;=2.5 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (3.4)
 Requirement already satisfied: soupsieve&gt;1.2 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from beautifulsoup4) (2.6)
-Requirement already satisfied: python-dateutil&gt;=2.8.2 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from pandas) (2.8.2)
 Requirement already satisfied: pytz&gt;=2020.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
 Requirement already satisfied: tzdata&gt;=2022.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
 Requirement already satisfied: numpy&gt;=1.21.0 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (1.25.2)
+Requirement already satisfied: python-dateutil&gt;=2.8.2 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from pandas) (2.8.2)
 Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas) (1.16.0)
-Note: you may need to restart the kernel to use updated packages.
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[notice] A new release of pip available: 22.2.1 -&gt; 24.3.1
@@ -564,72 +566,72 @@ Note: you may need to restart the kernel to use updated packages.
   <tbody>
     <tr>
       <th>0</th>
-      <td>Bos BI Antisipasi 3 Dampak 'Bahaya' Kemenangan...</td>
-      <td>Gubernur Bank Indonesia (BI) Perry Warjiyo men...</td>
-      <td>Kamis, 07 Nov 2024 06:45 WIB</td>
+      <td>IHSG Berpotensi Menguat Hari Ini</td>
+      <td>Indeks Harga Saham Gabungan (IHSG) diproyeksi ...</td>
+      <td>Kamis, 28 Nov 2024 06:17 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>IHSG Diprediksi Berbalik Menguat Hari Ini</td>
-      <td>Indeks Harga Saham Gabungan (IHSG) diperkiraka...</td>
-      <td>Kamis, 07 Nov 2024 06:15 WIB</td>
+      <td>Diskusi Alot, China-UE Belum Capai Sepakat soa...</td>
+      <td>Negosiasi antara Uni Eropa (UE) dan China soal...</td>
+      <td>Rabu, 27 Nov 2024 20:21 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Menteri PPMI Ungkap Sebab TKI Masih Miskin Mes...</td>
-      <td>Menteri Pelindungan Pekerja Migran Indonesia (...</td>
-      <td>Kamis, 07 Nov 2024 05:32 WIB</td>
+      <td>Investasi Kawasan Ekonomi Khusus Tembus Rp242 ...</td>
+      <td>Sekretaris Jenderal Dewan Nasional Kawasan Eko...</td>
+      <td>Rabu, 27 Nov 2024 20:00 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Pertamina Gelar Eco RunFest 2024, Ajang Lari K...</td>
-      <td>PT Pertamina (Persero) akan menyelenggarakan a...</td>
-      <td>Rabu, 06 Nov 2024 22:02 WIB</td>
+      <td>Kabar Gembira, Harga Tiket Pesawat Turun 10 Pe...</td>
+      <td>Pemerintah menurunkan harga tiket pesawat dala...</td>
+      <td>Rabu, 27 Nov 2024 18:52 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>Genjot Investasi di DKI Jakarta, Kun Wardana J...</td>
-      <td>Calon Wakil Gubernur DKI Jakarta nomor urut 2 ...</td>
-      <td>Rabu, 06 Nov 2024 21:02 WIB</td>
+      <td>Bahlil soal Skema Baru Subsidi BBM: 'Blending'...</td>
+      <td>Menteri ESDM Bahlil Lahadalia mengungkapkan su...</td>
+      <td>Rabu, 27 Nov 2024 18:11 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>Utang Pinjol Warga RI Tembus Rp74,48 T per Sep...</td>
-      <td>Otoritas Jasa Keuangan (OJK) mencatat total pe...</td>
-      <td>Rabu, 06 Nov 2024 20:46 WIB</td>
+      <td>OJK Sebut Menkeu dan Menkes Godok Standar Klai...</td>
+      <td>Otoritas Jasa Keuangan (OJK) mengungkapkan pem...</td>
+      <td>Rabu, 27 Nov 2024 17:45 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>Pertamina Eco RunFest 2024, Ajang Lari Karbon ...</td>
-      <td>PT Pertamina (Persero) kembali menyelenggaraka...</td>
-      <td>Rabu, 06 Nov 2024 20:33 WIB</td>
+      <td>Luhut Ungkap Boeing Tawarkan Software Buat Tek...</td>
+      <td>Ketua Dewan Ekonomi Nasional Luhut Binsar Pand...</td>
+      <td>Rabu, 27 Nov 2024 17:37 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
       <th>7</th>
-      <td>Bantuan Pangan Lanjut hingga Februari 2025, Pe...</td>
-      <td>Kepala Badan Pangan Nasional Arief Prasetyo Ad...</td>
-      <td>Rabu, 06 Nov 2024 20:28 WIB</td>
+      <td>FOTO: Warga Girang Serbu Promo Pilkada 2024</td>
+      <td></td>
+      <td>Tanggal tidak ditemukan</td>
       <td>ekonomi</td>
     </tr>
     <tr>
       <th>8</th>
-      <td>Kun Wardana Klaim Bisa Kurangi PHK hingga 1.00...</td>
-      <td>Calon Wakil Gubernur DKI Jakarta nomor urut 2 ...</td>
-      <td>Rabu, 06 Nov 2024 20:16 WIB</td>
+      <td>RI Masuk 10 Besar Negara Kebocoran Tertinggi, ...</td>
+      <td>Indonesia masuk ke dalam 10 besar negara denga...</td>
+      <td>Rabu, 27 Nov 2024 16:39 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
       <th>9</th>
-      <td>Komitmen Keselamatan Kerja, SPTP Sosialisasika...</td>
-      <td>Dalam rangka mewujudkan lingkungan kerja yang ...</td>
-      <td>Rabu, 06 Nov 2024 20:07 WIB</td>
+      <td>Besaran Uang Lembur Bagi Karyawan yang Kerja S...</td>
+      <td>Karyawan yang bekerja saat penyelenggaraan Pil...</td>
+      <td>Rabu, 27 Nov 2024 13:45 WIB</td>
       <td>ekonomi</td>
     </tr>
   </tbody>

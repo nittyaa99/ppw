@@ -1,0 +1,950 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Tugas 10 - Implementasi Reduksi Dimensi PCA dan Fuzzy C-Means untuk Clustering Data &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Tugas10/Clustering_Data';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Tugas 9 - Pengurangan Dimensi Bertahap pada Dokumen" href="../Tugas9/Matriks_SVD.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Tugas1/Crawling_Berita_Online.html"><strong>Tugas 1 - Crawling Berita Online</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tugas2/crawl_berita.html"><strong>TUGAS 2 : Crawling 100 Berita Online 2 Kategori</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tugas2/vsm.html"><strong>TUGAS 2 : Membuat VSM dan Menghitung TF-IDF berdasarkan hasil crawling berita</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas3/training.html"><strong>Tugas 3 - Implementasi Hasil VSM dengan Algoritma Logistic Regression</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas5/centrality.html"><strong>Tugas 5 - Centrality Graph</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas6/summary.html"><strong>Tugas 6 - Summary Dokumen Menggunakan Centrality</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas7/Keyword_Extraction.html"><strong>Tugas 7 - Keyword Extraction Menggunakan Centrality</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas8/Search.html"><strong>Tugas 8 - Implementasi Pencarian Dokumen Berbasis Latent Semantic Analysis (LSA) dengan Cosine Similarity</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas9/Matriks_SVD.html"><strong>Tugas 9 - Pengurangan Dimensi Bertahap pada Dokumen</strong></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>Tugas 10 - Implementasi Reduksi Dimensi PCA dan Fuzzy C-Means untuk Clustering Data</strong></a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FTugas10/Clustering_Data.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Tugas10/Clustering_Data.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Tugas 10 - Implementasi Reduksi Dimensi PCA dan Fuzzy C-Means untuk Clustering Data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-library">Install Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">Import Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memisahkan-label-dan-fitur">Memisahkan Label dan Fitur</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengubah-label-menjadi-numerik-dengan-label-encoding">Mengubah Label Menjadi Numerik dengan Label Encoding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-dengan-pca-dan-fuzzy-c-means">Clustering dengan PCA dan Fuzzy C-Means</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-dimensi-dengan-akurasi-terbaik">Menentukan Dimensi dengan Akurasi Terbaik</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scatter-plot-untuk-dimensi-terbaik">Scatter Plot untuk Dimensi Terbaik</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scatter-plot-untuk-dimensi-2">Scatter Plot untuk Dimensi 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menampilkan-akurasi-per-dimensi">Menampilkan Akurasi per Dimensi</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#akurasi-tiap-dimensi">Akurasi tiap Dimensi</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="tugas-10-implementasi-reduksi-dimensi-pca-dan-fuzzy-c-means-untuk-clustering-data">
+<h1><strong>Tugas 10 - Implementasi Reduksi Dimensi PCA dan Fuzzy C-Means untuk Clustering Data</strong><a class="headerlink" href="#tugas-10-implementasi-reduksi-dimensi-pca-dan-fuzzy-c-means-untuk-clustering-data" title="Link to this heading">#</a></h1>
+<p>Nama : Isnita Widyur Rahmah
+NIM : 220411100048
+Kelas : IF 7A</p>
+<p>Link Project : <a class="github reference external" href="https://github.com/nittyaa99/ppw">nittyaa99/ppw</a></p>
+<section id="install-library">
+<h2>Install Library<a class="headerlink" href="#install-library" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>scikit-fuzzy
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting scikit-fuzzy
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[notice] A new release of pip available: 22.2.1 -&gt; 24.3.1
+[notice] To update, run: python.exe -m pip install --upgrade pip
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  Downloading scikit_fuzzy-0.5.0-py2.py3-none-any.whl (920 kB)
+     ------------------------------------ 920.8/920.8 kB 787.7 kB/s eta 0:00:00
+Installing collected packages: scikit-fuzzy
+Successfully installed scikit-fuzzy-0.5.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="import-library">
+<h2>Import Library<a class="headerlink" href="#import-library" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span> <span class="nn">skfuzzy.cluster</span> <span class="kn">import</span> <span class="n">cmeans</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="load-data">
+<h2>Load Data<a class="headerlink" href="#load-data" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;berita_vsm.csv&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;berita_vsm.csv&quot;</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">data</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\parsers\readers.py:912,</span> in <span class="ni">read_csv</span><span class="nt">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, date_format, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options, dtype_backend)</span>
+<span class="g g-Whitespace">    </span><span class="mi">899</span> <span class="n">kwds_defaults</span> <span class="o">=</span> <span class="n">_refine_defaults_read</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">900</span>     <span class="n">dialect</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">901</span>     <span class="n">delimiter</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">908</span>     <span class="n">dtype_backend</span><span class="o">=</span><span class="n">dtype_backend</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">909</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">910</span> <span class="n">kwds</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwds_defaults</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">912</span> <span class="k">return</span> <span class="n">_read</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\parsers\readers.py:577,</span> in <span class="ni">_read</span><span class="nt">(filepath_or_buffer, kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">574</span> <span class="n">_validate_names</span><span class="p">(</span><span class="n">kwds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;names&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">576</span> <span class="c1"># Create the parser.</span>
+<span class="ne">--&gt; </span><span class="mi">577</span> <span class="n">parser</span> <span class="o">=</span> <span class="n">TextFileReader</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">579</span> <span class="k">if</span> <span class="n">chunksize</span> <span class="ow">or</span> <span class="n">iterator</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">580</span>     <span class="k">return</span> <span class="n">parser</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\parsers\readers.py:1407,</span> in <span class="ni">TextFileReader.__init__</span><span class="nt">(self, f, engine, **kwds)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1404</span>     <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1406</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="p">:</span> <span class="n">IOHandles</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="ne">-&gt; </span><span class="mi">1407</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_engine</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\parsers\readers.py:1661,</span> in <span class="ni">TextFileReader._make_engine</span><span class="nt">(self, f, engine)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1659</span>     <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1660</span>         <span class="n">mode</span> <span class="o">+=</span> <span class="s2">&quot;b&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1661</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="o">=</span> <span class="n">get_handle</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1662</span>     <span class="n">f</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1663</span>     <span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1664</span>     <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1665</span>     <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compression&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1666</span>     <span class="n">memory_map</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;memory_map&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1667</span>     <span class="n">is_text</span><span class="o">=</span><span class="n">is_text</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1668</span>     <span class="n">errors</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding_errors&quot;</span><span class="p">,</span> <span class="s2">&quot;strict&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1669</span>     <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storage_options&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1670</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1671</span> <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="g g-Whitespace">   </span><span class="mi">1672</span> <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="o">.</span><span class="n">handle</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\common.py:859,</span> in <span class="ni">get_handle</span><span class="nt">(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">854</span> <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">855</span>     <span class="c1"># Check whether the filename is to be opened in binary mode.</span>
+<span class="g g-Whitespace">    </span><span class="mi">856</span>     <span class="c1"># Binary mode does not support &#39;encoding&#39; and &#39;newline&#39;.</span>
+<span class="g g-Whitespace">    </span><span class="mi">857</span>     <span class="k">if</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span> <span class="ow">and</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">858</span>         <span class="c1"># Encoding</span>
+<span class="ne">--&gt; </span><span class="mi">859</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">860</span>             <span class="n">handle</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">861</span>             <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">862</span>             <span class="n">encoding</span><span class="o">=</span><span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">863</span>             <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">864</span>             <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">865</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">866</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">867</span>         <span class="c1"># Binary mode</span>
+<span class="g g-Whitespace">    </span><span class="mi">868</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;berita_vsm.csv&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="memisahkan-label-dan-fitur">
+<h2>Memisahkan Label dan Fitur<a class="headerlink" href="#memisahkan-label-dan-fitur" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labels</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Kategori&#39;</span><span class="p">]</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Kategori&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="mengubah-label-menjadi-numerik-dengan-label-encoding">
+<h2>Mengubah Label Menjadi Numerik dengan Label Encoding<a class="headerlink" href="#mengubah-label-menjadi-numerik-dengan-label-encoding" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">label_encoder</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="n">encoded_labels</span> <span class="o">=</span> <span class="n">label_encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="clustering-dengan-pca-dan-fuzzy-c-means">
+<h2>Clustering dengan PCA dan Fuzzy C-Means<a class="headerlink" href="#clustering-dengan-pca-dan-fuzzy-c-means" title="Link to this heading">#</a></h2>
+<p>Fuzzy C-Means (FCM) adalah metode clustering yang memperbolehkan sebuah data menjadi anggota lebih dari satu cluster dengan derajat keanggotaan tertentu (bukan hanya keanggotaan keras seperti pada K-Means).
+<img alt="Screenshot 2024-11-28 064623.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWUAAACTCAYAAABWOQgLAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAABukSURBVHhe7Z0JuFVTG8dXqY8MUTJTQiUqlAypaKJCGTLlEREpSkqGhCIpURlDJWSqhAYzCUmTIZQUMkWRDEWU+PxWe2Xb3fHcs/dZ5/b/Pc957j373GGP//W+73rfd5WoXLny30YIIYQXlAy+CiGE8ACJshBCeIREWQghPEKiLIQQHiFRFkIIj5AoCyGER0iUhRDCIyTKQgjhERJlIYTwCImyEEJ4hERZCCE8QqIshBAeIVEWQgiPkCgLIYRHSJSFEMIjJMpCCOEREmUhhPAIibIQQniERFkIITxCoiyEEB4hURZCCI+QKAshhEdIlIUQwiMkykII4RESZSGE8AiJshBCeIREWQghPKJE5cqV/w6+Fx5RsWJF0717d7PjjjsGW4yZPXu2GTJkSPDOmJo1a5rOnTubbbfdNthizO+//25Gjhxp3nzzzWBL5mnUqJFp27atqVatmvnf//5n1qxZY0qWLGnmzJljBg0aZK688kq73z179gx+Q4hNF1nKnrJ8+XIzceJEM23aNLPHHnuYKlWqWHFDiB3Lli0zU6dONWvXrjV77rmn+e6778yECRPMokWLgp/ILAwoQ4cONf379zc77LCDHSwaN25sGjZsaDp16mQ/HzVqlKlTp45ZsmRJ8FtCbNpsVq5cuT7B98IjENrFixeb2rVrm91228389ddf5p9rZX755Rcza9Ys+zO//vqrmTdvnhXqEiVKmI4dO5qPP/7Ybs80e+21lxk4cKCpVauWef31103Xrl2tZcxxAQPIqlWrTIMGDey2J5980nz22Wf2MyE2ZWQpe07VqlXNp59+asW3VKlS5rDDDjNbbrll8Ol6KlWq5I11DOzfddddZ/bZZx/z9ttvm759+5rffvst+PRf3njjDbNixQqzcuVKs3DhwmCrEJs2EmWPQdxw8T/55BMbxli9erWNNbds2TL4CWMOPPBAs91225kvvvgi2JJ5evToYePHhGAIT+QkyMB2PAAs5C+//DLYKsSmjUTZY+rVq2e22morawU/++yzVrjKlClj6tevH/zEeksa5s+fb79mmiOOOMLuH+EULGFCFnmBlbxgwYLg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" />
+<img alt="Screenshot 2024-11-28 064707.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARcAAAB7CAYAAABeksRBAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAABqpSURBVHhe7d0JuOX1HMfxH5UlhYg8plUSJktRSrbKElHE00hlSVKE0aKUpRI1jBiVikqSZ4YYI6WkhWiXLGXfJi2W9iRS4vWb85v+c+bc2z33nv+953/O9/0857nn/u+5557/uef3+X/33wPWWmute1MQBEGPeWDraxAEQU8JcQmCoBZCXIIgqIUQlyAIaiHEJQiCWghxCYKgFkJcgiCohRCXIAhqIcQlCIJaCHEJgqAWQlyCIKiFEJcgCGohxCUIgloIcQmCoBZCXIIgqIUQlyAIaiHEJQiCWghxCYKgFkJcgiCohRCXIAhqIcQlCIJaiOn/wVKsvvrqac8990yPfexjW0dSuuyyy9KnPvWp1ncpPe1pT0vveMc70iMe8YjWkZT+9a9/peOPPz5dcMEFrSPBMLPMSiutdGDrfhBk/vOf/6Q77rgj/fOf/0ybbrppWmWVVdLKK6+crrzyyvS3v/2t9aj/X5ke8IC09tpr59tvfvObdOaZZ6af/vSn+XeDIMQlWAri8sc//jFtsMEGadq0aem///1v+v/nJN12223p0ksvzY8hIFdddVW2YIjM29/+9vTrX/86hCVYTMRcghF50pOelH7/+99nEVl22WXTxhtvnJZffvnWTxexxhprpN/+9ret74LgPkJcgo4QETGX3/3ud+mHP/xhuvPOO3Ms5hWveEXrESk985nPTI985CPTwoULW0eC4D5CXIKOPPe5z00Pe9jDslXy7W9/O1199dXpoQ99aHre857XesQiywa/+MUv8tcgqBLZoj7kIx/5SF7ED3xgfdp/7rnnpoMOOqj13dKIobzgBS9Ib3vb23Jgd4899kg77LBDjrscfPDBOSP0vve9Lz31qU9Nb37zm1u/FQT3EQHdPoSwWLQPfvCD0zLLLJN+9atfpZ/97GfpT3/605huf/7zn9M999yT/v3vf2drw81zLbfccotvK6644lLZnypveMMb0j/+8Y90+umn5++5RWIuskbEhqv0lre8JQd+zz///PyYIKgSlksfIt7xmc98Jj3jGc/I3996663p4x//eDrrrLPy990idrLVVlulbbbZJj3+8Y/P2Z277rorff7zn08nnnhi61H34e8fe+yx6cILL0xHH31062hKH/3oR9NLXvKS9Je//CW/vt122y2deuqp6aSTTmo9IgjuI2IufQjL4Atf+MJiq0KhGtfjCU94Qv6+WzyP53v1q1+dv3r+Bz3oQbmGpRPVeEsVFsrtt9+eHvOYx6QtttgiH2tSvGXrrbfOYkik3/ve9+Y0+pw5c9I555yTb5/4xCeyEL/pTW9KCxYsSN///vfzV+5g0D3hFvUpXBsL3ALgGqkzefjDH57OO++81iPGx49+9KMsEKwirhG3xt+q8rKXvSxbOJ/97GdzzUtBWlrty5prrpnrX4jWUUcd1fppfyPT9c53vjMLpKLADTfcMIuoymOxI4L50pe+ND3nOc9JT3ziE9Phhx+eheXFL35xmj59enZL//73v7eeLRgLYbn0MdwWV8977703B3c333zzHGCdKF//+tfT1772tez+dLJeLC6uDwunnZKWZvk0qb5lo402yrU6l1xySX7t7rNgjjzyyHyeXE/vs/jUBz7wgXTRRReln//85/lciTyxDbojxKXPOe6443KtCSwKrs1I7kw3iLWoqH3605++RGGcq7dg8kiVtiUtrY/I7zcFVof2BHU5LLZrr702u4iFVVddNQs4y+YPf/hDPvb85z8/W4zei+uuuy4fC8ZOiEuf44M+b968nAKGmIAsTVUQxoOr9S677JJ23HHHfJ8rxOUStJURevnLX56/d7yKx1588cXp5ptvXrwImwAL8Etf+lJab7310gorrJAFslhm3kvWGsHk+hWIrMcSoqjl6Z4QlwYgCPmtb30r3X333fl7C0ScoJd85zvfSZtttlmORZSb7x1vhysh8yR+0zRWW221/LUaZ3rWs56VLRSCqfGy8OxnPzt/rR4Lxk6IS0P43Oc+l3784x/nuIAArwK31772ta2fDg9Ebe7cudkS8ZWF1Yldd901HXjggVk4CoK6Mm7qd9T4FIqFcv3112eLBlxPj7/hhhtySt64CVbdZLHJJpvkmJss1ne/+9106KGH5uA+y1URo2Nu7jvWj4S4NAQmfDU9LW6w00475Q/csEBMVQoTB+Ky1lpr5QxQsTAKUsfeG/Gj6s+0K3jfWCgEo+C4eIuxEQXHCM4111yT3UQBXX9zMlA/NGvWrPSQhzwkW6xeFyty//33z9XbhOeMM87I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" />
+<img alt="Screenshot 2024-11-28 064748.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWwAAAB4CAYAAADWr8iAAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAABqVSURBVHhe7Z0JuEzlH8ffdklKCy0SUaENlWixtFhDi6IiqbSREEmRokJUpBQpRUWLNqRNJKVdRCqVlCRtaFFS/v/P67w5prnunZlz5p4z9/t5nnnunTNz76zn+/7e37pFhQoV1hshhBCRZ0vvpxBCiIgjwRZCiJggwRYiQA4//HDTtm1bU7x4ce+IEMEhwRYiABDorl27mkGDBpnWrVubqlWrercIERwKOgqRJh07djSVKlUy5cqVM6VLlzbFihWzx1esWGH69u1r3n33XXtdiKCQhS1EmtSsWdPUqFHDlChRwixYsMCsXLnSu0WIcJBgC5Em7dq1M3Xr1jUNGzY0o0ePNmvXrvVuESIcJNhCCBETJNhCCBETJNhCCBETJNhCCBETJNhCCBETJNhCCBETJNhCCBETJNhCCBETJNhCCBETJNhCCBETJNhCCBETJNhCCBETJNhCCBET1A9biDQ599xzTcWKFe3vu+yyi502s80225g1a9bYXti//PKLvY3fJ02aZH8XIhMk2EKkyYgRI8yRRx7pXcubZ555xtx4443eNSHSR4IthBAxQT5sIYSICRJsIYSICRJsIYSICRJsIYSICRJsIYSICRJsIYSICaGm9ZUuXdp06tTJ1K5d215//fXXzS233GJ+//13e91BwUGzZs3MsmXLzKhRo7yjQggh/IRmYRcvXtz07dvXivXUqVPNb7/9Zho1amSuvPJK7x4b6dy5s2natKk54YQTvCNCCCESCc3C7tKlixXhe+65x7zzzjtm2LBhpmzZsuaDDz4wHTp08O5lzHHHHWf69OljSpUqZWbOnJlU0MOGEuOGDRuaLbbYwjuSPj/88IMZOnSo+eKLL7wjQggRDKFY2OXKlTPHHnusWbRokZk4caKpUqWKKVmypL1t9erV9qejcuXKpkSJEubvv/82X3/9tXf0vxxxxBGmatWq3rXkcPsxxxzjXSs4f/zxh/nnn3+8awWH57x48WL7Ot3lyy+/NOvWrfPuIYQQwRGKhY212r17d/PEE0+YkSNHWgsaH/XatWutj3rs2LHePY256aabTIMGDcyvv/5qBg4caF54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" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1"># Fuzzy C-Means Clustering dan PCA untuk dimensi yang berbeda</span>
+<span class="n">max_dim</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">features</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_dim</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="c1"># Kurangi dimensi data</span>
+    <span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">dim</span><span class="p">)</span>
+    <span class="n">reduced_features</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+
+    <span class="c1"># Fuzzy C-Means Clustering</span>
+    <span class="n">cntr</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">u0</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">jm</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">fpc</span> <span class="o">=</span> <span class="n">cmeans</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">reduced_features</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+        <span class="n">c</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>                  <span class="c1"># 2 clusters</span>
+        <span class="n">m</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>                <span class="c1"># Tingkat fuzziness</span>
+        <span class="n">error</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span>          <span class="c1"># Toleransi error</span>
+        <span class="n">maxiter</span><span class="o">=</span><span class="mi">1000</span>          <span class="c1"># Iterasi maksimum</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Keanggotaan cluster</span>
+    <span class="n">cluster_membership</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Hitung akurasi berdasarkan label asli</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+        <span class="n">accuracy_score</span><span class="p">(</span><span class="n">encoded_labels</span><span class="p">,</span> <span class="n">cluster_membership</span><span class="p">),</span>
+        <span class="n">accuracy_score</span><span class="p">(</span><span class="n">encoded_labels</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">cluster_membership</span><span class="p">)</span>  <span class="c1"># Cek inversi cluster</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Simpan hasil</span>
+    <span class="n">results</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;pca_features&#39;</span><span class="p">:</span> <span class="n">reduced_features</span><span class="p">,</span>
+        <span class="s1">&#39;centroids&#39;</span><span class="p">:</span> <span class="n">cntr</span><span class="p">,</span>
+        <span class="s1">&#39;membership&#39;</span><span class="p">:</span> <span class="n">cluster_membership</span><span class="p">,</span>
+        <span class="s1">&#39;accuracy&#39;</span><span class="p">:</span> <span class="n">accuracy</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="menentukan-dimensi-dengan-akurasi-terbaik">
+<h2>Menentukan Dimensi dengan Akurasi Terbaik<a class="headerlink" href="#menentukan-dimensi-dengan-akurasi-terbaik" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_dim</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">dim</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="n">dim</span><span class="p">][</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+<span class="n">best_accuracy</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">best_dim</span><span class="p">][</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Akurasi terbaik: </span><span class="si">{</span><span class="n">best_accuracy</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> pada dimensi </span><span class="si">{</span><span class="n">best_dim</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Akurasi terbaik: 0.97 pada dimensi 42.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="scatter-plot-untuk-dimensi-terbaik">
+<h2>Scatter Plot untuk Dimensi Terbaik<a class="headerlink" href="#scatter-plot-untuk-dimensi-terbaik" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Scatter plot untuk dimensi terbaik (2 dimensi)</span>
+<span class="n">final_result</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">best_dim</span><span class="p">]</span>
+<span class="n">pca_features</span> <span class="o">=</span> <span class="n">final_result</span><span class="p">[</span><span class="s1">&#39;pca_features&#39;</span><span class="p">]</span>
+<span class="n">centroids</span> <span class="o">=</span> <span class="n">final_result</span><span class="p">[</span><span class="s1">&#39;centroids&#39;</span><span class="p">]</span>
+<span class="n">membership</span> <span class="o">=</span> <span class="n">final_result</span><span class="p">[</span><span class="s1">&#39;membership&#39;</span><span class="p">]</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">final_result</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>  <span class="c1"># Untuk 2 cluster</span>
+    <span class="n">cluster_points</span> <span class="o">=</span> <span class="n">pca_features</span><span class="p">[</span><span class="n">membership</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">cluster_points</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">cluster_points</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Cluster </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+
+<span class="c1"># Tambahkan centroid</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">centroids</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">centroids</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Centroid&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fuzzy C-Means Clustering (Dimensi PCA </span><span class="si">{</span><span class="n">best_dim</span><span class="si">}</span><span class="s2">) - Akurasi: </span><span class="si">{</span><span class="n">accuracy</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Komponen PCA 1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Komponen PCA 2&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/eb44ffe25c44ae354a6583a1a53d49fc06284f1793bb3506f6ca11e389d393c3.png" src="../_images/eb44ffe25c44ae354a6583a1a53d49fc06284f1793bb3506f6ca11e389d393c3.png" />
+</div>
+</div>
+</section>
+<section id="scatter-plot-untuk-dimensi-2">
+<h2>Scatter Plot untuk Dimensi 2<a class="headerlink" href="#scatter-plot-untuk-dimensi-2" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">final_result_2d</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">pca_features_2d</span> <span class="o">=</span> <span class="n">final_result_2d</span><span class="p">[</span><span class="s1">&#39;pca_features&#39;</span><span class="p">]</span>
+<span class="n">centroids_2d</span> <span class="o">=</span> <span class="n">final_result_2d</span><span class="p">[</span><span class="s1">&#39;centroids&#39;</span><span class="p">]</span>
+<span class="n">membership_2d</span> <span class="o">=</span> <span class="n">final_result_2d</span><span class="p">[</span><span class="s1">&#39;membership&#39;</span><span class="p">]</span>
+<span class="n">accuracy_2d</span> <span class="o">=</span> <span class="n">final_result_2d</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span>
+
+<span class="c1"># Scatter Plot untuk Dimensi 2</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>  <span class="c1"># Untuk 2 cluster</span>
+    <span class="n">cluster_points</span> <span class="o">=</span> <span class="n">pca_features_2d</span><span class="p">[</span><span class="n">membership_2d</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">cluster_points</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">cluster_points</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Cluster </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+
+<span class="c1"># Tambahkan centroid</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">centroids_2d</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">centroids_2d</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Centroid&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fuzzy C-Means Clustering (Dimensi PCA 2) - Akurasi: </span><span class="si">{</span><span class="n">accuracy_2d</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Komponen PCA 1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Komponen PCA 2&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/fc5d007c4c8c11539455040eec37bf3eef98ab342d823e83cfb46ea187871de9.png" src="../_images/fc5d007c4c8c11539455040eec37bf3eef98ab342d823e83cfb46ea187871de9.png" />
+</div>
+</div>
+</section>
+<section id="menampilkan-akurasi-per-dimensi">
+<h2>Menampilkan Akurasi per Dimensi<a class="headerlink" href="#menampilkan-akurasi-per-dimensi" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dim_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="n">accuracy_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dim_list</span><span class="p">,</span> <span class="n">accuracy_list</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Akurasi per Dimensi&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Jumlah Dimensi&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Akurasi&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Perbandingan Akurasi Fuzzy C-Means Clustering dengan PCA&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">best_dim</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Akurasi Terbaik: </span><span class="si">{</span><span class="n">best_accuracy</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/047cc54a9988add92bbe73baf9e7b9f389104473dacf1bd8aa6d7e54dc05d216.png" src="../_images/047cc54a9988add92bbe73baf9e7b9f389104473dacf1bd8aa6d7e54dc05d216.png" />
+</div>
+</div>
+</section>
+<section id="akurasi-tiap-dimensi">
+<h2>Akurasi tiap Dimensi<a class="headerlink" href="#akurasi-tiap-dimensi" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">dim</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dimensi: </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">, Akurasi: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dimensi: 100, Akurasi: 0.91
+Dimensi: 99, Akurasi: 0.61
+Dimensi: 98, Akurasi: 0.83
+Dimensi: 97, Akurasi: 0.78
+Dimensi: 96, Akurasi: 0.83
+Dimensi: 95, Akurasi: 0.89
+Dimensi: 94, Akurasi: 0.83
+Dimensi: 93, Akurasi: 0.88
+Dimensi: 92, Akurasi: 0.86
+Dimensi: 91, Akurasi: 0.91
+Dimensi: 90, Akurasi: 0.91
+Dimensi: 89, Akurasi: 0.89
+Dimensi: 88, Akurasi: 0.83
+Dimensi: 87, Akurasi: 0.78
+Dimensi: 86, Akurasi: 0.89
+Dimensi: 85, Akurasi: 0.75
+Dimensi: 84, Akurasi: 0.80
+Dimensi: 83, Akurasi: 0.88
+Dimensi: 82, Akurasi: 0.88
+Dimensi: 81, Akurasi: 0.91
+Dimensi: 80, Akurasi: 0.88
+Dimensi: 79, Akurasi: 0.67
+Dimensi: 78, Akurasi: 0.78
+Dimensi: 77, Akurasi: 0.83
+Dimensi: 76, Akurasi: 0.88
+Dimensi: 75, Akurasi: 0.59
+Dimensi: 74, Akurasi: 0.86
+Dimensi: 73, Akurasi: 0.91
+Dimensi: 72, Akurasi: 0.74
+Dimensi: 71, Akurasi: 0.92
+Dimensi: 70, Akurasi: 0.91
+Dimensi: 69, Akurasi: 0.91
+Dimensi: 68, Akurasi: 0.86
+Dimensi: 67, Akurasi: 0.86
+Dimensi: 66, Akurasi: 0.88
+Dimensi: 65, Akurasi: 0.80
+Dimensi: 64, Akurasi: 0.91
+Dimensi: 63, Akurasi: 0.80
+Dimensi: 62, Akurasi: 0.91
+Dimensi: 61, Akurasi: 0.86
+Dimensi: 60, Akurasi: 0.91
+Dimensi: 59, Akurasi: 0.81
+Dimensi: 58, Akurasi: 0.86
+Dimensi: 57, Akurasi: 0.88
+Dimensi: 56, Akurasi: 0.91
+Dimensi: 55, Akurasi: 0.82
+Dimensi: 54, Akurasi: 0.88
+Dimensi: 53, Akurasi: 0.77
+Dimensi: 52, Akurasi: 0.88
+Dimensi: 51, Akurasi: 0.86
+Dimensi: 50, Akurasi: 0.88
+Dimensi: 49, Akurasi: 0.88
+Dimensi: 48, Akurasi: 0.88
+Dimensi: 47, Akurasi: 0.86
+Dimensi: 46, Akurasi: 0.88
+Dimensi: 45, Akurasi: 0.72
+Dimensi: 44, Akurasi: 0.78
+Dimensi: 43, Akurasi: 0.77
+Dimensi: 42, Akurasi: 0.97
+Dimensi: 41, Akurasi: 0.88
+Dimensi: 40, Akurasi: 0.83
+Dimensi: 39, Akurasi: 0.94
+Dimensi: 38, Akurasi: 0.85
+Dimensi: 37, Akurasi: 0.80
+Dimensi: 36, Akurasi: 0.86
+Dimensi: 35, Akurasi: 0.91
+Dimensi: 34, Akurasi: 0.91
+Dimensi: 33, Akurasi: 0.83
+Dimensi: 32, Akurasi: 0.86
+Dimensi: 31, Akurasi: 0.83
+Dimensi: 30, Akurasi: 0.83
+Dimensi: 29, Akurasi: 0.75
+Dimensi: 28, Akurasi: 0.75
+Dimensi: 27, Akurasi: 0.50
+Dimensi: 26, Akurasi: 0.83
+Dimensi: 25, Akurasi: 0.80
+Dimensi: 24, Akurasi: 0.78
+Dimensi: 23, Akurasi: 0.80
+Dimensi: 22, Akurasi: 0.80
+Dimensi: 21, Akurasi: 0.80
+Dimensi: 20, Akurasi: 0.80
+Dimensi: 19, Akurasi: 0.80
+Dimensi: 18, Akurasi: 0.86
+Dimensi: 17, Akurasi: 0.86
+Dimensi: 16, Akurasi: 0.86
+Dimensi: 15, Akurasi: 0.83
+Dimensi: 14, Akurasi: 0.85
+Dimensi: 13, Akurasi: 0.83
+Dimensi: 12, Akurasi: 0.83
+Dimensi: 11, Akurasi: 0.86
+Dimensi: 10, Akurasi: 0.86
+Dimensi: 9, Akurasi: 0.86
+Dimensi: 8, Akurasi: 0.86
+Dimensi: 7, Akurasi: 0.83
+Dimensi: 6, Akurasi: 0.72
+Dimensi: 5, Akurasi: 0.72
+Dimensi: 4, Akurasi: 0.72
+Dimensi: 3, Akurasi: 0.72
+Dimensi: 2, Akurasi: 0.72
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Tugas10"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../Tugas9/Matriks_SVD.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><strong>Tugas 9 - Pengurangan Dimensi Bertahap pada Dokumen</strong></p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-library">Install Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">Import Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memisahkan-label-dan-fitur">Memisahkan Label dan Fitur</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengubah-label-menjadi-numerik-dengan-label-encoding">Mengubah Label Menjadi Numerik dengan Label Encoding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-dengan-pca-dan-fuzzy-c-means">Clustering dengan PCA dan Fuzzy C-Means</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-dimensi-dengan-akurasi-terbaik">Menentukan Dimensi dengan Akurasi Terbaik</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scatter-plot-untuk-dimensi-terbaik">Scatter Plot untuk Dimensi Terbaik</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scatter-plot-untuk-dimensi-2">Scatter Plot untuk Dimensi 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menampilkan-akurasi-per-dimensi">Menampilkan Akurasi per Dimensi</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#akurasi-tiap-dimensi">Akurasi tiap Dimensi</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
