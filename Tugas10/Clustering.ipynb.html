@@ -1,0 +1,2689 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Implementasi Reduksi Dimensi SVD dan Fuzzy C-Means untuk Clustering Data &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Tugas10/Clustering.ipynb';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Tugas1/Crawling_Berita_Online.html"><strong>Tugas 1 - Crawling Berita Online</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tugas2/crawl_berita.html"><strong>TUGAS 2 : Crawling 100 Berita Online 2 Kategori</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tugas2/vsm.html"><strong>TUGAS 2 : Membuat VSM dan Menghitung TF-IDF berdasarkan hasil crawling berita</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas3/training.html"><strong>Tugas 3 - Implementasi Hasil VSM dengan Algoritma Logistic Regression</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas5/centrality.html"><strong>Tugas 5 - Centrality Graph</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas6/summary.html"><strong>Tugas 6 - Summary Dokumen Menggunakan Centrality</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas7/Keyword_Extraction.html"><strong>Tugas 7 - Keyword Extraction Menggunakan Centrality</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas8/Search.html"><strong>Tugas 8 - Implementasi Pencarian Dokumen Berbasis Latent Semantic Analysis (LSA) dengan Cosine Similarity</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas9/Matriks_SVD.html"><strong>Tugas 9 - Pengurangan Dimensi Bertahap pada Dokumen</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Clustering_Data.html"><strong>Tugas 10 - Implementasi Reduksi Dimensi PCA dan Fuzzy C-Means untuk Clustering Data</strong></a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FTugas10/Clustering.ipynb.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Tugas10/Clustering.ipynb.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Implementasi Reduksi Dimensi SVD dan Fuzzy C-Means untuk Clustering Data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-library">Install Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">Import Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memisahkan-label-dan-fitur">Memisahkan Label dan Fitur</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengubah-label-menjadi-numerik-menggunakan-label-encoding">Mengubah Label menjadi Numerik menggunakan Label Encoding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-dengan-svd-dan-fuzzy-c-means">Clustering dengan SVD dan Fuzzy C-Means</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-dimensi-dengan-akurasi-terbaik">Menentukan Dimensi dengan Akurasi Terbaik</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scatter-plot-untuk-dimensi-terbaik">Scatter Plot untuk Dimensi Terbaik</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menampilkan-akurasi-per-dimensi">Menampilkan Akurasi per Dimensi</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#akurasi-tiap-dimensi">Akurasi tiap Dimensi</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="implementasi-reduksi-dimensi-svd-dan-fuzzy-c-means-untuk-clustering-data">
+<h1><strong>Implementasi Reduksi Dimensi SVD dan Fuzzy C-Means untuk Clustering Data</strong><a class="headerlink" href="#implementasi-reduksi-dimensi-svd-dan-fuzzy-c-means-untuk-clustering-data" title="Link to this heading">#</a></h1>
+<p>Nama : Isnita Widyur Rahmah
+NIM : 220411100048
+Kelas : IF 7A</p>
+<p>Link Project : <a class="github reference external" href="https://github.com/nittyaa99/ppw">nittyaa99/ppw</a></p>
+<section id="install-library">
+<h2>Install Library<a class="headerlink" href="#install-library" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>scikit-fuzzy
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: scikit-fuzzy in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (0.5.0)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[notice] A new release of pip available: 22.2.1 -&gt; 24.3.1
+[notice] To update, run: python.exe -m pip install --upgrade pip
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="import-library">
+<h2>Import Library<a class="headerlink" href="#import-library" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">TruncatedSVD</span>
+<span class="kn">from</span> <span class="nn">skfuzzy.cluster</span> <span class="kn">import</span> <span class="n">cmeans</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="load-data">
+<h2>Load Data<a class="headerlink" href="#load-data" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;berita_vsm.csv&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;berita_vsm.csv&quot;</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">data</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\parsers\readers.py:912,</span> in <span class="ni">read_csv</span><span class="nt">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, date_format, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options, dtype_backend)</span>
+<span class="g g-Whitespace">    </span><span class="mi">899</span> <span class="n">kwds_defaults</span> <span class="o">=</span> <span class="n">_refine_defaults_read</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">900</span>     <span class="n">dialect</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">901</span>     <span class="n">delimiter</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">908</span>     <span class="n">dtype_backend</span><span class="o">=</span><span class="n">dtype_backend</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">909</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">910</span> <span class="n">kwds</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwds_defaults</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">912</span> <span class="k">return</span> <span class="n">_read</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\parsers\readers.py:577,</span> in <span class="ni">_read</span><span class="nt">(filepath_or_buffer, kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">574</span> <span class="n">_validate_names</span><span class="p">(</span><span class="n">kwds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;names&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">576</span> <span class="c1"># Create the parser.</span>
+<span class="ne">--&gt; </span><span class="mi">577</span> <span class="n">parser</span> <span class="o">=</span> <span class="n">TextFileReader</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">579</span> <span class="k">if</span> <span class="n">chunksize</span> <span class="ow">or</span> <span class="n">iterator</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">580</span>     <span class="k">return</span> <span class="n">parser</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\parsers\readers.py:1407,</span> in <span class="ni">TextFileReader.__init__</span><span class="nt">(self, f, engine, **kwds)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1404</span>     <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1406</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="p">:</span> <span class="n">IOHandles</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="ne">-&gt; </span><span class="mi">1407</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_engine</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\parsers\readers.py:1661,</span> in <span class="ni">TextFileReader._make_engine</span><span class="nt">(self, f, engine)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1659</span>     <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1660</span>         <span class="n">mode</span> <span class="o">+=</span> <span class="s2">&quot;b&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1661</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="o">=</span> <span class="n">get_handle</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1662</span>     <span class="n">f</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1663</span>     <span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1664</span>     <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1665</span>     <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compression&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1666</span>     <span class="n">memory_map</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;memory_map&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1667</span>     <span class="n">is_text</span><span class="o">=</span><span class="n">is_text</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1668</span>     <span class="n">errors</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding_errors&quot;</span><span class="p">,</span> <span class="s2">&quot;strict&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1669</span>     <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storage_options&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1670</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1671</span> <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="g g-Whitespace">   </span><span class="mi">1672</span> <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="o">.</span><span class="n">handle</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\common.py:859,</span> in <span class="ni">get_handle</span><span class="nt">(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">854</span> <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">855</span>     <span class="c1"># Check whether the filename is to be opened in binary mode.</span>
+<span class="g g-Whitespace">    </span><span class="mi">856</span>     <span class="c1"># Binary mode does not support &#39;encoding&#39; and &#39;newline&#39;.</span>
+<span class="g g-Whitespace">    </span><span class="mi">857</span>     <span class="k">if</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span> <span class="ow">and</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">858</span>         <span class="c1"># Encoding</span>
+<span class="ne">--&gt; </span><span class="mi">859</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">860</span>             <span class="n">handle</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">861</span>             <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">862</span>             <span class="n">encoding</span><span class="o">=</span><span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">863</span>             <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">864</span>             <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">865</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">866</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">867</span>         <span class="c1"># Binary mode</span>
+<span class="g g-Whitespace">    </span><span class="mi">868</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;berita_vsm.csv&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="memisahkan-label-dan-fitur">
+<h2>Memisahkan Label dan Fitur<a class="headerlink" href="#memisahkan-label-dan-fitur" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labels</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Kategori&#39;</span><span class="p">]</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Kategori&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="mengubah-label-menjadi-numerik-menggunakan-label-encoding">
+<h2>Mengubah Label menjadi Numerik menggunakan Label Encoding<a class="headerlink" href="#mengubah-label-menjadi-numerik-menggunakan-label-encoding" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">label_encoder</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="n">encoded_labels</span> <span class="o">=</span> <span class="n">label_encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="clustering-dengan-svd-dan-fuzzy-c-means">
+<h2>Clustering dengan SVD dan Fuzzy C-Means<a class="headerlink" href="#clustering-dengan-svd-dan-fuzzy-c-means" title="Link to this heading">#</a></h2>
+<p>Fuzzy C-Means (FCM) adalah metode clustering yang memperbolehkan sebuah data menjadi anggota lebih dari satu cluster dengan derajat keanggotaan tertentu (bukan hanya keanggotaan keras seperti pada K-Means).
+<img alt="Screenshot 2024-11-28 064623.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWUAAACTCAYAAABWOQgLAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAABukSURBVHhe7Z0JuFVTG8dXqY8MUTJTQiUqlAypaKJCGTLlEREpSkqGhCIpURlDJWSqhAYzCUmTIZQUMkWRDEWU+PxWe2Xb3fHcs/dZ5/b/Pc957j373GGP//W+73rfd5WoXLny30YIIYQXlAy+CiGE8ACJshBCeIREWQghPEKiLIQQHiFRFkIIj5AoCyGER0iUhRDCIyTKQgjhERJlIYTwCImyEEJ4hERZCCE8QqIshBAeIVEWQgiPkCgLIYRHSJSFEMIjJMpCCOEREmUhhPAIibIQQniERFkIITxCoiyEEB4hURZCCI+QKAshhEdIlIUQwiMkykII4RESZSGE8AiJshBCeIREWQghPKJE5cqV/w6+Fx5RsWJF0717d7PjjjsGW4yZPXu2GTJkSPDOmJo1a5rOnTubbbfdNthizO+//25Gjhxp3nzzzWBL5mnUqJFp27atqVatmvnf//5n1qxZY0qWLGnmzJljBg0aZK688kq73z179gx+Q4hNF1nKnrJ8+XIzceJEM23aNLPHHnuYKlWqWHFDiB3Lli0zU6dONWvXrjV77rmn+e6778yECRPMokWLgp/ILAwoQ4cONf379zc77LCDHSwaN25sGjZsaDp16mQ/HzVqlKlTp45ZsmRJ8FtCbNpsVq5cuT7B98IjENrFixeb2rVrm91228389ddf5p9rZX755Rcza9Ys+zO//vqrmTdvnhXqEiVKmI4dO5qPP/7Ybs80e+21lxk4cKCpVauWef31103Xrl2tZcxxAQPIqlWrTIMGDey2J5980nz22Wf2MyE2ZWQpe07VqlXNp59+asW3VKlS5rDDDjNbbrll8Ol6KlWq5I11DOzfddddZ/bZZx/z9ttvm759+5rffvst+PRf3njjDbNixQqzcuVKs3DhwmCrEJs2EmWPQdxw8T/55BMbxli9erWNNbds2TL4CWMOPPBAs91225kvvvgi2JJ5evToYePHhGAIT+QkyMB2PAAs5C+//DLYKsSmjUTZY+rVq2e22morawU/++yzVrjKlClj6tevH/zEeksa5s+fb79mmiOOOMLuH+EULGFCFnmBlbxgwYLg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" />
+<img alt="Screenshot 2024-11-28 064707.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARcAAAB7CAYAAABeksRBAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAABqpSURBVHhe7d0JuOX1HMfxH5UlhYg8plUSJktRSrbKElHE00hlSVKE0aKUpRI1jBiVikqSZ4YYI6WkhWiXLGXfJi2W9iRS4vWb85v+c+bc2z33nv+953/O9/0857nn/u+5557/uef3+X/33wPWWmute1MQBEGPeWDraxAEQU8JcQmCoBZCXIIgqIUQlyAIaiHEJQiCWghxCYKgFkJcgiCohRCXIAhqIcQlCIJaCHEJgqAWQlyCIKiFEJcgCGohxCUIgloIcQmCoBZCXIIgqIUQlyAIaiHEJQiCWghxCYKgFkJcgiCohRCXIAhqIcQlCIJaiOn/wVKsvvrqac8990yPfexjW0dSuuyyy9KnPvWp1ncpPe1pT0vveMc70iMe8YjWkZT+9a9/peOPPz5dcMEFrSPBMLPMSiutdGDrfhBk/vOf/6Q77rgj/fOf/0ybbrppWmWVVdLKK6+crrzyyvS3v/2t9aj/X5ke8IC09tpr59tvfvObdOaZZ6af/vSn+XeDIMQlWAri8sc//jFtsMEGadq0aem///1v+v/nJN12223p0ksvzY8hIFdddVW2YIjM29/+9vTrX/86hCVYTMRcghF50pOelH7/+99nEVl22WXTxhtvnJZffvnWTxexxhprpN/+9ret74LgPkJcgo4QETGX3/3ud+mHP/xhuvPOO3Ms5hWveEXrESk985nPTI985CPTwoULW0eC4D5CXIKOPPe5z00Pe9jDslXy7W9/O1199dXpoQ99aHre857XesQiywa/+MUv8tcgqBLZoj7kIx/5SF7ED3xgfdp/7rnnpoMOOqj13dKIobzgBS9Ib3vb23Jgd4899kg77LBDjrscfPDBOSP0vve9Lz31qU9Nb37zm1u/FQT3EQHdPoSwWLQPfvCD0zLLLJN+9atfpZ/97GfpT3/605huf/7zn9M999yT/v3vf2drw81zLbfccotvK6644lLZnypveMMb0j/+8Y90+umn5++5RWIuskbEhqv0lre8JQd+zz///PyYIKgSlksfIt7xmc98Jj3jGc/I3996663p4x//eDrrrLPy990idrLVVlulbbbZJj3+8Y/P2Z277rorff7zn08nnnhi61H34e8fe+yx6cILL0xHH31062hKH/3oR9NLXvKS9Je//CW/vt122y2deuqp6aSTTmo9IgjuI2IufQjL4Atf+MJiq0KhGtfjCU94Qv6+WzyP53v1q1+dv3r+Bz3oQbmGpRPVeEsVFsrtt9+eHvOYx6QtttgiH2tSvGXrrbfOYkik3/ve9+Y0+pw5c9I555yTb5/4xCeyEL/pTW9KCxYsSN///vfzV+5g0D3hFvUpXBsL3ALgGqkzefjDH57OO++81iPGx49+9KMsEKwirhG3xt+q8rKXvSxbOJ/97GdzzUtBWlrty5prrpnrX4jWUUcd1fppfyPT9c53vjMLpKLADTfcMIuoymOxI4L50pe+ND3nOc9JT3ziE9Phhx+eheXFL35xmj59enZL//73v7eeLRgLYbn0MdwWV8977703B3c333zzHGCdKF//+tfT1772tez+dLJeLC6uDwunnZKWZvk0qb5lo402yrU6l1xySX7t7rNgjjzyyHyeXE/vs/jUBz7wgXTRRReln//85/lciTyxDbojxKXPOe6443KtCSwKrs1I7kw3iLWoqH3605++RGGcq7dg8kiVtiUtrY/I7zcFVof2BHU5LLZrr702u4iFVVddNQs4y+YPf/hDPvb85z8/W4zei+uuuy4fC8ZOiEuf44M+b968nAKGmIAsTVUQxoOr9S677JJ23HHHfJ8rxOUStJURevnLX56/d7yKx1588cXp5ptvXrwImwAL8Etf+lJab7310gorrJAFslhm3kvWGsHk+hWIrMcSoqjl6Z4QlwYgCPmtb30r3X333fl7C0ScoJd85zvfSZtttlmORZSb7x1vhysh8yR+0zRWW221/LUaZ3rWs56VLRSCqfGy8OxnPzt/rR4Lxk6IS0P43Oc+l3784x/nuIAArwK31772ta2fDg9Ebe7cudkS8ZWF1Yldd901HXjggVk4CoK6Mm7qd9T4FIqFcv3112eLBlxPj7/hhhtySt64CVbdZLHJJpvkmJss1ne/+9106KGH5uA+y1URo2Nu7jvWj4S4NAQmfDU9LW6w00475Q/csEBMVQoTB+Ky1lpr5QxQsTAKUsfeG/Gj6s+0K3jfWCgEo+C4eIuxEQXHCM4111yT3UQBXX9zMlA/NGvWrPSQhzwkW6xeFyty//33z9XbhOeMM87I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" />
+<img alt="Screenshot 2024-11-28 064748.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWwAAAB4CAYAAADWr8iAAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAABqVSURBVHhe7Z0JuEzlH8ffdklKCy0SUaENlWixtFhDi6IiqbSREEmRokJUpBQpRUWLNqRNJKVdRCqVlCRtaFFS/v/P67w5prnunZlz5p4z9/t5nnnunTNz76zn+/7e37pFhQoV1hshhBCRZ0vvpxBCiIgjwRZCiJggwRYiQA4//HDTtm1bU7x4ce+IEMEhwRYiABDorl27mkGDBpnWrVubqlWrercIERwKOgqRJh07djSVKlUy5cqVM6VLlzbFihWzx1esWGH69u1r3n33XXtdiKCQhS1EmtSsWdPUqFHDlChRwixYsMCsXLnSu0WIcJBgC5Em7dq1M3Xr1jUNGzY0o0ePNmvXrvVuESIcJNhCCBETJNhCCBETJNhCCBETJNhCCBETJNhCCBETJNhCCBETJNhCCBETJNhCCBETJNhCCBETJNhCCBETJNhCCBETJNhCCBETJNhCCBET1A9biDQ599xzTcWKFe3vu+yyi502s80225g1a9bYXti//PKLvY3fJ02aZH8XIhMk2EKkyYgRI8yRRx7pXcubZ555xtx4443eNSHSR4IthBAxQT5sIYSICRJsIYSICRJsIYSICRJsIYSICRJsIYSICRJsIYSICaGm9ZUuXdp06tTJ1K5d215//fXXzS233GJ+//13e91BwUGzZs3MsmXLzKhRo7yjQggh/IRmYRcvXtz07dvXivXUqVPNb7/9Zho1amSuvPJK7x4b6dy5s2natKk54YQTvCNCCCESCc3C7tKlixXhe+65x7zzzjtm2LBhpmzZsuaDDz4wHTp08O5lzHHHHWf69OljSpUqZWbOnJlU0MOGEuOGDRuaLbbYwjuSPj/88IMZOnSo+eKLL7wjQggRDKFY2OXKlTPHHnusWbRokZk4caKpUqWKKVmypL1t9erV9qejcuXKpkSJEubvv/82X3/9tXf0vxxxxBGmatWq3rXkcPsxxxzjXSs4f/zxh/nnn3+8awWH57x48WL7Ot3lyy+/NOvWrfPuIYQQwRGKhY212r17d/PEE0+YkSNHWgsaH/XatWutj3rs2LHePY256aabTIMGDcyvv/5qBg4caF54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" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1"># Mulai dari jumlah fitur penuh hingga 2 dimensi</span>
+<span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">features</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="c1"># Kurangi dimensi data</span>
+    <span class="n">svd</span> <span class="o">=</span> <span class="n">TruncatedSVD</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">dim</span><span class="p">)</span>
+    <span class="n">reduced_features</span> <span class="o">=</span> <span class="n">svd</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+
+    <span class="c1"># Fuzzy C-Means Clustering</span>
+    <span class="n">cntr</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">u0</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">jm</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">fpc</span> <span class="o">=</span> <span class="n">cmeans</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">reduced_features</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+        <span class="n">c</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>                  <span class="c1"># 2 clusters</span>
+        <span class="n">m</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>                <span class="c1"># Tingkat fuzziness</span>
+        <span class="n">error</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span>          <span class="c1"># Toleransi error</span>
+        <span class="n">maxiter</span><span class="o">=</span><span class="mi">1000</span>          <span class="c1"># Iterasi maksimum</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Keanggotaan cluster</span>
+    <span class="n">cluster_membership</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Hitung akurasi berdasarkan label asli</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+        <span class="n">accuracy_score</span><span class="p">(</span><span class="n">encoded_labels</span><span class="p">,</span> <span class="n">cluster_membership</span><span class="p">),</span>
+        <span class="n">accuracy_score</span><span class="p">(</span><span class="n">encoded_labels</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">cluster_membership</span><span class="p">)</span>  <span class="c1"># Cek inversi cluster</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Simpan hasil</span>
+    <span class="n">results</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;svd_features&#39;</span><span class="p">:</span> <span class="n">reduced_features</span><span class="p">,</span>
+        <span class="s1">&#39;centroids&#39;</span><span class="p">:</span> <span class="n">cntr</span><span class="p">,</span>
+        <span class="s1">&#39;membership&#39;</span><span class="p">:</span> <span class="n">cluster_membership</span><span class="p">,</span>
+        <span class="s1">&#39;accuracy&#39;</span><span class="p">:</span> <span class="n">accuracy</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="menentukan-dimensi-dengan-akurasi-terbaik">
+<h2>Menentukan Dimensi dengan Akurasi Terbaik<a class="headerlink" href="#menentukan-dimensi-dengan-akurasi-terbaik" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_dim</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">dim</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="n">dim</span><span class="p">][</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+<span class="n">best_accuracy</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">best_dim</span><span class="p">][</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Akurasi terbaik: </span><span class="si">{</span><span class="n">best_accuracy</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> pada dimensi </span><span class="si">{</span><span class="n">best_dim</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Akurasi terbaik: 0.97 pada dimensi 1875.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="scatter-plot-untuk-dimensi-terbaik">
+<h2>Scatter Plot untuk Dimensi Terbaik<a class="headerlink" href="#scatter-plot-untuk-dimensi-terbaik" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">final_result</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">svd_features</span> <span class="o">=</span> <span class="n">final_result</span><span class="p">[</span><span class="s1">&#39;svd_features&#39;</span><span class="p">]</span>
+<span class="n">centroids</span> <span class="o">=</span> <span class="n">final_result</span><span class="p">[</span><span class="s1">&#39;centroids&#39;</span><span class="p">]</span>
+<span class="n">membership</span> <span class="o">=</span> <span class="n">final_result</span><span class="p">[</span><span class="s1">&#39;membership&#39;</span><span class="p">]</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">final_result</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span>
+
+<span class="c1"># Scatter Plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>  <span class="c1"># Untuk 2 cluster</span>
+    <span class="n">cluster_points</span> <span class="o">=</span> <span class="n">svd_features</span><span class="p">[</span><span class="n">membership</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">cluster_points</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">cluster_points</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Cluster </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+
+<span class="c1"># Tambahkan centroid</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">centroids</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">centroids</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Centroid&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fuzzy C-Means Clustering (Dimensi SVD 2) - Akurasi: </span><span class="si">{</span><span class="n">accuracy</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Komponen SVD 1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Komponen SVD 2&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/922d586a98e3375746aedfbe9f7e9a782639cf00c1323083dabe2ca34954d29e.png" src="../_images/922d586a98e3375746aedfbe9f7e9a782639cf00c1323083dabe2ca34954d29e.png" />
+</div>
+</div>
+</section>
+<section id="menampilkan-akurasi-per-dimensi">
+<h2>Menampilkan Akurasi per Dimensi<a class="headerlink" href="#menampilkan-akurasi-per-dimensi" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">accuracies</span> <span class="o">=</span> <span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+<span class="n">dimensions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+<span class="c1"># Plot akurasi terhadap dimensi</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dimensions</span><span class="p">,</span> <span class="n">accuracies</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Akurasi&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Dimensi&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Akurasi&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Akurasi terhadap Dimensi&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># 6. Menampilkan dimensi dan akurasi terbaik</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dimensi dengan akurasi terbaik: </span><span class="si">{</span><span class="n">best_dim</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Akurasi terbaik: </span><span class="si">{</span><span class="n">best_accuracy</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ce7cce3ffe7a37e9877041c9e537737eccfea6058f0e05ea3c0fb64203ac10d3.png" src="../_images/ce7cce3ffe7a37e9877041c9e537737eccfea6058f0e05ea3c0fb64203ac10d3.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dimensi dengan akurasi terbaik: 1875
+Akurasi terbaik: 0.97
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="akurasi-tiap-dimensi">
+<h2>Akurasi tiap Dimensi<a class="headerlink" href="#akurasi-tiap-dimensi" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">dim</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dimensi: </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">, Akurasi: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dimensi: 1882, Akurasi: 0.70
+Dimensi: 1881, Akurasi: 0.67
+Dimensi: 1880, Akurasi: 0.88
+Dimensi: 1879, Akurasi: 0.59
+Dimensi: 1878, Akurasi: 0.86
+Dimensi: 1877, Akurasi: 0.64
+Dimensi: 1876, Akurasi: 0.80
+Dimensi: 1875, Akurasi: 0.97
+Dimensi: 1874, Akurasi: 0.94
+Dimensi: 1873, Akurasi: 0.54
+Dimensi: 1872, Akurasi: 0.80
+Dimensi: 1871, Akurasi: 0.75
+Dimensi: 1870, Akurasi: 0.91
+Dimensi: 1869, Akurasi: 0.86
+Dimensi: 1868, Akurasi: 0.86
+Dimensi: 1867, Akurasi: 0.86
+Dimensi: 1866, Akurasi: 0.86
+Dimensi: 1865, Akurasi: 0.86
+Dimensi: 1864, Akurasi: 0.78
+Dimensi: 1863, Akurasi: 0.81
+Dimensi: 1862, Akurasi: 0.91
+Dimensi: 1861, Akurasi: 0.91
+Dimensi: 1860, Akurasi: 0.74
+Dimensi: 1859, Akurasi: 0.88
+Dimensi: 1858, Akurasi: 0.88
+Dimensi: 1857, Akurasi: 0.91
+Dimensi: 1856, Akurasi: 0.88
+Dimensi: 1855, Akurasi: 0.86
+Dimensi: 1854, Akurasi: 0.86
+Dimensi: 1853, Akurasi: 0.58
+Dimensi: 1852, Akurasi: 0.55
+Dimensi: 1851, Akurasi: 0.91
+Dimensi: 1850, Akurasi: 0.89
+Dimensi: 1849, Akurasi: 0.86
+Dimensi: 1848, Akurasi: 0.91
+Dimensi: 1847, Akurasi: 0.78
+Dimensi: 1846, Akurasi: 0.78
+Dimensi: 1845, Akurasi: 0.63
+Dimensi: 1844, Akurasi: 0.86
+Dimensi: 1843, Akurasi: 0.88
+Dimensi: 1842, Akurasi: 0.85
+Dimensi: 1841, Akurasi: 0.75
+Dimensi: 1840, Akurasi: 0.91
+Dimensi: 1839, Akurasi: 0.91
+Dimensi: 1838, Akurasi: 0.88
+Dimensi: 1837, Akurasi: 0.88
+Dimensi: 1836, Akurasi: 0.61
+Dimensi: 1835, Akurasi: 0.88
+Dimensi: 1834, Akurasi: 0.86
+Dimensi: 1833, Akurasi: 0.86
+Dimensi: 1832, Akurasi: 0.83
+Dimensi: 1831, Akurasi: 0.94
+Dimensi: 1830, Akurasi: 0.88
+Dimensi: 1829, Akurasi: 0.83
+Dimensi: 1828, Akurasi: 0.86
+Dimensi: 1827, Akurasi: 0.86
+Dimensi: 1826, Akurasi: 0.91
+Dimensi: 1825, Akurasi: 0.86
+Dimensi: 1824, Akurasi: 0.74
+Dimensi: 1823, Akurasi: 0.88
+Dimensi: 1822, Akurasi: 0.71
+Dimensi: 1821, Akurasi: 0.61
+Dimensi: 1820, Akurasi: 0.97
+Dimensi: 1819, Akurasi: 0.86
+Dimensi: 1818, Akurasi: 0.78
+Dimensi: 1817, Akurasi: 0.91
+Dimensi: 1816, Akurasi: 0.88
+Dimensi: 1815, Akurasi: 0.88
+Dimensi: 1814, Akurasi: 0.88
+Dimensi: 1813, Akurasi: 0.91
+Dimensi: 1812, Akurasi: 0.64
+Dimensi: 1811, Akurasi: 0.91
+Dimensi: 1810, Akurasi: 0.82
+Dimensi: 1809, Akurasi: 0.86
+Dimensi: 1808, Akurasi: 0.85
+Dimensi: 1807, Akurasi: 0.82
+Dimensi: 1806, Akurasi: 0.83
+Dimensi: 1805, Akurasi: 0.61
+Dimensi: 1804, Akurasi: 0.86
+Dimensi: 1803, Akurasi: 0.67
+Dimensi: 1802, Akurasi: 0.69
+Dimensi: 1801, Akurasi: 0.86
+Dimensi: 1800, Akurasi: 0.74
+Dimensi: 1799, Akurasi: 0.88
+Dimensi: 1798, Akurasi: 0.91
+Dimensi: 1797, Akurasi: 0.64
+Dimensi: 1796, Akurasi: 0.86
+Dimensi: 1795, Akurasi: 0.86
+Dimensi: 1794, Akurasi: 0.79
+Dimensi: 1793, Akurasi: 0.86
+Dimensi: 1792, Akurasi: 0.76
+Dimensi: 1791, Akurasi: 0.86
+Dimensi: 1790, Akurasi: 0.88
+Dimensi: 1789, Akurasi: 0.54
+Dimensi: 1788, Akurasi: 0.91
+Dimensi: 1787, Akurasi: 0.88
+Dimensi: 1786, Akurasi: 0.86
+Dimensi: 1785, Akurasi: 0.91
+Dimensi: 1784, Akurasi: 0.86
+Dimensi: 1783, Akurasi: 0.72
+Dimensi: 1782, Akurasi: 0.91
+Dimensi: 1781, Akurasi: 0.91
+Dimensi: 1780, Akurasi: 0.88
+Dimensi: 1779, Akurasi: 0.91
+Dimensi: 1778, Akurasi: 0.91
+Dimensi: 1777, Akurasi: 0.91
+Dimensi: 1776, Akurasi: 0.77
+Dimensi: 1775, Akurasi: 0.78
+Dimensi: 1774, Akurasi: 0.83
+Dimensi: 1773, Akurasi: 0.86
+Dimensi: 1772, Akurasi: 0.76
+Dimensi: 1771, Akurasi: 0.53
+Dimensi: 1770, Akurasi: 0.83
+Dimensi: 1769, Akurasi: 0.88
+Dimensi: 1768, Akurasi: 0.91
+Dimensi: 1767, Akurasi: 0.85
+Dimensi: 1766, Akurasi: 0.91
+Dimensi: 1765, Akurasi: 0.71
+Dimensi: 1764, Akurasi: 0.86
+Dimensi: 1763, Akurasi: 0.88
+Dimensi: 1762, Akurasi: 0.88
+Dimensi: 1761, Akurasi: 0.91
+Dimensi: 1760, Akurasi: 0.86
+Dimensi: 1759, Akurasi: 0.88
+Dimensi: 1758, Akurasi: 0.91
+Dimensi: 1757, Akurasi: 0.91
+Dimensi: 1756, Akurasi: 0.86
+Dimensi: 1755, Akurasi: 0.83
+Dimensi: 1754, Akurasi: 0.86
+Dimensi: 1753, Akurasi: 0.86
+Dimensi: 1752, Akurasi: 0.86
+Dimensi: 1751, Akurasi: 0.86
+Dimensi: 1750, Akurasi: 0.86
+Dimensi: 1749, Akurasi: 0.83
+Dimensi: 1748, Akurasi: 0.69
+Dimensi: 1747, Akurasi: 0.91
+Dimensi: 1746, Akurasi: 0.88
+Dimensi: 1745, Akurasi: 0.52
+Dimensi: 1744, Akurasi: 0.91
+Dimensi: 1743, Akurasi: 0.91
+Dimensi: 1742, Akurasi: 0.72
+Dimensi: 1741, Akurasi: 0.57
+Dimensi: 1740, Akurasi: 0.91
+Dimensi: 1739, Akurasi: 0.80
+Dimensi: 1738, Akurasi: 0.83
+Dimensi: 1737, Akurasi: 0.91
+Dimensi: 1736, Akurasi: 0.86
+Dimensi: 1735, Akurasi: 0.94
+Dimensi: 1734, Akurasi: 0.67
+Dimensi: 1733, Akurasi: 0.86
+Dimensi: 1732, Akurasi: 0.86
+Dimensi: 1731, Akurasi: 0.88
+Dimensi: 1730, Akurasi: 0.88
+Dimensi: 1729, Akurasi: 0.88
+Dimensi: 1728, Akurasi: 0.86
+Dimensi: 1727, Akurasi: 0.63
+Dimensi: 1726, Akurasi: 0.91
+Dimensi: 1725, Akurasi: 0.88
+Dimensi: 1724, Akurasi: 0.83
+Dimensi: 1723, Akurasi: 0.94
+Dimensi: 1722, Akurasi: 0.70
+Dimensi: 1721, Akurasi: 0.91
+Dimensi: 1720, Akurasi: 0.86
+Dimensi: 1719, Akurasi: 0.94
+Dimensi: 1718, Akurasi: 0.59
+Dimensi: 1717, Akurasi: 0.91
+Dimensi: 1716, Akurasi: 0.86
+Dimensi: 1715, Akurasi: 0.83
+Dimensi: 1714, Akurasi: 0.88
+Dimensi: 1713, Akurasi: 0.86
+Dimensi: 1712, Akurasi: 0.75
+Dimensi: 1711, Akurasi: 0.58
+Dimensi: 1710, Akurasi: 0.86
+Dimensi: 1709, Akurasi: 0.84
+Dimensi: 1708, Akurasi: 0.83
+Dimensi: 1707, Akurasi: 0.88
+Dimensi: 1706, Akurasi: 0.91
+Dimensi: 1705, Akurasi: 0.61
+Dimensi: 1704, Akurasi: 0.94
+Dimensi: 1703, Akurasi: 0.86
+Dimensi: 1702, Akurasi: 0.59
+Dimensi: 1701, Akurasi: 0.78
+Dimensi: 1700, Akurasi: 0.73
+Dimensi: 1699, Akurasi: 0.86
+Dimensi: 1698, Akurasi: 0.91
+Dimensi: 1697, Akurasi: 0.71
+Dimensi: 1696, Akurasi: 0.91
+Dimensi: 1695, Akurasi: 0.86
+Dimensi: 1694, Akurasi: 0.91
+Dimensi: 1693, Akurasi: 0.86
+Dimensi: 1692, Akurasi: 0.86
+Dimensi: 1691, Akurasi: 0.61
+Dimensi: 1690, Akurasi: 0.62
+Dimensi: 1689, Akurasi: 0.88
+Dimensi: 1688, Akurasi: 0.83
+Dimensi: 1687, Akurasi: 0.78
+Dimensi: 1686, Akurasi: 0.86
+Dimensi: 1685, Akurasi: 0.86
+Dimensi: 1684, Akurasi: 0.91
+Dimensi: 1683, Akurasi: 0.72
+Dimensi: 1682, Akurasi: 0.70
+Dimensi: 1681, Akurasi: 0.94
+Dimensi: 1680, Akurasi: 0.88
+Dimensi: 1679, Akurasi: 0.55
+Dimensi: 1678, Akurasi: 0.86
+Dimensi: 1677, Akurasi: 0.86
+Dimensi: 1676, Akurasi: 0.91
+Dimensi: 1675, Akurasi: 0.55
+Dimensi: 1674, Akurasi: 0.86
+Dimensi: 1673, Akurasi: 0.86
+Dimensi: 1672, Akurasi: 0.91
+Dimensi: 1671, Akurasi: 0.88
+Dimensi: 1670, Akurasi: 0.88
+Dimensi: 1669, Akurasi: 0.84
+Dimensi: 1668, Akurasi: 0.91
+Dimensi: 1667, Akurasi: 0.88
+Dimensi: 1666, Akurasi: 0.86
+Dimensi: 1665, Akurasi: 0.66
+Dimensi: 1664, Akurasi: 0.91
+Dimensi: 1663, Akurasi: 0.83
+Dimensi: 1662, Akurasi: 0.83
+Dimensi: 1661, Akurasi: 0.92
+Dimensi: 1660, Akurasi: 0.91
+Dimensi: 1659, Akurasi: 0.86
+Dimensi: 1658, Akurasi: 0.86
+Dimensi: 1657, Akurasi: 0.88
+Dimensi: 1656, Akurasi: 0.88
+Dimensi: 1655, Akurasi: 0.88
+Dimensi: 1654, Akurasi: 0.88
+Dimensi: 1653, Akurasi: 0.86
+Dimensi: 1652, Akurasi: 0.91
+Dimensi: 1651, Akurasi: 0.83
+Dimensi: 1650, Akurasi: 0.91
+Dimensi: 1649, Akurasi: 0.78
+Dimensi: 1648, Akurasi: 0.83
+Dimensi: 1647, Akurasi: 0.72
+Dimensi: 1646, Akurasi: 0.86
+Dimensi: 1645, Akurasi: 0.94
+Dimensi: 1644, Akurasi: 0.78
+Dimensi: 1643, Akurasi: 0.88
+Dimensi: 1642, Akurasi: 0.61
+Dimensi: 1641, Akurasi: 0.86
+Dimensi: 1640, Akurasi: 0.69
+Dimensi: 1639, Akurasi: 0.88
+Dimensi: 1638, Akurasi: 0.91
+Dimensi: 1637, Akurasi: 0.53
+Dimensi: 1636, Akurasi: 0.61
+Dimensi: 1635, Akurasi: 0.53
+Dimensi: 1634, Akurasi: 0.91
+Dimensi: 1633, Akurasi: 0.91
+Dimensi: 1632, Akurasi: 0.86
+Dimensi: 1631, Akurasi: 0.86
+Dimensi: 1630, Akurasi: 0.78
+Dimensi: 1629, Akurasi: 0.88
+Dimensi: 1628, Akurasi: 0.86
+Dimensi: 1627, Akurasi: 0.80
+Dimensi: 1626, Akurasi: 0.78
+Dimensi: 1625, Akurasi: 0.86
+Dimensi: 1624, Akurasi: 0.86
+Dimensi: 1623, Akurasi: 0.91
+Dimensi: 1622, Akurasi: 0.91
+Dimensi: 1621, Akurasi: 0.70
+Dimensi: 1620, Akurasi: 0.78
+Dimensi: 1619, Akurasi: 0.74
+Dimensi: 1618, Akurasi: 0.83
+Dimensi: 1617, Akurasi: 0.91
+Dimensi: 1616, Akurasi: 0.83
+Dimensi: 1615, Akurasi: 0.82
+Dimensi: 1614, Akurasi: 0.86
+Dimensi: 1613, Akurasi: 0.88
+Dimensi: 1612, Akurasi: 0.86
+Dimensi: 1611, Akurasi: 0.75
+Dimensi: 1610, Akurasi: 0.83
+Dimensi: 1609, Akurasi: 0.61
+Dimensi: 1608, Akurasi: 0.78
+Dimensi: 1607, Akurasi: 0.91
+Dimensi: 1606, Akurasi: 0.88
+Dimensi: 1605, Akurasi: 0.57
+Dimensi: 1604, Akurasi: 0.72
+Dimensi: 1603, Akurasi: 0.91
+Dimensi: 1602, Akurasi: 0.83
+Dimensi: 1601, Akurasi: 0.86
+Dimensi: 1600, Akurasi: 0.86
+Dimensi: 1599, Akurasi: 0.91
+Dimensi: 1598, Akurasi: 0.80
+Dimensi: 1597, Akurasi: 0.88
+Dimensi: 1596, Akurasi: 0.86
+Dimensi: 1595, Akurasi: 0.70
+Dimensi: 1594, Akurasi: 0.88
+Dimensi: 1593, Akurasi: 0.83
+Dimensi: 1592, Akurasi: 0.91
+Dimensi: 1591, Akurasi: 0.91
+Dimensi: 1590, Akurasi: 0.88
+Dimensi: 1589, Akurasi: 0.86
+Dimensi: 1588, Akurasi: 0.85
+Dimensi: 1587, Akurasi: 0.59
+Dimensi: 1586, Akurasi: 0.75
+Dimensi: 1585, Akurasi: 0.83
+Dimensi: 1584, Akurasi: 0.86
+Dimensi: 1583, Akurasi: 0.72
+Dimensi: 1582, Akurasi: 0.80
+Dimensi: 1581, Akurasi: 0.78
+Dimensi: 1580, Akurasi: 0.72
+Dimensi: 1579, Akurasi: 0.86
+Dimensi: 1578, Akurasi: 0.86
+Dimensi: 1577, Akurasi: 0.89
+Dimensi: 1576, Akurasi: 0.53
+Dimensi: 1575, Akurasi: 0.86
+Dimensi: 1574, Akurasi: 0.88
+Dimensi: 1573, Akurasi: 0.91
+Dimensi: 1572, Akurasi: 0.76
+Dimensi: 1571, Akurasi: 0.88
+Dimensi: 1570, Akurasi: 0.81
+Dimensi: 1569, Akurasi: 0.82
+Dimensi: 1568, Akurasi: 0.83
+Dimensi: 1567, Akurasi: 0.91
+Dimensi: 1566, Akurasi: 0.86
+Dimensi: 1565, Akurasi: 0.86
+Dimensi: 1564, Akurasi: 0.86
+Dimensi: 1563, Akurasi: 0.80
+Dimensi: 1562, Akurasi: 0.89
+Dimensi: 1561, Akurasi: 0.97
+Dimensi: 1560, Akurasi: 0.88
+Dimensi: 1559, Akurasi: 0.56
+Dimensi: 1558, Akurasi: 0.83
+Dimensi: 1557, Akurasi: 0.88
+Dimensi: 1556, Akurasi: 0.83
+Dimensi: 1555, Akurasi: 0.72
+Dimensi: 1554, Akurasi: 0.88
+Dimensi: 1553, Akurasi: 0.83
+Dimensi: 1552, Akurasi: 0.86
+Dimensi: 1551, Akurasi: 0.89
+Dimensi: 1550, Akurasi: 0.88
+Dimensi: 1549, Akurasi: 0.86
+Dimensi: 1548, Akurasi: 0.78
+Dimensi: 1547, Akurasi: 0.82
+Dimensi: 1546, Akurasi: 0.83
+Dimensi: 1545, Akurasi: 0.91
+Dimensi: 1544, Akurasi: 0.86
+Dimensi: 1543, Akurasi: 0.78
+Dimensi: 1542, Akurasi: 0.86
+Dimensi: 1541, Akurasi: 0.86
+Dimensi: 1540, Akurasi: 0.85
+Dimensi: 1539, Akurasi: 0.80
+Dimensi: 1538, Akurasi: 0.86
+Dimensi: 1537, Akurasi: 0.88
+Dimensi: 1536, Akurasi: 0.91
+Dimensi: 1535, Akurasi: 0.91
+Dimensi: 1534, Akurasi: 0.77
+Dimensi: 1533, Akurasi: 0.72
+Dimensi: 1532, Akurasi: 0.78
+Dimensi: 1531, Akurasi: 0.78
+Dimensi: 1530, Akurasi: 0.91
+Dimensi: 1529, Akurasi: 0.75
+Dimensi: 1528, Akurasi: 0.86
+Dimensi: 1527, Akurasi: 0.88
+Dimensi: 1526, Akurasi: 0.83
+Dimensi: 1525, Akurasi: 0.86
+Dimensi: 1524, Akurasi: 0.88
+Dimensi: 1523, Akurasi: 0.83
+Dimensi: 1522, Akurasi: 0.86
+Dimensi: 1521, Akurasi: 0.88
+Dimensi: 1520, Akurasi: 0.91
+Dimensi: 1519, Akurasi: 0.73
+Dimensi: 1518, Akurasi: 0.68
+Dimensi: 1517, Akurasi: 0.91
+Dimensi: 1516, Akurasi: 0.67
+Dimensi: 1515, Akurasi: 0.86
+Dimensi: 1514, Akurasi: 0.86
+Dimensi: 1513, Akurasi: 0.86
+Dimensi: 1512, Akurasi: 0.88
+Dimensi: 1511, Akurasi: 0.86
+Dimensi: 1510, Akurasi: 0.61
+Dimensi: 1509, Akurasi: 0.91
+Dimensi: 1508, Akurasi: 0.91
+Dimensi: 1507, Akurasi: 0.88
+Dimensi: 1506, Akurasi: 0.83
+Dimensi: 1505, Akurasi: 0.91
+Dimensi: 1504, Akurasi: 0.64
+Dimensi: 1503, Akurasi: 0.69
+Dimensi: 1502, Akurasi: 0.94
+Dimensi: 1501, Akurasi: 0.83
+Dimensi: 1500, Akurasi: 0.91
+Dimensi: 1499, Akurasi: 0.86
+Dimensi: 1498, Akurasi: 0.64
+Dimensi: 1497, Akurasi: 0.58
+Dimensi: 1496, Akurasi: 0.83
+Dimensi: 1495, Akurasi: 0.91
+Dimensi: 1494, Akurasi: 0.86
+Dimensi: 1493, Akurasi: 0.83
+Dimensi: 1492, Akurasi: 0.64
+Dimensi: 1491, Akurasi: 0.91
+Dimensi: 1490, Akurasi: 0.71
+Dimensi: 1489, Akurasi: 0.86
+Dimensi: 1488, Akurasi: 0.60
+Dimensi: 1487, Akurasi: 0.86
+Dimensi: 1486, Akurasi: 0.61
+Dimensi: 1485, Akurasi: 0.53
+Dimensi: 1484, Akurasi: 0.86
+Dimensi: 1483, Akurasi: 0.58
+Dimensi: 1482, Akurasi: 0.88
+Dimensi: 1481, Akurasi: 0.88
+Dimensi: 1480, Akurasi: 0.86
+Dimensi: 1479, Akurasi: 0.57
+Dimensi: 1478, Akurasi: 0.58
+Dimensi: 1477, Akurasi: 0.91
+Dimensi: 1476, Akurasi: 0.80
+Dimensi: 1475, Akurasi: 0.86
+Dimensi: 1474, Akurasi: 0.88
+Dimensi: 1473, Akurasi: 0.71
+Dimensi: 1472, Akurasi: 0.83
+Dimensi: 1471, Akurasi: 0.88
+Dimensi: 1470, Akurasi: 0.88
+Dimensi: 1469, Akurasi: 0.91
+Dimensi: 1468, Akurasi: 0.72
+Dimensi: 1467, Akurasi: 0.53
+Dimensi: 1466, Akurasi: 0.86
+Dimensi: 1465, Akurasi: 0.91
+Dimensi: 1464, Akurasi: 0.86
+Dimensi: 1463, Akurasi: 0.88
+Dimensi: 1462, Akurasi: 0.85
+Dimensi: 1461, Akurasi: 0.68
+Dimensi: 1460, Akurasi: 0.91
+Dimensi: 1459, Akurasi: 0.89
+Dimensi: 1458, Akurasi: 0.94
+Dimensi: 1457, Akurasi: 0.91
+Dimensi: 1456, Akurasi: 0.91
+Dimensi: 1455, Akurasi: 0.86
+Dimensi: 1454, Akurasi: 0.86
+Dimensi: 1453, Akurasi: 0.83
+Dimensi: 1452, Akurasi: 0.72
+Dimensi: 1451, Akurasi: 0.88
+Dimensi: 1450, Akurasi: 0.86
+Dimensi: 1449, Akurasi: 0.91
+Dimensi: 1448, Akurasi: 0.81
+Dimensi: 1447, Akurasi: 0.91
+Dimensi: 1446, Akurasi: 0.83
+Dimensi: 1445, Akurasi: 0.88
+Dimensi: 1444, Akurasi: 0.91
+Dimensi: 1443, Akurasi: 0.80
+Dimensi: 1442, Akurasi: 0.91
+Dimensi: 1441, Akurasi: 0.88
+Dimensi: 1440, Akurasi: 0.86
+Dimensi: 1439, Akurasi: 0.64
+Dimensi: 1438, Akurasi: 0.86
+Dimensi: 1437, Akurasi: 0.59
+Dimensi: 1436, Akurasi: 0.91
+Dimensi: 1435, Akurasi: 0.91
+Dimensi: 1434, Akurasi: 0.80
+Dimensi: 1433, Akurasi: 0.88
+Dimensi: 1432, Akurasi: 0.80
+Dimensi: 1431, Akurasi: 0.88
+Dimensi: 1430, Akurasi: 0.91
+Dimensi: 1429, Akurasi: 0.86
+Dimensi: 1428, Akurasi: 0.88
+Dimensi: 1427, Akurasi: 0.94
+Dimensi: 1426, Akurasi: 0.88
+Dimensi: 1425, Akurasi: 0.88
+Dimensi: 1424, Akurasi: 0.91
+Dimensi: 1423, Akurasi: 0.67
+Dimensi: 1422, Akurasi: 0.86
+Dimensi: 1421, Akurasi: 0.91
+Dimensi: 1420, Akurasi: 0.86
+Dimensi: 1419, Akurasi: 0.86
+Dimensi: 1418, Akurasi: 0.86
+Dimensi: 1417, Akurasi: 0.86
+Dimensi: 1416, Akurasi: 0.91
+Dimensi: 1415, Akurasi: 0.72
+Dimensi: 1414, Akurasi: 0.88
+Dimensi: 1413, Akurasi: 0.83
+Dimensi: 1412, Akurasi: 0.86
+Dimensi: 1411, Akurasi: 0.83
+Dimensi: 1410, Akurasi: 0.52
+Dimensi: 1409, Akurasi: 0.88
+Dimensi: 1408, Akurasi: 0.80
+Dimensi: 1407, Akurasi: 0.86
+Dimensi: 1406, Akurasi: 0.88
+Dimensi: 1405, Akurasi: 0.91
+Dimensi: 1404, Akurasi: 0.86
+Dimensi: 1403, Akurasi: 0.88
+Dimensi: 1402, Akurasi: 0.91
+Dimensi: 1401, Akurasi: 0.88
+Dimensi: 1400, Akurasi: 0.80
+Dimensi: 1399, Akurasi: 0.83
+Dimensi: 1398, Akurasi: 0.88
+Dimensi: 1397, Akurasi: 0.91
+Dimensi: 1396, Akurasi: 0.91
+Dimensi: 1395, Akurasi: 0.83
+Dimensi: 1394, Akurasi: 0.91
+Dimensi: 1393, Akurasi: 0.78
+Dimensi: 1392, Akurasi: 0.72
+Dimensi: 1391, Akurasi: 0.86
+Dimensi: 1390, Akurasi: 0.78
+Dimensi: 1389, Akurasi: 0.86
+Dimensi: 1388, Akurasi: 0.59
+Dimensi: 1387, Akurasi: 0.91
+Dimensi: 1386, Akurasi: 0.83
+Dimensi: 1385, Akurasi: 0.88
+Dimensi: 1384, Akurasi: 0.82
+Dimensi: 1383, Akurasi: 0.83
+Dimensi: 1382, Akurasi: 0.78
+Dimensi: 1381, Akurasi: 0.72
+Dimensi: 1380, Akurasi: 0.82
+Dimensi: 1379, Akurasi: 0.86
+Dimensi: 1378, Akurasi: 0.86
+Dimensi: 1377, Akurasi: 0.86
+Dimensi: 1376, Akurasi: 0.80
+Dimensi: 1375, Akurasi: 0.91
+Dimensi: 1374, Akurasi: 0.61
+Dimensi: 1373, Akurasi: 0.66
+Dimensi: 1372, Akurasi: 0.61
+Dimensi: 1371, Akurasi: 0.86
+Dimensi: 1370, Akurasi: 0.89
+Dimensi: 1369, Akurasi: 0.88
+Dimensi: 1368, Akurasi: 0.88
+Dimensi: 1367, Akurasi: 0.86
+Dimensi: 1366, Akurasi: 0.88
+Dimensi: 1365, Akurasi: 0.88
+Dimensi: 1364, Akurasi: 0.89
+Dimensi: 1363, Akurasi: 0.86
+Dimensi: 1362, Akurasi: 0.86
+Dimensi: 1361, Akurasi: 0.71
+Dimensi: 1360, Akurasi: 0.58
+Dimensi: 1359, Akurasi: 0.78
+Dimensi: 1358, Akurasi: 0.78
+Dimensi: 1357, Akurasi: 0.86
+Dimensi: 1356, Akurasi: 0.66
+Dimensi: 1355, Akurasi: 0.86
+Dimensi: 1354, Akurasi: 0.72
+Dimensi: 1353, Akurasi: 0.69
+Dimensi: 1352, Akurasi: 0.78
+Dimensi: 1351, Akurasi: 0.64
+Dimensi: 1350, Akurasi: 0.88
+Dimensi: 1349, Akurasi: 0.88
+Dimensi: 1348, Akurasi: 0.88
+Dimensi: 1347, Akurasi: 0.88
+Dimensi: 1346, Akurasi: 0.83
+Dimensi: 1345, Akurasi: 0.89
+Dimensi: 1344, Akurasi: 0.86
+Dimensi: 1343, Akurasi: 0.86
+Dimensi: 1342, Akurasi: 0.86
+Dimensi: 1341, Akurasi: 0.86
+Dimensi: 1340, Akurasi: 0.91
+Dimensi: 1339, Akurasi: 0.80
+Dimensi: 1338, Akurasi: 0.86
+Dimensi: 1337, Akurasi: 0.88
+Dimensi: 1336, Akurasi: 0.82
+Dimensi: 1335, Akurasi: 0.68
+Dimensi: 1334, Akurasi: 0.80
+Dimensi: 1333, Akurasi: 0.91
+Dimensi: 1332, Akurasi: 0.88
+Dimensi: 1331, Akurasi: 0.88
+Dimensi: 1330, Akurasi: 0.91
+Dimensi: 1329, Akurasi: 0.88
+Dimensi: 1328, Akurasi: 0.81
+Dimensi: 1327, Akurasi: 0.88
+Dimensi: 1326, Akurasi: 0.91
+Dimensi: 1325, Akurasi: 0.86
+Dimensi: 1324, Akurasi: 0.85
+Dimensi: 1323, Akurasi: 0.86
+Dimensi: 1322, Akurasi: 0.80
+Dimensi: 1321, Akurasi: 0.72
+Dimensi: 1320, Akurasi: 0.91
+Dimensi: 1319, Akurasi: 0.86
+Dimensi: 1318, Akurasi: 0.72
+Dimensi: 1317, Akurasi: 0.91
+Dimensi: 1316, Akurasi: 0.91
+Dimensi: 1315, Akurasi: 0.86
+Dimensi: 1314, Akurasi: 0.72
+Dimensi: 1313, Akurasi: 0.86
+Dimensi: 1312, Akurasi: 0.88
+Dimensi: 1311, Akurasi: 0.83
+Dimensi: 1310, Akurasi: 0.68
+Dimensi: 1309, Akurasi: 0.91
+Dimensi: 1308, Akurasi: 0.86
+Dimensi: 1307, Akurasi: 0.91
+Dimensi: 1306, Akurasi: 0.88
+Dimensi: 1305, Akurasi: 0.81
+Dimensi: 1304, Akurasi: 0.83
+Dimensi: 1303, Akurasi: 0.86
+Dimensi: 1302, Akurasi: 0.86
+Dimensi: 1301, Akurasi: 0.86
+Dimensi: 1300, Akurasi: 0.88
+Dimensi: 1299, Akurasi: 0.86
+Dimensi: 1298, Akurasi: 0.89
+Dimensi: 1297, Akurasi: 0.91
+Dimensi: 1296, Akurasi: 0.78
+Dimensi: 1295, Akurasi: 0.86
+Dimensi: 1294, Akurasi: 0.86
+Dimensi: 1293, Akurasi: 0.91
+Dimensi: 1292, Akurasi: 0.77
+Dimensi: 1291, Akurasi: 0.88
+Dimensi: 1290, Akurasi: 0.91
+Dimensi: 1289, Akurasi: 0.88
+Dimensi: 1288, Akurasi: 0.80
+Dimensi: 1287, Akurasi: 0.91
+Dimensi: 1286, Akurasi: 0.81
+Dimensi: 1285, Akurasi: 0.58
+Dimensi: 1284, Akurasi: 0.86
+Dimensi: 1283, Akurasi: 0.91
+Dimensi: 1282, Akurasi: 0.88
+Dimensi: 1281, Akurasi: 0.91
+Dimensi: 1280, Akurasi: 0.91
+Dimensi: 1279, Akurasi: 0.61
+Dimensi: 1278, Akurasi: 0.86
+Dimensi: 1277, Akurasi: 0.86
+Dimensi: 1276, Akurasi: 0.88
+Dimensi: 1275, Akurasi: 0.86
+Dimensi: 1274, Akurasi: 0.78
+Dimensi: 1273, Akurasi: 0.62
+Dimensi: 1272, Akurasi: 0.88
+Dimensi: 1271, Akurasi: 0.88
+Dimensi: 1270, Akurasi: 0.88
+Dimensi: 1269, Akurasi: 0.91
+Dimensi: 1268, Akurasi: 0.86
+Dimensi: 1267, Akurasi: 0.91
+Dimensi: 1266, Akurasi: 0.83
+Dimensi: 1265, Akurasi: 0.88
+Dimensi: 1264, Akurasi: 0.83
+Dimensi: 1263, Akurasi: 0.91
+Dimensi: 1262, Akurasi: 0.91
+Dimensi: 1261, Akurasi: 0.80
+Dimensi: 1260, Akurasi: 0.88
+Dimensi: 1259, Akurasi: 0.91
+Dimensi: 1258, Akurasi: 0.88
+Dimensi: 1257, Akurasi: 0.69
+Dimensi: 1256, Akurasi: 0.72
+Dimensi: 1255, Akurasi: 0.72
+Dimensi: 1254, Akurasi: 0.69
+Dimensi: 1253, Akurasi: 0.69
+Dimensi: 1252, Akurasi: 0.91
+Dimensi: 1251, Akurasi: 0.78
+Dimensi: 1250, Akurasi: 0.88
+Dimensi: 1249, Akurasi: 0.86
+Dimensi: 1248, Akurasi: 0.77
+Dimensi: 1247, Akurasi: 0.80
+Dimensi: 1246, Akurasi: 0.86
+Dimensi: 1245, Akurasi: 0.86
+Dimensi: 1244, Akurasi: 0.91
+Dimensi: 1243, Akurasi: 0.91
+Dimensi: 1242, Akurasi: 0.86
+Dimensi: 1241, Akurasi: 0.88
+Dimensi: 1240, Akurasi: 0.88
+Dimensi: 1239, Akurasi: 0.72
+Dimensi: 1238, Akurasi: 0.94
+Dimensi: 1237, Akurasi: 0.88
+Dimensi: 1236, Akurasi: 0.63
+Dimensi: 1235, Akurasi: 0.53
+Dimensi: 1234, Akurasi: 0.75
+Dimensi: 1233, Akurasi: 0.64
+Dimensi: 1232, Akurasi: 0.88
+Dimensi: 1231, Akurasi: 0.75
+Dimensi: 1230, Akurasi: 0.91
+Dimensi: 1229, Akurasi: 0.86
+Dimensi: 1228, Akurasi: 0.83
+Dimensi: 1227, Akurasi: 0.88
+Dimensi: 1226, Akurasi: 0.83
+Dimensi: 1225, Akurasi: 0.86
+Dimensi: 1224, Akurasi: 0.77
+Dimensi: 1223, Akurasi: 0.86
+Dimensi: 1222, Akurasi: 0.81
+Dimensi: 1221, Akurasi: 0.77
+Dimensi: 1220, Akurasi: 0.88
+Dimensi: 1219, Akurasi: 0.82
+Dimensi: 1218, Akurasi: 0.86
+Dimensi: 1217, Akurasi: 0.86
+Dimensi: 1216, Akurasi: 0.78
+Dimensi: 1215, Akurasi: 0.91
+Dimensi: 1214, Akurasi: 0.86
+Dimensi: 1213, Akurasi: 0.88
+Dimensi: 1212, Akurasi: 0.88
+Dimensi: 1211, Akurasi: 0.86
+Dimensi: 1210, Akurasi: 0.91
+Dimensi: 1209, Akurasi: 0.88
+Dimensi: 1208, Akurasi: 0.75
+Dimensi: 1207, Akurasi: 0.83
+Dimensi: 1206, Akurasi: 0.88
+Dimensi: 1205, Akurasi: 0.91
+Dimensi: 1204, Akurasi: 0.88
+Dimensi: 1203, Akurasi: 0.83
+Dimensi: 1202, Akurasi: 0.88
+Dimensi: 1201, Akurasi: 0.61
+Dimensi: 1200, Akurasi: 0.86
+Dimensi: 1199, Akurasi: 0.86
+Dimensi: 1198, Akurasi: 0.88
+Dimensi: 1197, Akurasi: 0.71
+Dimensi: 1196, Akurasi: 0.86
+Dimensi: 1195, Akurasi: 0.57
+Dimensi: 1194, Akurasi: 0.86
+Dimensi: 1193, Akurasi: 0.88
+Dimensi: 1192, Akurasi: 0.78
+Dimensi: 1191, Akurasi: 0.78
+Dimensi: 1190, Akurasi: 0.89
+Dimensi: 1189, Akurasi: 0.91
+Dimensi: 1188, Akurasi: 0.69
+Dimensi: 1187, Akurasi: 0.88
+Dimensi: 1186, Akurasi: 0.88
+Dimensi: 1185, Akurasi: 0.91
+Dimensi: 1184, Akurasi: 0.88
+Dimensi: 1183, Akurasi: 0.91
+Dimensi: 1182, Akurasi: 0.75
+Dimensi: 1181, Akurasi: 0.86
+Dimensi: 1180, Akurasi: 0.86
+Dimensi: 1179, Akurasi: 0.77
+Dimensi: 1178, Akurasi: 0.91
+Dimensi: 1177, Akurasi: 0.91
+Dimensi: 1176, Akurasi: 0.91
+Dimensi: 1175, Akurasi: 0.86
+Dimensi: 1174, Akurasi: 0.88
+Dimensi: 1173, Akurasi: 0.88
+Dimensi: 1172, Akurasi: 0.91
+Dimensi: 1171, Akurasi: 0.86
+Dimensi: 1170, Akurasi: 0.86
+Dimensi: 1169, Akurasi: 0.88
+Dimensi: 1168, Akurasi: 0.78
+Dimensi: 1167, Akurasi: 0.86
+Dimensi: 1166, Akurasi: 0.52
+Dimensi: 1165, Akurasi: 0.88
+Dimensi: 1164, Akurasi: 0.61
+Dimensi: 1163, Akurasi: 0.86
+Dimensi: 1162, Akurasi: 0.88
+Dimensi: 1161, Akurasi: 0.86
+Dimensi: 1160, Akurasi: 0.66
+Dimensi: 1159, Akurasi: 0.86
+Dimensi: 1158, Akurasi: 0.88
+Dimensi: 1157, Akurasi: 0.91
+Dimensi: 1156, Akurasi: 0.86
+Dimensi: 1155, Akurasi: 0.72
+Dimensi: 1154, Akurasi: 0.88
+Dimensi: 1153, Akurasi: 0.86
+Dimensi: 1152, Akurasi: 0.92
+Dimensi: 1151, Akurasi: 0.68
+Dimensi: 1150, Akurasi: 0.69
+Dimensi: 1149, Akurasi: 0.86
+Dimensi: 1148, Akurasi: 0.56
+Dimensi: 1147, Akurasi: 0.88
+Dimensi: 1146, Akurasi: 0.91
+Dimensi: 1145, Akurasi: 0.83
+Dimensi: 1144, Akurasi: 0.55
+Dimensi: 1143, Akurasi: 0.88
+Dimensi: 1142, Akurasi: 0.78
+Dimensi: 1141, Akurasi: 0.66
+Dimensi: 1140, Akurasi: 0.75
+Dimensi: 1139, Akurasi: 0.52
+Dimensi: 1138, Akurasi: 0.86
+Dimensi: 1137, Akurasi: 0.91
+Dimensi: 1136, Akurasi: 0.73
+Dimensi: 1135, Akurasi: 0.86
+Dimensi: 1134, Akurasi: 0.86
+Dimensi: 1133, Akurasi: 0.89
+Dimensi: 1132, Akurasi: 0.86
+Dimensi: 1131, Akurasi: 0.86
+Dimensi: 1130, Akurasi: 0.86
+Dimensi: 1129, Akurasi: 0.86
+Dimensi: 1128, Akurasi: 0.86
+Dimensi: 1127, Akurasi: 0.86
+Dimensi: 1126, Akurasi: 0.72
+Dimensi: 1125, Akurasi: 0.88
+Dimensi: 1124, Akurasi: 0.83
+Dimensi: 1123, Akurasi: 0.81
+Dimensi: 1122, Akurasi: 0.91
+Dimensi: 1121, Akurasi: 0.80
+Dimensi: 1120, Akurasi: 0.91
+Dimensi: 1119, Akurasi: 0.89
+Dimensi: 1118, Akurasi: 0.88
+Dimensi: 1117, Akurasi: 0.69
+Dimensi: 1116, Akurasi: 0.83
+Dimensi: 1115, Akurasi: 0.80
+Dimensi: 1114, Akurasi: 0.89
+Dimensi: 1113, Akurasi: 0.91
+Dimensi: 1112, Akurasi: 0.91
+Dimensi: 1111, Akurasi: 0.91
+Dimensi: 1110, Akurasi: 0.86
+Dimensi: 1109, Akurasi: 0.86
+Dimensi: 1108, Akurasi: 0.79
+Dimensi: 1107, Akurasi: 0.73
+Dimensi: 1106, Akurasi: 0.63
+Dimensi: 1105, Akurasi: 0.86
+Dimensi: 1104, Akurasi: 0.82
+Dimensi: 1103, Akurasi: 0.64
+Dimensi: 1102, Akurasi: 0.86
+Dimensi: 1101, Akurasi: 0.86
+Dimensi: 1100, Akurasi: 0.88
+Dimensi: 1099, Akurasi: 0.59
+Dimensi: 1098, Akurasi: 0.78
+Dimensi: 1097, Akurasi: 0.91
+Dimensi: 1096, Akurasi: 0.83
+Dimensi: 1095, Akurasi: 0.88
+Dimensi: 1094, Akurasi: 0.78
+Dimensi: 1093, Akurasi: 0.91
+Dimensi: 1092, Akurasi: 0.88
+Dimensi: 1091, Akurasi: 0.81
+Dimensi: 1090, Akurasi: 0.75
+Dimensi: 1089, Akurasi: 0.88
+Dimensi: 1088, Akurasi: 0.86
+Dimensi: 1087, Akurasi: 0.91
+Dimensi: 1086, Akurasi: 0.91
+Dimensi: 1085, Akurasi: 0.86
+Dimensi: 1084, Akurasi: 0.88
+Dimensi: 1083, Akurasi: 0.86
+Dimensi: 1082, Akurasi: 0.83
+Dimensi: 1081, Akurasi: 0.83
+Dimensi: 1080, Akurasi: 0.88
+Dimensi: 1079, Akurasi: 0.86
+Dimensi: 1078, Akurasi: 0.83
+Dimensi: 1077, Akurasi: 0.91
+Dimensi: 1076, Akurasi: 0.83
+Dimensi: 1075, Akurasi: 0.91
+Dimensi: 1074, Akurasi: 0.75
+Dimensi: 1073, Akurasi: 0.84
+Dimensi: 1072, Akurasi: 0.83
+Dimensi: 1071, Akurasi: 0.64
+Dimensi: 1070, Akurasi: 0.78
+Dimensi: 1069, Akurasi: 0.88
+Dimensi: 1068, Akurasi: 0.78
+Dimensi: 1067, Akurasi: 0.78
+Dimensi: 1066, Akurasi: 0.91
+Dimensi: 1065, Akurasi: 0.78
+Dimensi: 1064, Akurasi: 0.91
+Dimensi: 1063, Akurasi: 0.94
+Dimensi: 1062, Akurasi: 0.86
+Dimensi: 1061, Akurasi: 0.88
+Dimensi: 1060, Akurasi: 0.78
+Dimensi: 1059, Akurasi: 0.91
+Dimensi: 1058, Akurasi: 0.88
+Dimensi: 1057, Akurasi: 0.86
+Dimensi: 1056, Akurasi: 0.88
+Dimensi: 1055, Akurasi: 0.83
+Dimensi: 1054, Akurasi: 0.69
+Dimensi: 1053, Akurasi: 0.86
+Dimensi: 1052, Akurasi: 0.86
+Dimensi: 1051, Akurasi: 0.86
+Dimensi: 1050, Akurasi: 0.86
+Dimensi: 1049, Akurasi: 0.76
+Dimensi: 1048, Akurasi: 0.86
+Dimensi: 1047, Akurasi: 0.82
+Dimensi: 1046, Akurasi: 0.86
+Dimensi: 1045, Akurasi: 0.88
+Dimensi: 1044, Akurasi: 0.86
+Dimensi: 1043, Akurasi: 0.86
+Dimensi: 1042, Akurasi: 0.91
+Dimensi: 1041, Akurasi: 0.86
+Dimensi: 1040, Akurasi: 0.91
+Dimensi: 1039, Akurasi: 0.72
+Dimensi: 1038, Akurasi: 0.70
+Dimensi: 1037, Akurasi: 0.83
+Dimensi: 1036, Akurasi: 0.89
+Dimensi: 1035, Akurasi: 0.81
+Dimensi: 1034, Akurasi: 0.78
+Dimensi: 1033, Akurasi: 0.91
+Dimensi: 1032, Akurasi: 0.86
+Dimensi: 1031, Akurasi: 0.88
+Dimensi: 1030, Akurasi: 0.91
+Dimensi: 1029, Akurasi: 0.88
+Dimensi: 1028, Akurasi: 0.94
+Dimensi: 1027, Akurasi: 0.86
+Dimensi: 1026, Akurasi: 0.78
+Dimensi: 1025, Akurasi: 0.91
+Dimensi: 1024, Akurasi: 0.86
+Dimensi: 1023, Akurasi: 0.78
+Dimensi: 1022, Akurasi: 0.91
+Dimensi: 1021, Akurasi: 0.75
+Dimensi: 1020, Akurasi: 0.91
+Dimensi: 1019, Akurasi: 0.86
+Dimensi: 1018, Akurasi: 0.86
+Dimensi: 1017, Akurasi: 0.88
+Dimensi: 1016, Akurasi: 0.91
+Dimensi: 1015, Akurasi: 0.88
+Dimensi: 1014, Akurasi: 0.56
+Dimensi: 1013, Akurasi: 0.91
+Dimensi: 1012, Akurasi: 0.59
+Dimensi: 1011, Akurasi: 0.72
+Dimensi: 1010, Akurasi: 0.78
+Dimensi: 1009, Akurasi: 0.94
+Dimensi: 1008, Akurasi: 0.83
+Dimensi: 1007, Akurasi: 0.84
+Dimensi: 1006, Akurasi: 0.86
+Dimensi: 1005, Akurasi: 0.91
+Dimensi: 1004, Akurasi: 0.72
+Dimensi: 1003, Akurasi: 0.86
+Dimensi: 1002, Akurasi: 0.83
+Dimensi: 1001, Akurasi: 0.91
+Dimensi: 1000, Akurasi: 0.86
+Dimensi: 999, Akurasi: 0.91
+Dimensi: 998, Akurasi: 0.78
+Dimensi: 997, Akurasi: 0.88
+Dimensi: 996, Akurasi: 0.59
+Dimensi: 995, Akurasi: 0.89
+Dimensi: 994, Akurasi: 0.86
+Dimensi: 993, Akurasi: 0.88
+Dimensi: 992, Akurasi: 0.88
+Dimensi: 991, Akurasi: 0.86
+Dimensi: 990, Akurasi: 0.91
+Dimensi: 989, Akurasi: 0.91
+Dimensi: 988, Akurasi: 0.91
+Dimensi: 987, Akurasi: 0.91
+Dimensi: 986, Akurasi: 0.78
+Dimensi: 985, Akurasi: 0.78
+Dimensi: 984, Akurasi: 0.86
+Dimensi: 983, Akurasi: 0.86
+Dimensi: 982, Akurasi: 0.91
+Dimensi: 981, Akurasi: 0.91
+Dimensi: 980, Akurasi: 0.71
+Dimensi: 979, Akurasi: 0.66
+Dimensi: 978, Akurasi: 0.86
+Dimensi: 977, Akurasi: 0.85
+Dimensi: 976, Akurasi: 0.88
+Dimensi: 975, Akurasi: 0.88
+Dimensi: 974, Akurasi: 0.88
+Dimensi: 973, Akurasi: 0.86
+Dimensi: 972, Akurasi: 0.60
+Dimensi: 971, Akurasi: 0.78
+Dimensi: 970, Akurasi: 0.86
+Dimensi: 969, Akurasi: 0.88
+Dimensi: 968, Akurasi: 0.91
+Dimensi: 967, Akurasi: 0.86
+Dimensi: 966, Akurasi: 0.85
+Dimensi: 965, Akurasi: 0.94
+Dimensi: 964, Akurasi: 0.86
+Dimensi: 963, Akurasi: 0.89
+Dimensi: 962, Akurasi: 0.88
+Dimensi: 961, Akurasi: 0.75
+Dimensi: 960, Akurasi: 0.88
+Dimensi: 959, Akurasi: 0.83
+Dimensi: 958, Akurasi: 0.86
+Dimensi: 957, Akurasi: 0.65
+Dimensi: 956, Akurasi: 0.75
+Dimensi: 955, Akurasi: 0.86
+Dimensi: 954, Akurasi: 0.91
+Dimensi: 953, Akurasi: 0.88
+Dimensi: 952, Akurasi: 0.88
+Dimensi: 951, Akurasi: 0.64
+Dimensi: 950, Akurasi: 0.79
+Dimensi: 949, Akurasi: 0.86
+Dimensi: 948, Akurasi: 0.79
+Dimensi: 947, Akurasi: 0.78
+Dimensi: 946, Akurasi: 0.91
+Dimensi: 945, Akurasi: 0.91
+Dimensi: 944, Akurasi: 0.61
+Dimensi: 943, Akurasi: 0.86
+Dimensi: 942, Akurasi: 0.75
+Dimensi: 941, Akurasi: 0.78
+Dimensi: 940, Akurasi: 0.88
+Dimensi: 939, Akurasi: 0.88
+Dimensi: 938, Akurasi: 0.91
+Dimensi: 937, Akurasi: 0.78
+Dimensi: 936, Akurasi: 0.91
+Dimensi: 935, Akurasi: 0.78
+Dimensi: 934, Akurasi: 0.88
+Dimensi: 933, Akurasi: 0.91
+Dimensi: 932, Akurasi: 0.75
+Dimensi: 931, Akurasi: 0.86
+Dimensi: 930, Akurasi: 0.86
+Dimensi: 929, Akurasi: 0.63
+Dimensi: 928, Akurasi: 0.85
+Dimensi: 927, Akurasi: 0.75
+Dimensi: 926, Akurasi: 0.78
+Dimensi: 925, Akurasi: 0.88
+Dimensi: 924, Akurasi: 0.77
+Dimensi: 923, Akurasi: 0.66
+Dimensi: 922, Akurasi: 0.88
+Dimensi: 921, Akurasi: 0.88
+Dimensi: 920, Akurasi: 0.88
+Dimensi: 919, Akurasi: 0.91
+Dimensi: 918, Akurasi: 0.86
+Dimensi: 917, Akurasi: 0.64
+Dimensi: 916, Akurasi: 0.78
+Dimensi: 915, Akurasi: 0.75
+Dimensi: 914, Akurasi: 0.86
+Dimensi: 913, Akurasi: 0.72
+Dimensi: 912, Akurasi: 0.88
+Dimensi: 911, Akurasi: 0.91
+Dimensi: 910, Akurasi: 0.88
+Dimensi: 909, Akurasi: 0.76
+Dimensi: 908, Akurasi: 0.91
+Dimensi: 907, Akurasi: 0.84
+Dimensi: 906, Akurasi: 0.67
+Dimensi: 905, Akurasi: 0.91
+Dimensi: 904, Akurasi: 0.91
+Dimensi: 903, Akurasi: 0.91
+Dimensi: 902, Akurasi: 0.86
+Dimensi: 901, Akurasi: 0.77
+Dimensi: 900, Akurasi: 0.91
+Dimensi: 899, Akurasi: 0.80
+Dimensi: 898, Akurasi: 0.83
+Dimensi: 897, Akurasi: 0.91
+Dimensi: 896, Akurasi: 0.97
+Dimensi: 895, Akurasi: 0.81
+Dimensi: 894, Akurasi: 0.83
+Dimensi: 893, Akurasi: 0.75
+Dimensi: 892, Akurasi: 0.86
+Dimensi: 891, Akurasi: 0.88
+Dimensi: 890, Akurasi: 0.78
+Dimensi: 889, Akurasi: 0.88
+Dimensi: 888, Akurasi: 0.85
+Dimensi: 887, Akurasi: 0.61
+Dimensi: 886, Akurasi: 0.81
+Dimensi: 885, Akurasi: 0.75
+Dimensi: 884, Akurasi: 0.89
+Dimensi: 883, Akurasi: 0.88
+Dimensi: 882, Akurasi: 0.88
+Dimensi: 881, Akurasi: 0.78
+Dimensi: 880, Akurasi: 0.91
+Dimensi: 879, Akurasi: 0.86
+Dimensi: 878, Akurasi: 0.80
+Dimensi: 877, Akurasi: 0.77
+Dimensi: 876, Akurasi: 0.91
+Dimensi: 875, Akurasi: 0.83
+Dimensi: 874, Akurasi: 0.91
+Dimensi: 873, Akurasi: 0.86
+Dimensi: 872, Akurasi: 0.72
+Dimensi: 871, Akurasi: 0.91
+Dimensi: 870, Akurasi: 0.78
+Dimensi: 869, Akurasi: 0.91
+Dimensi: 868, Akurasi: 0.91
+Dimensi: 867, Akurasi: 0.91
+Dimensi: 866, Akurasi: 0.80
+Dimensi: 865, Akurasi: 0.51
+Dimensi: 864, Akurasi: 0.86
+Dimensi: 863, Akurasi: 0.80
+Dimensi: 862, Akurasi: 0.86
+Dimensi: 861, Akurasi: 0.74
+Dimensi: 860, Akurasi: 0.88
+Dimensi: 859, Akurasi: 0.88
+Dimensi: 858, Akurasi: 0.88
+Dimensi: 857, Akurasi: 0.75
+Dimensi: 856, Akurasi: 0.83
+Dimensi: 855, Akurasi: 0.66
+Dimensi: 854, Akurasi: 0.86
+Dimensi: 853, Akurasi: 0.61
+Dimensi: 852, Akurasi: 0.82
+Dimensi: 851, Akurasi: 0.88
+Dimensi: 850, Akurasi: 0.86
+Dimensi: 849, Akurasi: 0.88
+Dimensi: 848, Akurasi: 0.88
+Dimensi: 847, Akurasi: 0.91
+Dimensi: 846, Akurasi: 0.86
+Dimensi: 845, Akurasi: 0.86
+Dimensi: 844, Akurasi: 0.74
+Dimensi: 843, Akurasi: 0.86
+Dimensi: 842, Akurasi: 0.85
+Dimensi: 841, Akurasi: 0.91
+Dimensi: 840, Akurasi: 0.85
+Dimensi: 839, Akurasi: 0.88
+Dimensi: 838, Akurasi: 0.91
+Dimensi: 837, Akurasi: 0.73
+Dimensi: 836, Akurasi: 0.88
+Dimensi: 835, Akurasi: 0.91
+Dimensi: 834, Akurasi: 0.88
+Dimensi: 833, Akurasi: 0.86
+Dimensi: 832, Akurasi: 0.91
+Dimensi: 831, Akurasi: 0.88
+Dimensi: 830, Akurasi: 0.54
+Dimensi: 829, Akurasi: 0.91
+Dimensi: 828, Akurasi: 0.86
+Dimensi: 827, Akurasi: 0.72
+Dimensi: 826, Akurasi: 0.88
+Dimensi: 825, Akurasi: 0.88
+Dimensi: 824, Akurasi: 0.88
+Dimensi: 823, Akurasi: 0.75
+Dimensi: 822, Akurasi: 0.67
+Dimensi: 821, Akurasi: 0.83
+Dimensi: 820, Akurasi: 0.88
+Dimensi: 819, Akurasi: 0.78
+Dimensi: 818, Akurasi: 0.86
+Dimensi: 817, Akurasi: 0.86
+Dimensi: 816, Akurasi: 0.78
+Dimensi: 815, Akurasi: 0.91
+Dimensi: 814, Akurasi: 0.63
+Dimensi: 813, Akurasi: 0.91
+Dimensi: 812, Akurasi: 0.78
+Dimensi: 811, Akurasi: 0.88
+Dimensi: 810, Akurasi: 0.86
+Dimensi: 809, Akurasi: 0.91
+Dimensi: 808, Akurasi: 0.88
+Dimensi: 807, Akurasi: 0.88
+Dimensi: 806, Akurasi: 0.76
+Dimensi: 805, Akurasi: 0.91
+Dimensi: 804, Akurasi: 0.80
+Dimensi: 803, Akurasi: 0.94
+Dimensi: 802, Akurasi: 0.88
+Dimensi: 801, Akurasi: 0.86
+Dimensi: 800, Akurasi: 0.88
+Dimensi: 799, Akurasi: 0.77
+Dimensi: 798, Akurasi: 0.85
+Dimensi: 797, Akurasi: 0.88
+Dimensi: 796, Akurasi: 0.64
+Dimensi: 795, Akurasi: 0.91
+Dimensi: 794, Akurasi: 0.94
+Dimensi: 793, Akurasi: 0.91
+Dimensi: 792, Akurasi: 0.83
+Dimensi: 791, Akurasi: 0.83
+Dimensi: 790, Akurasi: 0.70
+Dimensi: 789, Akurasi: 0.91
+Dimensi: 788, Akurasi: 0.88
+Dimensi: 787, Akurasi: 0.78
+Dimensi: 786, Akurasi: 0.86
+Dimensi: 785, Akurasi: 0.78
+Dimensi: 784, Akurasi: 0.80
+Dimensi: 783, Akurasi: 0.83
+Dimensi: 782, Akurasi: 0.86
+Dimensi: 781, Akurasi: 0.85
+Dimensi: 780, Akurasi: 0.77
+Dimensi: 779, Akurasi: 0.66
+Dimensi: 778, Akurasi: 0.91
+Dimensi: 777, Akurasi: 0.91
+Dimensi: 776, Akurasi: 0.91
+Dimensi: 775, Akurasi: 0.88
+Dimensi: 774, Akurasi: 0.59
+Dimensi: 773, Akurasi: 0.83
+Dimensi: 772, Akurasi: 0.88
+Dimensi: 771, Akurasi: 0.82
+Dimensi: 770, Akurasi: 0.83
+Dimensi: 769, Akurasi: 0.88
+Dimensi: 768, Akurasi: 0.84
+Dimensi: 767, Akurasi: 0.91
+Dimensi: 766, Akurasi: 0.88
+Dimensi: 765, Akurasi: 0.91
+Dimensi: 764, Akurasi: 0.85
+Dimensi: 763, Akurasi: 0.55
+Dimensi: 762, Akurasi: 0.94
+Dimensi: 761, Akurasi: 0.86
+Dimensi: 760, Akurasi: 0.80
+Dimensi: 759, Akurasi: 0.52
+Dimensi: 758, Akurasi: 0.63
+Dimensi: 757, Akurasi: 0.91
+Dimensi: 756, Akurasi: 0.91
+Dimensi: 755, Akurasi: 0.83
+Dimensi: 754, Akurasi: 0.83
+Dimensi: 753, Akurasi: 0.88
+Dimensi: 752, Akurasi: 0.91
+Dimensi: 751, Akurasi: 0.85
+Dimensi: 750, Akurasi: 0.86
+Dimensi: 749, Akurasi: 0.71
+Dimensi: 748, Akurasi: 0.89
+Dimensi: 747, Akurasi: 0.79
+Dimensi: 746, Akurasi: 0.91
+Dimensi: 745, Akurasi: 0.78
+Dimensi: 744, Akurasi: 0.94
+Dimensi: 743, Akurasi: 0.88
+Dimensi: 742, Akurasi: 0.86
+Dimensi: 741, Akurasi: 0.88
+Dimensi: 740, Akurasi: 0.82
+Dimensi: 739, Akurasi: 0.86
+Dimensi: 738, Akurasi: 0.71
+Dimensi: 737, Akurasi: 0.64
+Dimensi: 736, Akurasi: 0.78
+Dimensi: 735, Akurasi: 0.78
+Dimensi: 734, Akurasi: 0.63
+Dimensi: 733, Akurasi: 0.88
+Dimensi: 732, Akurasi: 0.83
+Dimensi: 731, Akurasi: 0.86
+Dimensi: 730, Akurasi: 0.91
+Dimensi: 729, Akurasi: 0.83
+Dimensi: 728, Akurasi: 0.83
+Dimensi: 727, Akurasi: 0.83
+Dimensi: 726, Akurasi: 0.88
+Dimensi: 725, Akurasi: 0.91
+Dimensi: 724, Akurasi: 0.94
+Dimensi: 723, Akurasi: 0.94
+Dimensi: 722, Akurasi: 0.86
+Dimensi: 721, Akurasi: 0.86
+Dimensi: 720, Akurasi: 0.91
+Dimensi: 719, Akurasi: 0.91
+Dimensi: 718, Akurasi: 0.91
+Dimensi: 717, Akurasi: 0.83
+Dimensi: 716, Akurasi: 0.86
+Dimensi: 715, Akurasi: 0.86
+Dimensi: 714, Akurasi: 0.91
+Dimensi: 713, Akurasi: 0.62
+Dimensi: 712, Akurasi: 0.59
+Dimensi: 711, Akurasi: 0.66
+Dimensi: 710, Akurasi: 0.88
+Dimensi: 709, Akurasi: 0.86
+Dimensi: 708, Akurasi: 0.86
+Dimensi: 707, Akurasi: 0.88
+Dimensi: 706, Akurasi: 0.86
+Dimensi: 705, Akurasi: 0.60
+Dimensi: 704, Akurasi: 0.85
+Dimensi: 703, Akurasi: 0.91
+Dimensi: 702, Akurasi: 0.80
+Dimensi: 701, Akurasi: 0.88
+Dimensi: 700, Akurasi: 0.83
+Dimensi: 699, Akurasi: 0.86
+Dimensi: 698, Akurasi: 0.91
+Dimensi: 697, Akurasi: 0.88
+Dimensi: 696, Akurasi: 0.88
+Dimensi: 695, Akurasi: 0.64
+Dimensi: 694, Akurasi: 0.69
+Dimensi: 693, Akurasi: 0.86
+Dimensi: 692, Akurasi: 0.86
+Dimensi: 691, Akurasi: 0.91
+Dimensi: 690, Akurasi: 0.88
+Dimensi: 689, Akurasi: 0.88
+Dimensi: 688, Akurasi: 0.88
+Dimensi: 687, Akurasi: 0.88
+Dimensi: 686, Akurasi: 0.88
+Dimensi: 685, Akurasi: 0.86
+Dimensi: 684, Akurasi: 0.88
+Dimensi: 683, Akurasi: 0.83
+Dimensi: 682, Akurasi: 0.80
+Dimensi: 681, Akurasi: 0.75
+Dimensi: 680, Akurasi: 0.88
+Dimensi: 679, Akurasi: 0.88
+Dimensi: 678, Akurasi: 0.79
+Dimensi: 677, Akurasi: 0.79
+Dimensi: 676, Akurasi: 0.67
+Dimensi: 675, Akurasi: 0.89
+Dimensi: 674, Akurasi: 0.86
+Dimensi: 673, Akurasi: 0.67
+Dimensi: 672, Akurasi: 0.91
+Dimensi: 671, Akurasi: 0.81
+Dimensi: 670, Akurasi: 0.78
+Dimensi: 669, Akurasi: 0.86
+Dimensi: 668, Akurasi: 0.88
+Dimensi: 667, Akurasi: 0.73
+Dimensi: 666, Akurasi: 0.77
+Dimensi: 665, Akurasi: 0.86
+Dimensi: 664, Akurasi: 0.88
+Dimensi: 663, Akurasi: 0.86
+Dimensi: 662, Akurasi: 0.75
+Dimensi: 661, Akurasi: 0.91
+Dimensi: 660, Akurasi: 0.86
+Dimensi: 659, Akurasi: 0.83
+Dimensi: 658, Akurasi: 0.91
+Dimensi: 657, Akurasi: 0.86
+Dimensi: 656, Akurasi: 0.91
+Dimensi: 655, Akurasi: 0.91
+Dimensi: 654, Akurasi: 0.61
+Dimensi: 653, Akurasi: 0.75
+Dimensi: 652, Akurasi: 0.91
+Dimensi: 651, Akurasi: 0.76
+Dimensi: 650, Akurasi: 0.72
+Dimensi: 649, Akurasi: 0.88
+Dimensi: 648, Akurasi: 0.91
+Dimensi: 647, Akurasi: 0.80
+Dimensi: 646, Akurasi: 0.94
+Dimensi: 645, Akurasi: 0.83
+Dimensi: 644, Akurasi: 0.78
+Dimensi: 643, Akurasi: 0.88
+Dimensi: 642, Akurasi: 0.91
+Dimensi: 641, Akurasi: 0.91
+Dimensi: 640, Akurasi: 0.78
+Dimensi: 639, Akurasi: 0.91
+Dimensi: 638, Akurasi: 0.86
+Dimensi: 637, Akurasi: 0.59
+Dimensi: 636, Akurasi: 0.86
+Dimensi: 635, Akurasi: 0.91
+Dimensi: 634, Akurasi: 0.72
+Dimensi: 633, Akurasi: 0.86
+Dimensi: 632, Akurasi: 0.80
+Dimensi: 631, Akurasi: 0.60
+Dimensi: 630, Akurasi: 0.82
+Dimensi: 629, Akurasi: 0.86
+Dimensi: 628, Akurasi: 0.86
+Dimensi: 627, Akurasi: 0.80
+Dimensi: 626, Akurasi: 0.67
+Dimensi: 625, Akurasi: 0.88
+Dimensi: 624, Akurasi: 0.86
+Dimensi: 623, Akurasi: 0.91
+Dimensi: 622, Akurasi: 0.82
+Dimensi: 621, Akurasi: 0.91
+Dimensi: 620, Akurasi: 0.91
+Dimensi: 619, Akurasi: 0.75
+Dimensi: 618, Akurasi: 0.83
+Dimensi: 617, Akurasi: 0.86
+Dimensi: 616, Akurasi: 0.83
+Dimensi: 615, Akurasi: 0.86
+Dimensi: 614, Akurasi: 0.61
+Dimensi: 613, Akurasi: 0.91
+Dimensi: 612, Akurasi: 0.70
+Dimensi: 611, Akurasi: 0.83
+Dimensi: 610, Akurasi: 0.86
+Dimensi: 609, Akurasi: 0.78
+Dimensi: 608, Akurasi: 0.83
+Dimensi: 607, Akurasi: 0.85
+Dimensi: 606, Akurasi: 0.91
+Dimensi: 605, Akurasi: 0.86
+Dimensi: 604, Akurasi: 0.72
+Dimensi: 603, Akurasi: 0.56
+Dimensi: 602, Akurasi: 0.76
+Dimensi: 601, Akurasi: 0.86
+Dimensi: 600, Akurasi: 0.85
+Dimensi: 599, Akurasi: 0.83
+Dimensi: 598, Akurasi: 0.88
+Dimensi: 597, Akurasi: 0.83
+Dimensi: 596, Akurasi: 0.59
+Dimensi: 595, Akurasi: 0.91
+Dimensi: 594, Akurasi: 0.88
+Dimensi: 593, Akurasi: 0.80
+Dimensi: 592, Akurasi: 0.83
+Dimensi: 591, Akurasi: 0.69
+Dimensi: 590, Akurasi: 0.91
+Dimensi: 589, Akurasi: 0.78
+Dimensi: 588, Akurasi: 0.85
+Dimensi: 587, Akurasi: 0.91
+Dimensi: 586, Akurasi: 0.88
+Dimensi: 585, Akurasi: 0.91
+Dimensi: 584, Akurasi: 0.86
+Dimensi: 583, Akurasi: 0.55
+Dimensi: 582, Akurasi: 0.88
+Dimensi: 581, Akurasi: 0.83
+Dimensi: 580, Akurasi: 0.88
+Dimensi: 579, Akurasi: 0.83
+Dimensi: 578, Akurasi: 0.82
+Dimensi: 577, Akurasi: 0.78
+Dimensi: 576, Akurasi: 0.91
+Dimensi: 575, Akurasi: 0.83
+Dimensi: 574, Akurasi: 0.91
+Dimensi: 573, Akurasi: 0.68
+Dimensi: 572, Akurasi: 0.64
+Dimensi: 571, Akurasi: 0.85
+Dimensi: 570, Akurasi: 0.91
+Dimensi: 569, Akurasi: 0.86
+Dimensi: 568, Akurasi: 0.88
+Dimensi: 567, Akurasi: 0.83
+Dimensi: 566, Akurasi: 0.83
+Dimensi: 565, Akurasi: 0.78
+Dimensi: 564, Akurasi: 0.88
+Dimensi: 563, Akurasi: 0.83
+Dimensi: 562, Akurasi: 0.81
+Dimensi: 561, Akurasi: 0.86
+Dimensi: 560, Akurasi: 0.85
+Dimensi: 559, Akurasi: 0.88
+Dimensi: 558, Akurasi: 0.88
+Dimensi: 557, Akurasi: 0.86
+Dimensi: 556, Akurasi: 0.88
+Dimensi: 555, Akurasi: 0.85
+Dimensi: 554, Akurasi: 0.83
+Dimensi: 553, Akurasi: 0.59
+Dimensi: 552, Akurasi: 0.86
+Dimensi: 551, Akurasi: 0.91
+Dimensi: 550, Akurasi: 0.83
+Dimensi: 549, Akurasi: 0.86
+Dimensi: 548, Akurasi: 0.78
+Dimensi: 547, Akurasi: 0.91
+Dimensi: 546, Akurasi: 0.91
+Dimensi: 545, Akurasi: 0.88
+Dimensi: 544, Akurasi: 0.91
+Dimensi: 543, Akurasi: 0.86
+Dimensi: 542, Akurasi: 0.88
+Dimensi: 541, Akurasi: 0.83
+Dimensi: 540, Akurasi: 0.86
+Dimensi: 539, Akurasi: 0.88
+Dimensi: 538, Akurasi: 0.72
+Dimensi: 537, Akurasi: 0.69
+Dimensi: 536, Akurasi: 0.86
+Dimensi: 535, Akurasi: 0.75
+Dimensi: 534, Akurasi: 0.69
+Dimensi: 533, Akurasi: 0.91
+Dimensi: 532, Akurasi: 0.91
+Dimensi: 531, Akurasi: 0.86
+Dimensi: 530, Akurasi: 0.76
+Dimensi: 529, Akurasi: 0.91
+Dimensi: 528, Akurasi: 0.78
+Dimensi: 527, Akurasi: 0.89
+Dimensi: 526, Akurasi: 0.91
+Dimensi: 525, Akurasi: 0.70
+Dimensi: 524, Akurasi: 0.85
+Dimensi: 523, Akurasi: 0.80
+Dimensi: 522, Akurasi: 0.78
+Dimensi: 521, Akurasi: 0.91
+Dimensi: 520, Akurasi: 0.71
+Dimensi: 519, Akurasi: 0.78
+Dimensi: 518, Akurasi: 0.88
+Dimensi: 517, Akurasi: 0.83
+Dimensi: 516, Akurasi: 0.91
+Dimensi: 515, Akurasi: 0.85
+Dimensi: 514, Akurasi: 0.83
+Dimensi: 513, Akurasi: 0.89
+Dimensi: 512, Akurasi: 0.91
+Dimensi: 511, Akurasi: 0.88
+Dimensi: 510, Akurasi: 0.88
+Dimensi: 509, Akurasi: 0.86
+Dimensi: 508, Akurasi: 0.88
+Dimensi: 507, Akurasi: 0.69
+Dimensi: 506, Akurasi: 0.83
+Dimensi: 505, Akurasi: 0.83
+Dimensi: 504, Akurasi: 0.91
+Dimensi: 503, Akurasi: 0.61
+Dimensi: 502, Akurasi: 0.86
+Dimensi: 501, Akurasi: 0.88
+Dimensi: 500, Akurasi: 0.88
+Dimensi: 499, Akurasi: 0.78
+Dimensi: 498, Akurasi: 0.64
+Dimensi: 497, Akurasi: 0.91
+Dimensi: 496, Akurasi: 0.78
+Dimensi: 495, Akurasi: 0.85
+Dimensi: 494, Akurasi: 0.88
+Dimensi: 493, Akurasi: 0.78
+Dimensi: 492, Akurasi: 0.74
+Dimensi: 491, Akurasi: 0.72
+Dimensi: 490, Akurasi: 0.91
+Dimensi: 489, Akurasi: 0.66
+Dimensi: 488, Akurasi: 0.91
+Dimensi: 487, Akurasi: 0.88
+Dimensi: 486, Akurasi: 0.86
+Dimensi: 485, Akurasi: 0.88
+Dimensi: 484, Akurasi: 0.59
+Dimensi: 483, Akurasi: 0.83
+Dimensi: 482, Akurasi: 0.88
+Dimensi: 481, Akurasi: 0.75
+Dimensi: 480, Akurasi: 0.57
+Dimensi: 479, Akurasi: 0.78
+Dimensi: 478, Akurasi: 0.54
+Dimensi: 477, Akurasi: 0.64
+Dimensi: 476, Akurasi: 0.56
+Dimensi: 475, Akurasi: 0.75
+Dimensi: 474, Akurasi: 0.64
+Dimensi: 473, Akurasi: 0.86
+Dimensi: 472, Akurasi: 0.91
+Dimensi: 471, Akurasi: 0.60
+Dimensi: 470, Akurasi: 0.80
+Dimensi: 469, Akurasi: 0.86
+Dimensi: 468, Akurasi: 0.78
+Dimensi: 467, Akurasi: 0.67
+Dimensi: 466, Akurasi: 0.83
+Dimensi: 465, Akurasi: 0.86
+Dimensi: 464, Akurasi: 0.78
+Dimensi: 463, Akurasi: 0.86
+Dimensi: 462, Akurasi: 0.74
+Dimensi: 461, Akurasi: 0.88
+Dimensi: 460, Akurasi: 0.83
+Dimensi: 459, Akurasi: 0.91
+Dimensi: 458, Akurasi: 0.60
+Dimensi: 457, Akurasi: 0.88
+Dimensi: 456, Akurasi: 0.91
+Dimensi: 455, Akurasi: 0.82
+Dimensi: 454, Akurasi: 0.57
+Dimensi: 453, Akurasi: 0.86
+Dimensi: 452, Akurasi: 0.61
+Dimensi: 451, Akurasi: 0.88
+Dimensi: 450, Akurasi: 0.94
+Dimensi: 449, Akurasi: 0.91
+Dimensi: 448, Akurasi: 0.66
+Dimensi: 447, Akurasi: 0.86
+Dimensi: 446, Akurasi: 0.91
+Dimensi: 445, Akurasi: 0.91
+Dimensi: 444, Akurasi: 0.69
+Dimensi: 443, Akurasi: 0.94
+Dimensi: 442, Akurasi: 0.68
+Dimensi: 441, Akurasi: 0.88
+Dimensi: 440, Akurasi: 0.86
+Dimensi: 439, Akurasi: 0.83
+Dimensi: 438, Akurasi: 0.86
+Dimensi: 437, Akurasi: 0.84
+Dimensi: 436, Akurasi: 0.89
+Dimensi: 435, Akurasi: 0.78
+Dimensi: 434, Akurasi: 0.88
+Dimensi: 433, Akurasi: 0.91
+Dimensi: 432, Akurasi: 0.86
+Dimensi: 431, Akurasi: 0.88
+Dimensi: 430, Akurasi: 0.86
+Dimensi: 429, Akurasi: 0.83
+Dimensi: 428, Akurasi: 0.91
+Dimensi: 427, Akurasi: 0.91
+Dimensi: 426, Akurasi: 0.83
+Dimensi: 425, Akurasi: 0.91
+Dimensi: 424, Akurasi: 0.91
+Dimensi: 423, Akurasi: 0.88
+Dimensi: 422, Akurasi: 0.88
+Dimensi: 421, Akurasi: 0.84
+Dimensi: 420, Akurasi: 0.88
+Dimensi: 419, Akurasi: 0.88
+Dimensi: 418, Akurasi: 0.88
+Dimensi: 417, Akurasi: 0.78
+Dimensi: 416, Akurasi: 0.91
+Dimensi: 415, Akurasi: 0.61
+Dimensi: 414, Akurasi: 0.86
+Dimensi: 413, Akurasi: 0.86
+Dimensi: 412, Akurasi: 0.91
+Dimensi: 411, Akurasi: 0.86
+Dimensi: 410, Akurasi: 0.91
+Dimensi: 409, Akurasi: 0.80
+Dimensi: 408, Akurasi: 0.64
+Dimensi: 407, Akurasi: 0.61
+Dimensi: 406, Akurasi: 0.91
+Dimensi: 405, Akurasi: 0.78
+Dimensi: 404, Akurasi: 0.88
+Dimensi: 403, Akurasi: 0.86
+Dimensi: 402, Akurasi: 0.72
+Dimensi: 401, Akurasi: 0.88
+Dimensi: 400, Akurasi: 0.80
+Dimensi: 399, Akurasi: 0.61
+Dimensi: 398, Akurasi: 0.91
+Dimensi: 397, Akurasi: 0.86
+Dimensi: 396, Akurasi: 0.86
+Dimensi: 395, Akurasi: 0.64
+Dimensi: 394, Akurasi: 0.61
+Dimensi: 393, Akurasi: 0.82
+Dimensi: 392, Akurasi: 0.88
+Dimensi: 391, Akurasi: 0.62
+Dimensi: 390, Akurasi: 0.88
+Dimensi: 389, Akurasi: 0.75
+Dimensi: 388, Akurasi: 0.73
+Dimensi: 387, Akurasi: 0.86
+Dimensi: 386, Akurasi: 0.74
+Dimensi: 385, Akurasi: 0.91
+Dimensi: 384, Akurasi: 0.80
+Dimensi: 383, Akurasi: 0.86
+Dimensi: 382, Akurasi: 0.86
+Dimensi: 381, Akurasi: 0.86
+Dimensi: 380, Akurasi: 0.78
+Dimensi: 379, Akurasi: 0.86
+Dimensi: 378, Akurasi: 0.88
+Dimensi: 377, Akurasi: 0.61
+Dimensi: 376, Akurasi: 0.86
+Dimensi: 375, Akurasi: 0.88
+Dimensi: 374, Akurasi: 0.91
+Dimensi: 373, Akurasi: 0.88
+Dimensi: 372, Akurasi: 0.91
+Dimensi: 371, Akurasi: 0.78
+Dimensi: 370, Akurasi: 0.83
+Dimensi: 369, Akurasi: 0.94
+Dimensi: 368, Akurasi: 0.91
+Dimensi: 367, Akurasi: 0.91
+Dimensi: 366, Akurasi: 0.83
+Dimensi: 365, Akurasi: 0.86
+Dimensi: 364, Akurasi: 0.91
+Dimensi: 363, Akurasi: 0.66
+Dimensi: 362, Akurasi: 0.86
+Dimensi: 361, Akurasi: 0.74
+Dimensi: 360, Akurasi: 0.91
+Dimensi: 359, Akurasi: 0.61
+Dimensi: 358, Akurasi: 0.55
+Dimensi: 357, Akurasi: 0.61
+Dimensi: 356, Akurasi: 0.86
+Dimensi: 355, Akurasi: 0.91
+Dimensi: 354, Akurasi: 0.86
+Dimensi: 353, Akurasi: 0.88
+Dimensi: 352, Akurasi: 0.97
+Dimensi: 351, Akurasi: 0.60
+Dimensi: 350, Akurasi: 0.88
+Dimensi: 349, Akurasi: 0.88
+Dimensi: 348, Akurasi: 0.88
+Dimensi: 347, Akurasi: 0.53
+Dimensi: 346, Akurasi: 0.79
+Dimensi: 345, Akurasi: 0.88
+Dimensi: 344, Akurasi: 0.86
+Dimensi: 343, Akurasi: 0.83
+Dimensi: 342, Akurasi: 0.81
+Dimensi: 341, Akurasi: 0.78
+Dimensi: 340, Akurasi: 0.95
+Dimensi: 339, Akurasi: 0.78
+Dimensi: 338, Akurasi: 0.86
+Dimensi: 337, Akurasi: 0.61
+Dimensi: 336, Akurasi: 0.83
+Dimensi: 335, Akurasi: 0.83
+Dimensi: 334, Akurasi: 0.86
+Dimensi: 333, Akurasi: 0.91
+Dimensi: 332, Akurasi: 0.80
+Dimensi: 331, Akurasi: 0.86
+Dimensi: 330, Akurasi: 0.91
+Dimensi: 329, Akurasi: 0.91
+Dimensi: 328, Akurasi: 0.86
+Dimensi: 327, Akurasi: 0.83
+Dimensi: 326, Akurasi: 0.61
+Dimensi: 325, Akurasi: 0.59
+Dimensi: 324, Akurasi: 0.80
+Dimensi: 323, Akurasi: 0.88
+Dimensi: 322, Akurasi: 0.85
+Dimensi: 321, Akurasi: 0.91
+Dimensi: 320, Akurasi: 0.83
+Dimensi: 319, Akurasi: 0.83
+Dimensi: 318, Akurasi: 0.69
+Dimensi: 317, Akurasi: 0.78
+Dimensi: 316, Akurasi: 0.85
+Dimensi: 315, Akurasi: 0.72
+Dimensi: 314, Akurasi: 0.79
+Dimensi: 313, Akurasi: 0.80
+Dimensi: 312, Akurasi: 0.78
+Dimensi: 311, Akurasi: 0.83
+Dimensi: 310, Akurasi: 0.91
+Dimensi: 309, Akurasi: 0.91
+Dimensi: 308, Akurasi: 0.88
+Dimensi: 307, Akurasi: 0.80
+Dimensi: 306, Akurasi: 0.82
+Dimensi: 305, Akurasi: 0.91
+Dimensi: 304, Akurasi: 0.64
+Dimensi: 303, Akurasi: 0.55
+Dimensi: 302, Akurasi: 0.94
+Dimensi: 301, Akurasi: 0.86
+Dimensi: 300, Akurasi: 0.83
+Dimensi: 299, Akurasi: 0.91
+Dimensi: 298, Akurasi: 0.97
+Dimensi: 297, Akurasi: 0.88
+Dimensi: 296, Akurasi: 0.86
+Dimensi: 295, Akurasi: 0.83
+Dimensi: 294, Akurasi: 0.78
+Dimensi: 293, Akurasi: 0.86
+Dimensi: 292, Akurasi: 0.91
+Dimensi: 291, Akurasi: 0.82
+Dimensi: 290, Akurasi: 0.88
+Dimensi: 289, Akurasi: 0.91
+Dimensi: 288, Akurasi: 0.83
+Dimensi: 287, Akurasi: 0.86
+Dimensi: 286, Akurasi: 0.77
+Dimensi: 285, Akurasi: 0.86
+Dimensi: 284, Akurasi: 0.75
+Dimensi: 283, Akurasi: 0.86
+Dimensi: 282, Akurasi: 0.89
+Dimensi: 281, Akurasi: 0.81
+Dimensi: 280, Akurasi: 0.91
+Dimensi: 279, Akurasi: 0.88
+Dimensi: 278, Akurasi: 0.83
+Dimensi: 277, Akurasi: 0.91
+Dimensi: 276, Akurasi: 0.52
+Dimensi: 275, Akurasi: 0.94
+Dimensi: 274, Akurasi: 0.78
+Dimensi: 273, Akurasi: 0.91
+Dimensi: 272, Akurasi: 0.75
+Dimensi: 271, Akurasi: 0.88
+Dimensi: 270, Akurasi: 0.91
+Dimensi: 269, Akurasi: 0.91
+Dimensi: 268, Akurasi: 0.86
+Dimensi: 267, Akurasi: 0.91
+Dimensi: 266, Akurasi: 0.84
+Dimensi: 265, Akurasi: 0.69
+Dimensi: 264, Akurasi: 0.86
+Dimensi: 263, Akurasi: 0.91
+Dimensi: 262, Akurasi: 0.88
+Dimensi: 261, Akurasi: 0.91
+Dimensi: 260, Akurasi: 0.86
+Dimensi: 259, Akurasi: 0.88
+Dimensi: 258, Akurasi: 0.86
+Dimensi: 257, Akurasi: 0.83
+Dimensi: 256, Akurasi: 0.61
+Dimensi: 255, Akurasi: 0.86
+Dimensi: 254, Akurasi: 0.88
+Dimensi: 253, Akurasi: 0.86
+Dimensi: 252, Akurasi: 0.64
+Dimensi: 251, Akurasi: 0.78
+Dimensi: 250, Akurasi: 0.88
+Dimensi: 249, Akurasi: 0.86
+Dimensi: 248, Akurasi: 0.62
+Dimensi: 247, Akurasi: 0.88
+Dimensi: 246, Akurasi: 0.86
+Dimensi: 245, Akurasi: 0.91
+Dimensi: 244, Akurasi: 0.83
+Dimensi: 243, Akurasi: 0.86
+Dimensi: 242, Akurasi: 0.69
+Dimensi: 241, Akurasi: 0.88
+Dimensi: 240, Akurasi: 0.88
+Dimensi: 239, Akurasi: 0.86
+Dimensi: 238, Akurasi: 0.86
+Dimensi: 237, Akurasi: 0.86
+Dimensi: 236, Akurasi: 0.78
+Dimensi: 235, Akurasi: 0.79
+Dimensi: 234, Akurasi: 0.86
+Dimensi: 233, Akurasi: 0.81
+Dimensi: 232, Akurasi: 0.91
+Dimensi: 231, Akurasi: 0.91
+Dimensi: 230, Akurasi: 0.83
+Dimensi: 229, Akurasi: 0.86
+Dimensi: 228, Akurasi: 0.55
+Dimensi: 227, Akurasi: 0.88
+Dimensi: 226, Akurasi: 0.91
+Dimensi: 225, Akurasi: 0.88
+Dimensi: 224, Akurasi: 0.88
+Dimensi: 223, Akurasi: 0.85
+Dimensi: 222, Akurasi: 0.94
+Dimensi: 221, Akurasi: 0.83
+Dimensi: 220, Akurasi: 0.81
+Dimensi: 219, Akurasi: 0.58
+Dimensi: 218, Akurasi: 0.86
+Dimensi: 217, Akurasi: 0.78
+Dimensi: 216, Akurasi: 0.75
+Dimensi: 215, Akurasi: 0.85
+Dimensi: 214, Akurasi: 0.77
+Dimensi: 213, Akurasi: 0.91
+Dimensi: 212, Akurasi: 0.86
+Dimensi: 211, Akurasi: 0.74
+Dimensi: 210, Akurasi: 0.88
+Dimensi: 209, Akurasi: 0.75
+Dimensi: 208, Akurasi: 0.94
+Dimensi: 207, Akurasi: 0.86
+Dimensi: 206, Akurasi: 0.83
+Dimensi: 205, Akurasi: 0.83
+Dimensi: 204, Akurasi: 0.60
+Dimensi: 203, Akurasi: 0.86
+Dimensi: 202, Akurasi: 0.61
+Dimensi: 201, Akurasi: 0.83
+Dimensi: 200, Akurasi: 0.91
+Dimensi: 199, Akurasi: 0.91
+Dimensi: 198, Akurasi: 0.88
+Dimensi: 197, Akurasi: 0.69
+Dimensi: 196, Akurasi: 0.88
+Dimensi: 195, Akurasi: 0.91
+Dimensi: 194, Akurasi: 0.61
+Dimensi: 193, Akurasi: 0.86
+Dimensi: 192, Akurasi: 0.78
+Dimensi: 191, Akurasi: 0.86
+Dimensi: 190, Akurasi: 0.91
+Dimensi: 189, Akurasi: 0.78
+Dimensi: 188, Akurasi: 0.91
+Dimensi: 187, Akurasi: 0.61
+Dimensi: 186, Akurasi: 0.88
+Dimensi: 185, Akurasi: 0.83
+Dimensi: 184, Akurasi: 0.86
+Dimensi: 183, Akurasi: 0.88
+Dimensi: 182, Akurasi: 0.72
+Dimensi: 181, Akurasi: 0.72
+Dimensi: 180, Akurasi: 0.86
+Dimensi: 179, Akurasi: 0.86
+Dimensi: 178, Akurasi: 0.83
+Dimensi: 177, Akurasi: 0.66
+Dimensi: 176, Akurasi: 0.88
+Dimensi: 175, Akurasi: 0.72
+Dimensi: 174, Akurasi: 0.72
+Dimensi: 173, Akurasi: 0.66
+Dimensi: 172, Akurasi: 0.88
+Dimensi: 171, Akurasi: 0.91
+Dimensi: 170, Akurasi: 0.91
+Dimensi: 169, Akurasi: 0.60
+Dimensi: 168, Akurasi: 0.86
+Dimensi: 167, Akurasi: 0.88
+Dimensi: 166, Akurasi: 0.78
+Dimensi: 165, Akurasi: 0.83
+Dimensi: 164, Akurasi: 0.88
+Dimensi: 163, Akurasi: 0.66
+Dimensi: 162, Akurasi: 0.88
+Dimensi: 161, Akurasi: 0.88
+Dimensi: 160, Akurasi: 0.83
+Dimensi: 159, Akurasi: 0.86
+Dimensi: 158, Akurasi: 0.80
+Dimensi: 157, Akurasi: 0.91
+Dimensi: 156, Akurasi: 0.83
+Dimensi: 155, Akurasi: 0.60
+Dimensi: 154, Akurasi: 0.75
+Dimensi: 153, Akurasi: 0.80
+Dimensi: 152, Akurasi: 0.86
+Dimensi: 151, Akurasi: 0.91
+Dimensi: 150, Akurasi: 0.91
+Dimensi: 149, Akurasi: 0.78
+Dimensi: 148, Akurasi: 0.69
+Dimensi: 147, Akurasi: 0.94
+Dimensi: 146, Akurasi: 0.86
+Dimensi: 145, Akurasi: 0.78
+Dimensi: 144, Akurasi: 0.91
+Dimensi: 143, Akurasi: 0.83
+Dimensi: 142, Akurasi: 0.88
+Dimensi: 141, Akurasi: 0.83
+Dimensi: 140, Akurasi: 0.86
+Dimensi: 139, Akurasi: 0.88
+Dimensi: 138, Akurasi: 0.86
+Dimensi: 137, Akurasi: 0.88
+Dimensi: 136, Akurasi: 0.55
+Dimensi: 135, Akurasi: 0.83
+Dimensi: 134, Akurasi: 0.91
+Dimensi: 133, Akurasi: 0.78
+Dimensi: 132, Akurasi: 0.86
+Dimensi: 131, Akurasi: 0.91
+Dimensi: 130, Akurasi: 0.77
+Dimensi: 129, Akurasi: 0.88
+Dimensi: 128, Akurasi: 0.94
+Dimensi: 127, Akurasi: 0.91
+Dimensi: 126, Akurasi: 0.88
+Dimensi: 125, Akurasi: 0.88
+Dimensi: 124, Akurasi: 0.62
+Dimensi: 123, Akurasi: 0.86
+Dimensi: 122, Akurasi: 0.94
+Dimensi: 121, Akurasi: 0.83
+Dimensi: 120, Akurasi: 0.86
+Dimensi: 119, Akurasi: 0.88
+Dimensi: 118, Akurasi: 0.91
+Dimensi: 117, Akurasi: 0.86
+Dimensi: 116, Akurasi: 0.88
+Dimensi: 115, Akurasi: 0.91
+Dimensi: 114, Akurasi: 0.70
+Dimensi: 113, Akurasi: 0.75
+Dimensi: 112, Akurasi: 0.78
+Dimensi: 111, Akurasi: 0.86
+Dimensi: 110, Akurasi: 0.86
+Dimensi: 109, Akurasi: 0.91
+Dimensi: 108, Akurasi: 0.91
+Dimensi: 107, Akurasi: 0.88
+Dimensi: 106, Akurasi: 0.86
+Dimensi: 105, Akurasi: 0.74
+Dimensi: 104, Akurasi: 0.86
+Dimensi: 103, Akurasi: 0.91
+Dimensi: 102, Akurasi: 0.88
+Dimensi: 101, Akurasi: 0.83
+Dimensi: 100, Akurasi: 0.86
+Dimensi: 99, Akurasi: 0.81
+Dimensi: 98, Akurasi: 0.86
+Dimensi: 97, Akurasi: 0.88
+Dimensi: 96, Akurasi: 0.92
+Dimensi: 95, Akurasi: 0.79
+Dimensi: 94, Akurasi: 0.88
+Dimensi: 93, Akurasi: 0.75
+Dimensi: 92, Akurasi: 0.67
+Dimensi: 91, Akurasi: 0.86
+Dimensi: 90, Akurasi: 0.91
+Dimensi: 89, Akurasi: 0.88
+Dimensi: 88, Akurasi: 0.91
+Dimensi: 87, Akurasi: 0.80
+Dimensi: 86, Akurasi: 0.91
+Dimensi: 85, Akurasi: 0.72
+Dimensi: 84, Akurasi: 0.91
+Dimensi: 83, Akurasi: 0.88
+Dimensi: 82, Akurasi: 0.86
+Dimensi: 81, Akurasi: 0.60
+Dimensi: 80, Akurasi: 0.88
+Dimensi: 79, Akurasi: 0.88
+Dimensi: 78, Akurasi: 0.88
+Dimensi: 77, Akurasi: 0.91
+Dimensi: 76, Akurasi: 0.70
+Dimensi: 75, Akurasi: 0.86
+Dimensi: 74, Akurasi: 0.64
+Dimensi: 73, Akurasi: 0.91
+Dimensi: 72, Akurasi: 0.55
+Dimensi: 71, Akurasi: 0.89
+Dimensi: 70, Akurasi: 0.86
+Dimensi: 69, Akurasi: 0.83
+Dimensi: 68, Akurasi: 0.88
+Dimensi: 67, Akurasi: 0.88
+Dimensi: 66, Akurasi: 0.86
+Dimensi: 65, Akurasi: 0.83
+Dimensi: 64, Akurasi: 0.91
+Dimensi: 63, Akurasi: 0.84
+Dimensi: 62, Akurasi: 0.86
+Dimensi: 61, Akurasi: 0.88
+Dimensi: 60, Akurasi: 0.91
+Dimensi: 59, Akurasi: 0.72
+Dimensi: 58, Akurasi: 0.86
+Dimensi: 57, Akurasi: 0.91
+Dimensi: 56, Akurasi: 0.78
+Dimensi: 55, Akurasi: 0.78
+Dimensi: 54, Akurasi: 0.88
+Dimensi: 53, Akurasi: 0.91
+Dimensi: 52, Akurasi: 0.86
+Dimensi: 51, Akurasi: 0.86
+Dimensi: 50, Akurasi: 0.77
+Dimensi: 49, Akurasi: 0.86
+Dimensi: 48, Akurasi: 0.86
+Dimensi: 47, Akurasi: 0.88
+Dimensi: 46, Akurasi: 0.94
+Dimensi: 45, Akurasi: 0.72
+Dimensi: 44, Akurasi: 0.82
+Dimensi: 43, Akurasi: 0.88
+Dimensi: 42, Akurasi: 0.61
+Dimensi: 41, Akurasi: 0.91
+Dimensi: 40, Akurasi: 0.91
+Dimensi: 39, Akurasi: 0.86
+Dimensi: 38, Akurasi: 0.83
+Dimensi: 37, Akurasi: 0.86
+Dimensi: 36, Akurasi: 0.78
+Dimensi: 35, Akurasi: 0.72
+Dimensi: 34, Akurasi: 0.78
+Dimensi: 33, Akurasi: 0.91
+Dimensi: 32, Akurasi: 0.61
+Dimensi: 31, Akurasi: 0.78
+Dimensi: 30, Akurasi: 0.64
+Dimensi: 29, Akurasi: 0.72
+Dimensi: 28, Akurasi: 0.78
+Dimensi: 27, Akurasi: 0.83
+Dimensi: 26, Akurasi: 0.83
+Dimensi: 25, Akurasi: 0.83
+Dimensi: 24, Akurasi: 0.80
+Dimensi: 23, Akurasi: 0.80
+Dimensi: 22, Akurasi: 0.80
+Dimensi: 21, Akurasi: 0.80
+Dimensi: 20, Akurasi: 0.80
+Dimensi: 19, Akurasi: 0.80
+Dimensi: 18, Akurasi: 0.86
+Dimensi: 17, Akurasi: 0.86
+Dimensi: 16, Akurasi: 0.86
+Dimensi: 15, Akurasi: 0.86
+Dimensi: 14, Akurasi: 0.83
+Dimensi: 13, Akurasi: 0.83
+Dimensi: 12, Akurasi: 0.83
+Dimensi: 11, Akurasi: 0.86
+Dimensi: 10, Akurasi: 0.86
+Dimensi: 9, Akurasi: 0.86
+Dimensi: 8, Akurasi: 0.80
+Dimensi: 7, Akurasi: 0.75
+Dimensi: 6, Akurasi: 0.72
+Dimensi: 5, Akurasi: 0.72
+Dimensi: 4, Akurasi: 0.75
+Dimensi: 3, Akurasi: 0.88
+Dimensi: 2, Akurasi: 0.72
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Tugas10"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-library">Install Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">Import Library</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memisahkan-label-dan-fitur">Memisahkan Label dan Fitur</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengubah-label-menjadi-numerik-menggunakan-label-encoding">Mengubah Label menjadi Numerik menggunakan Label Encoding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-dengan-svd-dan-fuzzy-c-means">Clustering dengan SVD dan Fuzzy C-Means</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-dimensi-dengan-akurasi-terbaik">Menentukan Dimensi dengan Akurasi Terbaik</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scatter-plot-untuk-dimensi-terbaik">Scatter Plot untuk Dimensi Terbaik</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menampilkan-akurasi-per-dimensi">Menampilkan Akurasi per Dimensi</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#akurasi-tiap-dimensi">Akurasi tiap Dimensi</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
