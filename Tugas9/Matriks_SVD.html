@@ -184,7 +184,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../tugas2/crawl_berita.html"><strong>TUGAS 2 : Crawling 100 Berita Online 2 Kategori</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tugas2/vsm.html"><strong>TUGAS 2 : Membuat VSM dan Menghitung TF-IDF berdasarkan hasil crawling berita</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas3/training.html"><strong>Tugas 3 - Implementasi Hasil VSM dengan Algoritma Logistic Regression</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Tugas4/Word_embedding.html"><strong>Word Embedding</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas4/Word_embedding.html"><strong>TUGAS 4 - Word Embedding</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas5/centrality.html"><strong>Tugas 5 - Centrality Graph</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas6/summary.html"><strong>Tugas 6 - Summary Dokumen Menggunakan Centrality</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas7/Keyword_Extraction.html"><strong>Tugas 7 - Keyword Extraction Menggunakan Centrality</strong></a></li>
@@ -424,6 +424,7 @@ document.write(`
 NIM : 220411100048
 Kelas : IF 7A</p>
 <p>Link Project : <a class="github reference external" href="https://github.com/nittyaa99/ppw">nittyaa99/ppw</a></p>
+<p>Link Streamlit : <a class="reference external" href="https://huggingface.co/spaces/Nityaaa/Clasf_SVD">https://huggingface.co/spaces/Nityaaa/Clasf_SVD</a></p>
 <section id="install-library">
 <h2>Install Library<a class="headerlink" href="#install-library" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
@@ -438,23 +439,23 @@ Requirement already satisfied: nltk in c:\users\isnita\appdata\local\programs\py
 Requirement already satisfied: Sastrawi in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (1.0.1)
 Requirement already satisfied: scikit-learn in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (1.5.0)
 Requirement already satisfied: matplotlib in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (3.9.2)
-Requirement already satisfied: numpy&gt;=1.21.0 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (1.25.2)
-Requirement already satisfied: pytz&gt;=2020.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
-Requirement already satisfied: python-dateutil&gt;=2.8.2 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from pandas) (2.8.2)
 Requirement already satisfied: tzdata&gt;=2022.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
+Requirement already satisfied: numpy&gt;=1.21.0 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (1.25.2)
+Requirement already satisfied: python-dateutil&gt;=2.8.2 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from pandas) (2.8.2)
+Requirement already satisfied: pytz&gt;=2020.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
 Requirement already satisfied: regex&gt;=2021.8.3 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from nltk) (2024.4.16)
 Requirement already satisfied: tqdm in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from nltk) (4.66.2)
-Requirement already satisfied: click in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from nltk) (8.1.7)
 Requirement already satisfied: joblib in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from nltk) (1.4.0)
-Requirement already satisfied: threadpoolctl&gt;=3.1.0 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from scikit-learn) (3.5.0)
+Requirement already satisfied: click in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from nltk) (8.1.7)
 Requirement already satisfied: scipy&gt;=1.6.0 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from scikit-learn) (1.14.0)
-Requirement already satisfied: contourpy&gt;=1.0.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (1.3.0)
-Requirement already satisfied: pyparsing&gt;=2.3.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (3.1.4)
+Requirement already satisfied: threadpoolctl&gt;=3.1.0 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from scikit-learn) (3.5.0)
 Requirement already satisfied: kiwisolver&gt;=1.3.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (1.4.7)
-Requirement already satisfied: packaging&gt;=20.0 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from matplotlib) (23.1)
-Requirement already satisfied: fonttools&gt;=4.22.0 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (4.54.1)
-Requirement already satisfied: cycler&gt;=0.10 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (0.12.1)
 Requirement already satisfied: pillow&gt;=8 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (10.3.0)
+Requirement already satisfied: packaging&gt;=20.0 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from matplotlib) (23.1)
+Requirement already satisfied: pyparsing&gt;=2.3.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (3.1.4)
+Requirement already satisfied: fonttools&gt;=4.22.0 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (4.54.1)
+Requirement already satisfied: contourpy&gt;=1.0.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (1.3.0)
+Requirement already satisfied: cycler&gt;=0.10 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (0.12.1)
 Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas) (1.16.0)
 Requirement already satisfied: colorama in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from click-&gt;nltk) (0.4.6)
 </pre></div>
@@ -648,37 +649,37 @@ Requirement already satisfied: colorama in c:\users\isnita\appdata\local\program
   <tbody>
     <tr>
       <th>0</th>
-      <td>Basuki Ungkap Rencana Kalau Lengser Jadi Mente...</td>
-      <td>Menteri Pekerjaan Umum dan Perumahan Rakyat (P...</td>
-      <td>Rabu, 11 Sep 2024 15:22 WIB</td>
-      <td>Ekonomi</td>
+      <td>Media Vietnam: Indonesia Tim Terkuat di ASEAN,...</td>
+      <td>Media Vietnam mengklaim Timnas Indonesia sebag...</td>
+      <td>Rabu, 11 Sep 2024 17:56 WIB</td>
+      <td>Olahraga</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Kerja 39 Hari, Uang Pensiun Menteri Gus Ipul S...</td>
-      <td>Jokowi melantik Sekretaris Jenderal PBNU Saifu...</td>
-      <td>Rabu, 11 Sep 2024 19:00 WIB</td>
+      <td>Thomas Djiwandono Bocorkan Isi Pertemuan 3 Jam...</td>
+      <td>Wakil Menteri Keuangan II Thomas Djiwandono me...</td>
+      <td>Rabu, 11 Sep 2024 14:58 WIB</td>
       <td>Ekonomi</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Pelatih Australia Usai Lawan Indonesia: Kami H...</td>
-      <td>Pelatih Graham Arnold menilai Australia seharu...</td>
-      <td>Rabu, 11 Sep 2024 13:55 WIB</td>
-      <td>Olahraga</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>KKP Dukung Susu Ikan di Makan Gratis Prabowo: ...</td>
-      <td>Kementerian Kelautan dan Perikanan (KKP) menye...</td>
-      <td>Rabu, 11 Sep 2024 12:44 WIB</td>
+      <td>Pertemuan Sri Mulyani-Prabowo Tak Banyak Bahas...</td>
+      <td>Wakil Menteri Keuangan II Thomas Djiwandono me...</td>
+      <td>Rabu, 11 Sep 2024 18:10 WIB</td>
       <td>Ekonomi</td>
     </tr>
     <tr>
+      <th>3</th>
+      <td>5 Fakta Maarten Paes Kawal Gawang Indonesia da...</td>
+      <td>Maarten Paes tampil gemilang di bawah mistar T...</td>
+      <td>Rabu, 11 Sep 2024 17:38 WIB</td>
+      <td>Olahraga</td>
+    </tr>
+    <tr>
       <th>4</th>
-      <td>Media Vietnam: Indonesia Tim Terkuat di ASEAN,...</td>
-      <td>Media Vietnam mengklaim Timnas Indonesia sebag...</td>
-      <td>Rabu, 11 Sep 2024 17:56 WIB</td>
+      <td>5 Fakta Maarten Paes Kawal Gawang Indonesia da...</td>
+      <td>Maarten Paes tampil gemilang di bawah mistar T...</td>
+      <td>Rabu, 11 Sep 2024 17:38 WIB</td>
       <td>Olahraga</td>
     </tr>
     <tr>
@@ -690,37 +691,37 @@ Requirement already satisfied: colorama in c:\users\isnita\appdata\local\program
     </tr>
     <tr>
       <th>95</th>
-      <td>Respons PSSI soal 'Penonton Siluman' di Indone...</td>
-      <td>Anggota Komite Eksekutif (Exco) PSSI Arya Sinu...</td>
-      <td>Rabu, 11 Sep 2024 16:02 WIB</td>
+      <td>Netizen Australia Kecewa Berat setelah Ditahan...</td>
+      <td>Jika suporter Indonesia begitu gegap gempita m...</td>
+      <td>Rabu, 11 Sep 2024 14:44 WIB</td>
       <td>Olahraga</td>
     </tr>
     <tr>
       <th>96</th>
-      <td>Basuki Ungkap Rencana Kalau Lengser Jadi Mente...</td>
-      <td>Menteri Pekerjaan Umum dan Perumahan Rakyat (P...</td>
-      <td>Rabu, 11 Sep 2024 15:22 WIB</td>
-      <td>Ekonomi</td>
+      <td>Netizen Australia Kecewa Berat setelah Ditahan...</td>
+      <td>Jika suporter Indonesia begitu gegap gempita m...</td>
+      <td>Rabu, 11 Sep 2024 14:44 WIB</td>
+      <td>Olahraga</td>
     </tr>
     <tr>
       <th>97</th>
-      <td>Tak Ada Tawaran Jadi Menteri Keuangan Lagi di ...</td>
-      <td>Wakil Menteri Keuangan II Thomas Djiwandono me...</td>
-      <td>Rabu, 11 Sep 2024 14:44 WIB</td>
-      <td>Ekonomi</td>
+      <td>Hasil Liga 1: PSM vs Persib Sama Kuat</td>
+      <td>PSM Makassar harus puas berbagi satu angka usa...</td>
+      <td>Rabu, 11 Sep 2024 17:25 WIB</td>
+      <td>Olahraga</td>
     </tr>
     <tr>
       <th>98</th>
-      <td>Basuki Terbang ke IKN Cek Kesiapan Jelang Joko...</td>
+      <td>Menteri Basuki Buka Suara soal Rumah Subsidi B...</td>
       <td>Menteri Pekerjaan Umum dan Perumahan Rakyat (P...</td>
-      <td>Rabu, 11 Sep 2024 12:03 WIB</td>
+      <td>Rabu, 11 Sep 2024 13:22 WIB</td>
       <td>Ekonomi</td>
     </tr>
     <tr>
       <th>99</th>
-      <td>Zulhas Akhirnya Legalkan Ekspor Kratom</td>
-      <td>Menteri Perdagangan Zulkifli Hasan alias Zulha...</td>
-      <td>Rabu, 11 Sep 2024 13:54 WIB</td>
+      <td>KKP Dukung Susu Ikan di Makan Gratis Prabowo: ...</td>
+      <td>Kementerian Kelautan dan Perikanan (KKP) menye...</td>
+      <td>Rabu, 11 Sep 2024 12:44 WIB</td>
       <td>Ekonomi</td>
     </tr>
   </tbody>
@@ -1114,12 +1115,23 @@ Name: Isi, dtype: object
 <span class="g g-Whitespace">     </span><span class="mi">90</span>         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_word</span><span class="p">):</span>
 <span class="g g-Whitespace">     </span><span class="mi">91</span>             <span class="k">return</span>
 
-<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Context\Context.py:111,</span> in <span class="ni">Context.accept_prefix_visitors</span><span class="nt">(self, visitors)</span>
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Context\Context.py:110,</span> in <span class="ni">Context.accept_prefix_visitors</span><span class="nt">(self, visitors)</span>
+<span class="g g-Whitespace">    </span><span class="mi">108</span> <span class="n">removalCount</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">removals</span><span class="p">)</span>
 <span class="g g-Whitespace">    </span><span class="mi">109</span> <span class="k">for</span> <span class="n">visitor</span> <span class="ow">in</span> <span class="n">visitors</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">110</span>     <span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">(</span><span class="n">visitor</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">111</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_word</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">110</span>     <span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">(</span><span class="n">visitor</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">111</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_word</span><span class="p">):</span>
 <span class="g g-Whitespace">    </span><span class="mi">112</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_word</span>
-<span class="g g-Whitespace">    </span><span class="mi">113</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_is_stopped</span><span class="p">:</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Context\Context.py:97,</span> in <span class="ni">Context.accept</span><span class="nt">(self, visitor)</span>
+<span class="g g-Whitespace">     </span><span class="mi">96</span> <span class="k">def</span> <span class="nf">accept</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">visitor</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">97</span>     <span class="n">visitor</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Context\Visitor\AbstractDisambiguatePrefixRule.py:15,</span> in <span class="ni">AbstractDisambiguatePrefixRule.visit</span><span class="nt">(self, context)</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="k">for</span> <span class="n">disambiguator</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">disambiguators</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span>     <span class="n">result</span> <span class="o">=</span> <span class="n">disambiguator</span><span class="o">.</span><span class="n">disambiguate</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">current_word</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">15</span>     <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">dictionary</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span>         <span class="k">break</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="p">:</span>
 
 <span class="ne">KeyboardInterrupt</span>: 
 </pre></div>

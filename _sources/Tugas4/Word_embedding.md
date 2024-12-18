@@ -1,4 +1,4 @@
-# **Word Embedding**
+# **TUGAS 4 - Word Embedding**
 
 ### Skip-gram
 **Penjelasan Model Skip-Gram dan One-Hot Encoding:**
