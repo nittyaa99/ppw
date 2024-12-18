@@ -184,12 +184,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../tugas2/crawl_berita.html"><strong>TUGAS 2 : Crawling 100 Berita Online 2 Kategori</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tugas2/vsm.html"><strong>TUGAS 2 : Membuat VSM dan Menghitung TF-IDF berdasarkan hasil crawling berita</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas3/training.html"><strong>Tugas 3 - Implementasi Hasil VSM dengan Algoritma Logistic Regression</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas4/Word_embedding.html"><strong>Word Embedding</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas5/centrality.html"><strong>Tugas 5 - Centrality Graph</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas6/summary.html"><strong>Tugas 6 - Summary Dokumen Menggunakan Centrality</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas7/Keyword_Extraction.html"><strong>Tugas 7 - Keyword Extraction Menggunakan Centrality</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas8/Search.html"><strong>Tugas 8 - Implementasi Pencarian Dokumen Berbasis Latent Semantic Analysis (LSA) dengan Cosine Similarity</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas9/Matriks_SVD.html"><strong>Tugas 9 - Pengurangan Dimensi Bertahap pada Dokumen</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Tugas10/Clustering_Data.html"><strong>Tugas 10 - Implementasi Reduksi Dimensi PCA dan Fuzzy C-Means untuk Clustering Data</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas10/Cluster_Fuzzy.html"><strong>Tugas 10 - Implementasi Reduksi Dimensi SVD dan Fuzzy C-Means untuk Clustering Data</strong></a></li>
 </ul>
 
     </div>
@@ -414,25 +415,25 @@ Kelas : IF 7A</p>
 <h2>Install Pustaka<a class="headerlink" href="#install-pustaka" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">requests</span> <span class="n">beautifulsoup4</span> <span class="n">pandas</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">requests</span> <span class="n">beautifulsoup4</span> <span class="n">pandas</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: requests in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (2.31.0)Note: you may need to restart the kernel to use updated packages.
-
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: requests in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (2.31.0)
 Requirement already satisfied: beautifulsoup4 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (4.12.3)
 Requirement already satisfied: pandas in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (2.0.3)
-Requirement already satisfied: charset-normalizer&lt;4,&gt;=2 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (3.3.2)
-Requirement already satisfied: certifi&gt;=2017.4.17 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (2023.7.22)
 Requirement already satisfied: urllib3&lt;3,&gt;=1.21.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (2.0.4)
 Requirement already satisfied: idna&lt;4,&gt;=2.5 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (3.4)
+Requirement already satisfied: charset-normalizer&lt;4,&gt;=2 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (3.3.2)
+Requirement already satisfied: certifi&gt;=2017.4.17 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from requests) (2023.7.22)
 Requirement already satisfied: soupsieve&gt;1.2 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from beautifulsoup4) (2.6)
-Requirement already satisfied: pytz&gt;=2020.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
 Requirement already satisfied: tzdata&gt;=2022.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
 Requirement already satisfied: numpy&gt;=1.21.0 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (1.25.2)
 Requirement already satisfied: python-dateutil&gt;=2.8.2 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from pandas) (2.8.2)
+Requirement already satisfied: pytz&gt;=2020.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
 Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas) (1.16.0)
+Note: you may need to restart the kernel to use updated packages.
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[notice] A new release of pip available: 22.2.1 -&gt; 24.3.1
@@ -566,72 +567,72 @@ Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\py
   <tbody>
     <tr>
       <th>0</th>
-      <td>IHSG Berpotensi Menguat Hari Ini</td>
-      <td>Indeks Harga Saham Gabungan (IHSG) diproyeksi ...</td>
-      <td>Kamis, 28 Nov 2024 06:17 WIB</td>
+      <td>Kemenperin Soal iPhone 16 Rilis Bulan Ini: Kom...</td>
+      <td>Kementerian Perindustrian (Kemenperin) buka su...</td>
+      <td>Rabu, 18 Des 2024 21:00 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Diskusi Alot, China-UE Belum Capai Sepakat soa...</td>
-      <td>Negosiasi antara Uni Eropa (UE) dan China soal...</td>
-      <td>Rabu, 27 Nov 2024 20:21 WIB</td>
+      <td>Warga Terluar Maluku Kini Bisa Beli Pertalite ...</td>
+      <td>Menteri Energi dan Sumber Daya (ESDM) Bahlil L...</td>
+      <td>Rabu, 18 Des 2024 20:39 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Investasi Kawasan Ekonomi Khusus Tembus Rp242 ...</td>
-      <td>Sekretaris Jenderal Dewan Nasional Kawasan Eko...</td>
-      <td>Rabu, 27 Nov 2024 20:00 WIB</td>
+      <td>Zulhas Lantik 8 Pejabat Kemenko Pangan, Ada Ek...</td>
+      <td>Menteri Koordinator Bidang Pangan Zulkifli Has...</td>
+      <td>Rabu, 18 Des 2024 20:10 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Kabar Gembira, Harga Tiket Pesawat Turun 10 Pe...</td>
-      <td>Pemerintah menurunkan harga tiket pesawat dala...</td>
-      <td>Rabu, 27 Nov 2024 18:52 WIB</td>
+      <td>DJPPR Kemenkeu Dorong Inovasi Dalam Pendanaan ...</td>
+      <td>Direktorat Jenderal Pengelolaan Pembiayaan dan...</td>
+      <td>Rabu, 18 Des 2024 19:40 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>Bahlil soal Skema Baru Subsidi BBM: 'Blending'...</td>
-      <td>Menteri ESDM Bahlil Lahadalia mengungkapkan su...</td>
-      <td>Rabu, 27 Nov 2024 18:11 WIB</td>
+      <td>Menkop Pastikan Ratusan Koperasi Siap Pasok Ba...</td>
+      <td>Menteri Koperasi Budi Arie Setiadi mengungkap ...</td>
+      <td>Rabu, 18 Des 2024 19:10 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>OJK Sebut Menkeu dan Menkes Godok Standar Klai...</td>
-      <td>Otoritas Jasa Keuangan (OJK) mengungkapkan pem...</td>
-      <td>Rabu, 27 Nov 2024 17:45 WIB</td>
+      <td>BPJS Ketenagakerjaan Tingkatkan Literasi Jamso...</td>
+      <td>Dalam rangka memperingati Hari Migran Internas...</td>
+      <td>Rabu, 18 Des 2024 18:59 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>Luhut Ungkap Boeing Tawarkan Software Buat Tek...</td>
-      <td>Ketua Dewan Ekonomi Nasional Luhut Binsar Pand...</td>
-      <td>Rabu, 27 Nov 2024 17:37 WIB</td>
+      <td>BI Siapkan Uang Tunai Rp133,7 T buat Kebutuhan...</td>
+      <td>Bank Indonesia (BI) menyiapkan uang tunai Rp13...</td>
+      <td>Rabu, 18 Des 2024 18:42 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
       <th>7</th>
-      <td>FOTO: Warga Girang Serbu Promo Pilkada 2024</td>
-      <td></td>
-      <td>Tanggal tidak ditemukan</td>
+      <td>Nataru 2024/2025, BRI Jaga Layanan Perbankan L...</td>
+      <td>PT Bank Rakyat Indonesia (Persero) Tbk atau BR...</td>
+      <td>Rabu, 18 Des 2024 18:31 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
       <th>8</th>
-      <td>RI Masuk 10 Besar Negara Kebocoran Tertinggi, ...</td>
-      <td>Indonesia masuk ke dalam 10 besar negara denga...</td>
-      <td>Rabu, 27 Nov 2024 16:39 WIB</td>
+      <td>Allo Bank Hadirkan Allo Deposito Flash Deal de...</td>
+      <td>Allo Bank, bank umum berbasis layanan digital ...</td>
+      <td>Rabu, 18 Des 2024 18:23 WIB</td>
       <td>ekonomi</td>
     </tr>
     <tr>
       <th>9</th>
-      <td>Besaran Uang Lembur Bagi Karyawan yang Kerja S...</td>
-      <td>Karyawan yang bekerja saat penyelenggaraan Pil...</td>
-      <td>Rabu, 27 Nov 2024 13:45 WIB</td>
+      <td>Zulhas Sebut 6 Menteri Kerja Keras Siang-Malam...</td>
+      <td>Menteri Koordinator Bidang Pangan Zulkifli Has...</td>
+      <td>Rabu, 18 Des 2024 18:15 WIB</td>
       <td>ekonomi</td>
     </tr>
   </tbody>

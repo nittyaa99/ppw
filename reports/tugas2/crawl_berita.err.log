@@ -30,8 +30,11 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-['def sastrawistemmer(text):', '    factory = StemmerFactory()', '    st = factory.create_stemmer()', "    text = ' '.join(st.stem(word) for word in text.split())", '    return text']
-...
-['print("Data training setelah stemming:")', 'print(X_train.head())', '', 'print("\\nData testing setelah stemming:")', 'print(X_test.head())']
+max_articles_per_category = 50
+all_articles = []
+
+for url in category_urls:
+    articles = crawl_category(url, max_articles_per_category)
+    all_articles.extend(articles)
 -------------------
 

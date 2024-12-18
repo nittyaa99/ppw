@@ -184,12 +184,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../tugas2/crawl_berita.html"><strong>TUGAS 2 : Crawling 100 Berita Online 2 Kategori</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tugas2/vsm.html"><strong>TUGAS 2 : Membuat VSM dan Menghitung TF-IDF berdasarkan hasil crawling berita</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas3/training.html"><strong>Tugas 3 - Implementasi Hasil VSM dengan Algoritma Logistic Regression</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas4/Word_embedding.html"><strong>Word Embedding</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas5/centrality.html"><strong>Tugas 5 - Centrality Graph</strong></a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>Tugas 6 - Summary Dokumen Menggunakan Centrality</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas7/Keyword_Extraction.html"><strong>Tugas 7 - Keyword Extraction Menggunakan Centrality</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas8/Search.html"><strong>Tugas 8 - Implementasi Pencarian Dokumen Berbasis Latent Semantic Analysis (LSA) dengan Cosine Similarity</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas9/Matriks_SVD.html"><strong>Tugas 9 - Pengurangan Dimensi Bertahap pada Dokumen</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Tugas10/Clustering_Data.html"><strong>Tugas 10 - Implementasi Reduksi Dimensi PCA dan Fuzzy C-Means untuk Clustering Data</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas10/Cluster_Fuzzy.html"><strong>Tugas 10 - Implementasi Reduksi Dimensi SVD dan Fuzzy C-Means untuk Clustering Data</strong></a></li>
 </ul>
 
     </div>
@@ -398,7 +399,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-tf-idf-untuk-kalimat-yang-diproses">Perhitungan TF-IDF untuk Kalimat yang Diproses</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-matriks-kesamaan-kosinus-untuk-kalimat-yang-diproses">Perhitungan Matriks Kesamaan Kosinus untuk Kalimat yang Diproses</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-graf-kesamaan-kalimat-berbasis-kesamaan-kosinus">Visualisasi Graf Kesamaan Kalimat Berbasis Kesamaan Kosinus</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-dan-tampilkan-closeness-centrality-dari-node-graf">Perhitungan dan Tampilkan Closeness Centrality dari Node Graf</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menampilkan-node-dengan-closeness-centrality-tertinggi">Menampilkan Node dengan Closeness Centrality Tertinggi</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-tiga-node-tertinggi-closeness-centrality-dan-kalimat-terkait">Ringkasan Tiga Node Tertinggi Closeness Centrality dan Kalimat Terkait</a></li>
 </ul>
             </nav>
@@ -417,6 +418,7 @@ document.write(`
 NIM : 220411100048
 Kelas : IF 7A</p>
 <p>Link Project : <a class="github reference external" href="https://github.com/nittyaa99/ppw">nittyaa99/ppw</a></p>
+<p>Link streamlit : <a class="reference external" href="https://huggingface.co/spaces/Nityaaa/summary">https://huggingface.co/spaces/Nityaaa/summary</a></p>
 <section id="install-pustaka-python">
 <h2>Install Pustaka Python<a class="headerlink" href="#install-pustaka-python" title="Link to this heading">#</a></h2>
 <p>pip install networkx digunakan untuk melakukan analisis graf serta visualisasi yang lebih baik</p>
@@ -872,7 +874,7 @@ hint: See above for details.
 </section>
 <section id="perhitungan-tf-idf-untuk-kalimat-yang-diproses">
 <h2>Perhitungan TF-IDF untuk Kalimat yang Diproses<a class="headerlink" href="#perhitungan-tf-idf-untuk-kalimat-yang-diproses" title="Link to this heading">#</a></h2>
-<p>menghitung nilai TF-IDF dari kalimat yang telah diproses, memberikan representasi numerik dari kata-kata dalam kalimat tersebut.</p>
+<p>TF-IDF digunakan untuk menghitung pentingnya setiap kata dalam kalimat berdasarkan frekuensi kata dalam artikel dan dalam keseluruhan korpus.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tfidf_vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">()</span>
@@ -1537,7 +1539,7 @@ hint: See above for details.
 </section>
 <section id="perhitungan-matriks-kesamaan-kosinus-untuk-kalimat-yang-diproses">
 <h2>Perhitungan Matriks Kesamaan Kosinus untuk Kalimat yang Diproses<a class="headerlink" href="#perhitungan-matriks-kesamaan-kosinus-untuk-kalimat-yang-diproses" title="Link to this heading">#</a></h2>
-<p>menghitung dan menyajikan matriks kesamaan kosinus antara kalimat-kalimat yang telah diproses, yang dapat digunakan untuk analisis lebih lanjut, seperti klustering kalimat, pencarian dokumen serupa, atau pengelompokan informasi.</p>
+<p>Menggunakan cosine similarity untuk menghitung kemiripan antara setiap pasang kalimat berdasarkan vektor TF-IDF yang dihasilkan sebelumnya. Hasilnya adalah matriks yang menunjukkan seberapa mirip dua kalimat satu sama lain.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cossim_prep</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">tfidf_preprocessing</span><span class="p">,</span> <span class="n">tfidf_preprocessing</span><span class="p">)</span>
@@ -2098,7 +2100,7 @@ hint: See above for details.
 </section>
 <section id="visualisasi-graf-kesamaan-kalimat-berbasis-kesamaan-kosinus">
 <h2>Visualisasi Graf Kesamaan Kalimat Berbasis Kesamaan Kosinus<a class="headerlink" href="#visualisasi-graf-kesamaan-kalimat-berbasis-kesamaan-kosinus" title="Link to this heading">#</a></h2>
-<p>membuat dan memvisualisasikan graf berarah berdasarkan kesamaan kosinus antara kalimat-kalimat.</p>
+<p>Setiap kalimat dalam artikel diwakili sebagai simpul (node), jika dua kalimat memiliki kemiripan lebih besar dari 0.1, maka sebuah sisi (edge) akan ditambahkan antara kedua simpul tersebut. Simpul yang lebih besar menunjukkan kalimat yang lebih penting, dan sisi berwarna merah menunjukkan hubungan antar kalimat.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G_preprocessing</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
@@ -2125,9 +2127,9 @@ hint: See above for details.
 </div>
 </div>
 </section>
-<section id="perhitungan-dan-tampilkan-closeness-centrality-dari-node-graf">
-<h2>Perhitungan dan Tampilkan Closeness Centrality dari Node Graf<a class="headerlink" href="#perhitungan-dan-tampilkan-closeness-centrality-dari-node-graf" title="Link to this heading">#</a></h2>
-<p>menghitung dan menampilkan nilai closeness centrality untuk setiap node dalam graf berarah.</p>
+<section id="menampilkan-node-dengan-closeness-centrality-tertinggi">
+<h2>Menampilkan Node dengan Closeness Centrality Tertinggi<a class="headerlink" href="#menampilkan-node-dengan-closeness-centrality-tertinggi" title="Link to this heading">#</a></h2>
+<p>Closeness centrality adalah ukuran untuk mengidentifikasi simpul yang paling terhubung dan penting dalam grafik, yaitu kalimat yang paling dekat dengan kalimat lain dalam jaringan. Mengurutkan simpul berdasarkan closeness centrality untuk menemukan kalimat yang paling penting atau pusat dalam artikel. Tiga kalimat dengan closeness centrality tertinggi dipilih dan ditampilkan sebagai bagian dari ringkasan artikel.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">closeness_preprocessing</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">closeness_centrality</span><span class="p">(</span><span class="n">G_preprocessing</span><span class="p">)</span>
@@ -2269,7 +2271,7 @@ Kalimat: Menurut Perry, keputusan ini konsisten dengan arah kebijakan moneter un
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-tf-idf-untuk-kalimat-yang-diproses">Perhitungan TF-IDF untuk Kalimat yang Diproses</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-matriks-kesamaan-kosinus-untuk-kalimat-yang-diproses">Perhitungan Matriks Kesamaan Kosinus untuk Kalimat yang Diproses</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-graf-kesamaan-kalimat-berbasis-kesamaan-kosinus">Visualisasi Graf Kesamaan Kalimat Berbasis Kesamaan Kosinus</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-dan-tampilkan-closeness-centrality-dari-node-graf">Perhitungan dan Tampilkan Closeness Centrality dari Node Graf</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menampilkan-node-dengan-closeness-centrality-tertinggi">Menampilkan Node dengan Closeness Centrality Tertinggi</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-tiga-node-tertinggi-closeness-centrality-dan-kalimat-terkait">Ringkasan Tiga Node Tertinggi Closeness Centrality dan Kalimat Terkait</a></li>
 </ul>
   </nav></div>

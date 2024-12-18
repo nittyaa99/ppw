@@ -184,12 +184,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../tugas2/crawl_berita.html"><strong>TUGAS 2 : Crawling 100 Berita Online 2 Kategori</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tugas2/vsm.html"><strong>TUGAS 2 : Membuat VSM dan Menghitung TF-IDF berdasarkan hasil crawling berita</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas3/training.html"><strong>Tugas 3 - Implementasi Hasil VSM dengan Algoritma Logistic Regression</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas4/Word_embedding.html"><strong>Word Embedding</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas5/centrality.html"><strong>Tugas 5 - Centrality Graph</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas6/summary.html"><strong>Tugas 6 - Summary Dokumen Menggunakan Centrality</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas7/Keyword_Extraction.html"><strong>Tugas 7 - Keyword Extraction Menggunakan Centrality</strong></a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>Tugas 8 - Implementasi Pencarian Dokumen Berbasis Latent Semantic Analysis (LSA) dengan Cosine Similarity</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Tugas9/Matriks_SVD.html"><strong>Tugas 9 - Pengurangan Dimensi Bertahap pada Dokumen</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Tugas10/Clustering_Data.html"><strong>Tugas 10 - Implementasi Reduksi Dimensi PCA dan Fuzzy C-Means untuk Clustering Data</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tugas10/Cluster_Fuzzy.html"><strong>Tugas 10 - Implementasi Reduksi Dimensi SVD dan Fuzzy C-Means untuk Clustering Data</strong></a></li>
 </ul>
 
     </div>
@@ -398,7 +399,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengurangi-dimensi-data-teks-dengan-svd">Mengurangi Dimensi Data Teks dengan SVD</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#save-data">Save Data</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing-untuk-query">Preprocessing untuk Query</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pencarian-dokumen">Pencarian Dokumen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pencarian-dokumen-berbasis-kemiripann-similarity">Pencarian Dokumen berbasis Kemiripann (Similarity)</a></li>
 </ul>
             </nav>
         </div>
@@ -431,13 +432,13 @@ Requirement already satisfied: tqdm in c:\users\isnita\appdata\local\programs\py
 Requirement already satisfied: nltk in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (3.8.1)
 Requirement already satisfied: Sastrawi in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (1.0.1)
 Requirement already satisfied: scikit-learn in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (1.5.0)
-Requirement already satisfied: tzdata&gt;=2022.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
 Requirement already satisfied: python-dateutil&gt;=2.8.2 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from pandas) (2.8.2)
 Requirement already satisfied: pytz&gt;=2020.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
+Requirement already satisfied: tzdata&gt;=2022.1 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2023.3)
 Requirement already satisfied: colorama in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from tqdm) (0.4.6)
-Requirement already satisfied: regex&gt;=2021.8.3 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from nltk) (2024.4.16)
-Requirement already satisfied: joblib in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from nltk) (1.4.0)
 Requirement already satisfied: click in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from nltk) (8.1.7)
+Requirement already satisfied: joblib in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from nltk) (1.4.0)
+Requirement already satisfied: regex&gt;=2021.8.3 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from nltk) (2024.4.16)
 Requirement already satisfied: scipy&gt;=1.6.0 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from scikit-learn) (1.14.0)
 Requirement already satisfied: threadpoolctl&gt;=3.1.0 in c:\users\isnita\appdata\local\programs\python\python310\lib\site-packages (from scikit-learn) (3.5.0)
 Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\python\python310\site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas) (1.16.0)
@@ -500,88 +501,6 @@ Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\py
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;crawl_berita.csv&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">data</span>
-
-<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\parsers\readers.py:912,</span> in <span class="ni">read_csv</span><span class="nt">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, date_format, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options, dtype_backend)</span>
-<span class="g g-Whitespace">    </span><span class="mi">899</span> <span class="n">kwds_defaults</span> <span class="o">=</span> <span class="n">_refine_defaults_read</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">900</span>     <span class="n">dialect</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">901</span>     <span class="n">delimiter</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">908</span>     <span class="n">dtype_backend</span><span class="o">=</span><span class="n">dtype_backend</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">909</span> <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">910</span> <span class="n">kwds</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwds_defaults</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">912</span> <span class="k">return</span> <span class="n">_read</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
-
-<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\parsers\readers.py:577,</span> in <span class="ni">_read</span><span class="nt">(filepath_or_buffer, kwds)</span>
-<span class="g g-Whitespace">    </span><span class="mi">574</span> <span class="n">_validate_names</span><span class="p">(</span><span class="n">kwds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;names&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
-<span class="g g-Whitespace">    </span><span class="mi">576</span> <span class="c1"># Create the parser.</span>
-<span class="ne">--&gt; </span><span class="mi">577</span> <span class="n">parser</span> <span class="o">=</span> <span class="n">TextFileReader</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">579</span> <span class="k">if</span> <span class="n">chunksize</span> <span class="ow">or</span> <span class="n">iterator</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">580</span>     <span class="k">return</span> <span class="n">parser</span>
-
-<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\parsers\readers.py:1407,</span> in <span class="ni">TextFileReader.__init__</span><span class="nt">(self, f, engine, **kwds)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1404</span>     <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span>
-<span class="g g-Whitespace">   </span><span class="mi">1406</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="p">:</span> <span class="n">IOHandles</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="ne">-&gt; </span><span class="mi">1407</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_engine</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
-
-<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\parsers\readers.py:1661,</span> in <span class="ni">TextFileReader._make_engine</span><span class="nt">(self, f, engine)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1659</span>     <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1660</span>         <span class="n">mode</span> <span class="o">+=</span> <span class="s2">&quot;b&quot;</span>
-<span class="ne">-&gt; </span><span class="mi">1661</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="o">=</span> <span class="n">get_handle</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1662</span>     <span class="n">f</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1663</span>     <span class="n">mode</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1664</span>     <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">1665</span>     <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compression&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">1666</span>     <span class="n">memory_map</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;memory_map&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">1667</span>     <span class="n">is_text</span><span class="o">=</span><span class="n">is_text</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1668</span>     <span class="n">errors</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding_errors&quot;</span><span class="p">,</span> <span class="s2">&quot;strict&quot;</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">1669</span>     <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storage_options&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">1670</span> <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1671</span> <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-<span class="g g-Whitespace">   </span><span class="mi">1672</span> <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="o">.</span><span class="n">handle</span>
-
-<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\common.py:859,</span> in <span class="ni">get_handle</span><span class="nt">(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)</span>
-<span class="g g-Whitespace">    </span><span class="mi">854</span> <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">855</span>     <span class="c1"># Check whether the filename is to be opened in binary mode.</span>
-<span class="g g-Whitespace">    </span><span class="mi">856</span>     <span class="c1"># Binary mode does not support &#39;encoding&#39; and &#39;newline&#39;.</span>
-<span class="g g-Whitespace">    </span><span class="mi">857</span>     <span class="k">if</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span> <span class="ow">and</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">858</span>         <span class="c1"># Encoding</span>
-<span class="ne">--&gt; </span><span class="mi">859</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">860</span>             <span class="n">handle</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">861</span>             <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">862</span>             <span class="n">encoding</span><span class="o">=</span><span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">863</span>             <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">864</span>             <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">865</span>         <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">866</span>     <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">867</span>         <span class="c1"># Binary mode</span>
-<span class="g g-Whitespace">    </span><span class="mi">868</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
-
-<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;crawl_berita.csv&#39;
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="menggabungkan-judul-dan-isi">
-<h2>Menggabungkan Judul dan Isi<a class="headerlink" href="#menggabungkan-judul-dan-isi" title="Link to this heading">#</a></h2>
-<p>Tujuannya adalah membantu memberikan hasil yang lebih relevan saat pengguna mencari dokumen berdasarkan keyword</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titles</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Judul&#39;</span><span class="p">]</span>
-<span class="n">contents</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Isi&#39;</span><span class="p">]</span>
-
-<span class="n">data</span><span class="p">[</span><span class="s1">&#39;Isi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">titles</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">contents</span>
-
-<span class="n">data</span><span class="p">[</span><span class="s1">&#39;Isi&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -600,58 +519,126 @@ Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\py
   <thead>
     <tr style="text-align: right;">
       <th></th>
+      <th>Judul</th>
       <th>Isi</th>
+      <th>Tanggal</th>
+      <th>Kategori</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
       <td>Pertemuan Sri Mulyani-Prabowo Tak Banyak Bahas...</td>
+      <td>Wakil Menteri Keuangan II Thomas Djiwandono me...</td>
+      <td>Rabu, 11 Sep 2024 18:10 WIB</td>
+      <td>Ekonomi</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Pebisnis Minta Jokowi Cabut Larangan Jual Roko...</td>
+      <td>Gabungan pengusaha rokok dan petani tembakau m...</td>
+      <td>Rabu, 11 Sep 2024 17:31 WIB</td>
+      <td>Ekonomi</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>IHSG Melemah Tipis ke 7.760 Sore Ini Indeks Ha...</td>
+      <td>IHSG Melemah Tipis ke 7.760 Sore Ini</td>
+      <td>Indeks Harga Saham Gabungan (IHSG) ditutup di ...</td>
+      <td>Rabu, 11 Sep 2024 16:37 WIB</td>
+      <td>Ekonomi</td>
     </tr>
     <tr>
       <th>3</th>
       <td>Rupiah Menguat Rp15.402 per Dolar AS Usai Deba...</td>
+      <td>Nilai tukar rupiah berada di level Rp15.402 pe...</td>
+      <td>Rabu, 11 Sep 2024 16:24 WIB</td>
+      <td>Ekonomi</td>
     </tr>
     <tr>
       <th>4</th>
       <td>Sri Mulyani Usai Nonton Timnas-Australia: Teri...</td>
+      <td>Menteri Keuangan Sri MulyaniÂ berkomentar soal...</td>
+      <td>Rabu, 11 Sep 2024 15:47 WIB</td>
+      <td>Ekonomi</td>
     </tr>
     <tr>
       <th>...</th>
       <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
     </tr>
     <tr>
       <th>95</th>
-      <td>Hasil Liga 1: PSM vs Persib Sama Kuat PSM Maka...</td>
+      <td>Hasil Liga 1: PSM vs Persib Sama Kuat</td>
+      <td>PSM Makassar harus puas berbagi satu angka usa...</td>
+      <td>Rabu, 11 Sep 2024 17:25 WIB</td>
+      <td>Olahraga</td>
     </tr>
     <tr>
       <th>96</th>
       <td>Jokowi Beri Bonus Rp36,25 Miliar ke Peraih Med...</td>
+      <td>Presiden Joko Widodo (Jokowi) menyerahkan bonu...</td>
+      <td>Rabu, 11 Sep 2024 17:13 WIB</td>
+      <td>Olahraga</td>
     </tr>
     <tr>
       <th>97</th>
       <td>Megawati Ungkap Target di Liga Korea: Jadi Pem...</td>
+      <td>Megawati Hangestri Pertiwi mengungkapkan targe...</td>
+      <td>Rabu, 11 Sep 2024 16:49 WIB</td>
+      <td>Olahraga</td>
     </tr>
     <tr>
       <th>98</th>
       <td>Media Vietnam: Indonesia Buat Kejutan Besar La...</td>
+      <td>Media Vietnam memuji performa Timnas Indonesia...</td>
+      <td>Rabu, 11 Sep 2024 16:24 WIB</td>
+      <td>Olahraga</td>
     </tr>
     <tr>
       <th>99</th>
       <td>Respons PSSI soal 'Penonton Siluman' di Indone...</td>
+      <td>Anggota Komite Eksekutif (Exco) PSSI Arya Sinu...</td>
+      <td>Rabu, 11 Sep 2024 16:02 WIB</td>
+      <td>Olahraga</td>
     </tr>
   </tbody>
 </table>
-<p>100 rows × 1 columns</p>
-</div><br><label><b>dtype:</b> object</label></div></div>
+<p>100 rows × 4 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="menggabungkan-judul-dan-isi">
+<h2>Menggabungkan Judul dan Isi<a class="headerlink" href="#menggabungkan-judul-dan-isi" title="Link to this heading">#</a></h2>
+<p>Tujuannya untuk membantu memberikan hasil yang lebih relevan saat pengguna mencari dokumen berdasarkan keyword</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titles</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Judul&#39;</span><span class="p">]</span>
+<span class="n">contents</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Isi&#39;</span><span class="p">]</span>
+
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;Isi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">titles</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">contents</span>
+
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;Isi&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0     Pertemuan Sri Mulyani-Prabowo Tak Banyak Bahas...
+1     Pebisnis Minta Jokowi Cabut Larangan Jual Roko...
+2     IHSG Melemah Tipis ke 7.760 Sore Ini Indeks Ha...
+3     Rupiah Menguat Rp15.402 per Dolar AS Usai Deba...
+4     Sri Mulyani Usai Nonton Timnas-Australia: Teri...
+                            ...                        
+95    Hasil Liga 1: PSM vs Persib Sama Kuat PSM Maka...
+96    Jokowi Beri Bonus Rp36,25 Miliar ke Peraih Med...
+97    Megawati Ungkap Target di Liga Korea: Jadi Pem...
+98    Media Vietnam: Indonesia Buat Kejutan Besar La...
+99    Respons PSSI soal &#39;Penonton Siluman&#39; di Indone...
+Name: Isi, Length: 100, dtype: object
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="mengonversi-semua-huruf-besar-menjadi-huruf-kecil">
@@ -671,76 +658,21 @@ Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\py
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>lower case</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>pertemuan sri mulyani-prabowo tak banyak bahas...</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>pebisnis minta jokowi cabut larangan jual roko...</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>ihsg melemah tipis ke 7.760 sore ini indeks ha...</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>rupiah menguat rp15.402 per dolar as usai deba...</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>sri mulyani usai nonton timnas-australia: teri...</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>95</th>
-      <td>hasil liga 1: psm vs persib sama kuat psm maka...</td>
-    </tr>
-    <tr>
-      <th>96</th>
-      <td>jokowi beri bonus rp36,25 miliar ke peraih med...</td>
-    </tr>
-    <tr>
-      <th>97</th>
-      <td>megawati ungkap target di liga korea: jadi pem...</td>
-    </tr>
-    <tr>
-      <th>98</th>
-      <td>media vietnam: indonesia buat kejutan besar la...</td>
-    </tr>
-    <tr>
-      <th>99</th>
-      <td>respons pssi soal 'penonton siluman' di indone...</td>
-    </tr>
-  </tbody>
-</table>
-<p>100 rows × 1 columns</p>
-</div><br><label><b>dtype:</b> object</label></div></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0     pertemuan sri mulyani-prabowo tak banyak bahas...
+1     pebisnis minta jokowi cabut larangan jual roko...
+2     ihsg melemah tipis ke 7.760 sore ini indeks ha...
+3     rupiah menguat rp15.402 per dolar as usai deba...
+4     sri mulyani usai nonton timnas-australia: teri...
+                            ...                        
+95    hasil liga 1: psm vs persib sama kuat psm maka...
+96    jokowi beri bonus rp36,25 miliar ke peraih med...
+97    megawati ungkap target di liga korea: jadi pem...
+98    media vietnam: indonesia buat kejutan besar la...
+99    respons pssi soal &#39;penonton siluman&#39; di indone...
+Name: lower case, Length: 100, dtype: object
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="menghapus-simbol-dan-angka-dari-teks">
@@ -761,76 +693,21 @@ Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\py
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>tanda baca</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>pertemuan sri mulyani prabowo tak banyak bahas...</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>pebisnis minta jokowi cabut larangan jual roko...</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>ihsg melemah tipis ke sore ini indeks harga sa...</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>rupiah menguat rp per dolar as usai debat trum...</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>sri mulyani usai nonton timnas australia terim...</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>95</th>
-      <td>hasil liga psm vs persib sama kuat psm makassa...</td>
-    </tr>
-    <tr>
-      <th>96</th>
-      <td>jokowi beri bonus rp miliar ke peraih medali p...</td>
-    </tr>
-    <tr>
-      <th>97</th>
-      <td>megawati ungkap target di liga korea jadi pema...</td>
-    </tr>
-    <tr>
-      <th>98</th>
-      <td>media vietnam indonesia buat kejutan besar law...</td>
-    </tr>
-    <tr>
-      <th>99</th>
-      <td>respons pssi soal penonton siluman di indonesi...</td>
-    </tr>
-  </tbody>
-</table>
-<p>100 rows × 1 columns</p>
-</div><br><label><b>dtype:</b> object</label></div></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0     pertemuan sri mulyani prabowo tak banyak bahas...
+1     pebisnis minta jokowi cabut larangan jual roko...
+2     ihsg melemah tipis ke       sore ini indeks ha...
+3     rupiah menguat rp       per dolar as usai deba...
+4     sri mulyani usai nonton timnas australia  teri...
+                            ...                        
+95    hasil liga    psm vs persib sama kuat psm maka...
+96    jokowi beri bonus rp      miliar ke peraih med...
+97    megawati ungkap target di liga korea  jadi pem...
+98    media vietnam  indonesia buat kejutan besar la...
+99    respons pssi soal  penonton siluman  di indone...
+Name: tanda baca, Length: 100, dtype: object
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="menghapus-spasi-awal-dan-akhir-dari-sebuah-string">
@@ -849,76 +726,21 @@ Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\py
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>spasi</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>pertemuan sri mulyani prabowo tak banyak bahas...</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>pebisnis minta jokowi cabut larangan jual roko...</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>ihsg melemah tipis ke sore ini indeks harga sa...</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>rupiah menguat rp per dolar as usai debat trum...</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>sri mulyani usai nonton timnas australia terim...</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>95</th>
-      <td>hasil liga psm vs persib sama kuat psm makassa...</td>
-    </tr>
-    <tr>
-      <th>96</th>
-      <td>jokowi beri bonus rp miliar ke peraih medali p...</td>
-    </tr>
-    <tr>
-      <th>97</th>
-      <td>megawati ungkap target di liga korea jadi pema...</td>
-    </tr>
-    <tr>
-      <th>98</th>
-      <td>media vietnam indonesia buat kejutan besar law...</td>
-    </tr>
-    <tr>
-      <th>99</th>
-      <td>respons pssi soal penonton siluman di indonesi...</td>
-    </tr>
-  </tbody>
-</table>
-<p>100 rows × 1 columns</p>
-</div><br><label><b>dtype:</b> object</label></div></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0     pertemuan sri mulyani prabowo tak banyak bahas...
+1     pebisnis minta jokowi cabut larangan jual roko...
+2     ihsg melemah tipis ke sore ini indeks harga sa...
+3     rupiah menguat rp per dolar as usai debat trum...
+4     sri mulyani usai nonton timnas australia terim...
+                            ...                        
+95    hasil liga psm vs persib sama kuat psm makassa...
+96    jokowi beri bonus rp miliar ke peraih medali p...
+97    megawati ungkap target di liga korea jadi pema...
+98    media vietnam indonesia buat kejutan besar law...
+99    respons pssi soal penonton siluman di indonesi...
+Name: spasi, Length: 100, dtype: object
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="mengurangi-jumlah-kata-dalam-sebuah-dokumen">
@@ -938,76 +760,21 @@ Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\py
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>stopwords</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>pertemuan sri mulyani prabowo bahas makan berg...</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>pebisnis jokowi cabut larangan jual rokok mete...</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>ihsg melemah tipis sore indeks harga saham gab...</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>rupiah menguat rp dolar as debat trump harris ...</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>sri mulyani nonton timnas australia terima kas...</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>95</th>
-      <td>hasil liga psm vs persib kuat psm makassar pua...</td>
-    </tr>
-    <tr>
-      <th>96</th>
-      <td>jokowi bonus rp miliar peraih medali paralimpi...</td>
-    </tr>
-    <tr>
-      <th>97</th>
-      <td>megawati target liga korea pemain asing terbai...</td>
-    </tr>
-    <tr>
-      <th>98</th>
-      <td>media vietnam indonesia kejutan lawan raksasa ...</td>
-    </tr>
-    <tr>
-      <th>99</th>
-      <td>respons pssi penonton siluman indonesia vs aus...</td>
-    </tr>
-  </tbody>
-</table>
-<p>100 rows × 1 columns</p>
-</div><br><label><b>dtype:</b> object</label></div></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0     pertemuan sri mulyani prabowo bahas makan berg...
+1     pebisnis jokowi cabut larangan jual rokok mete...
+2     ihsg melemah tipis sore indeks harga saham gab...
+3     rupiah menguat rp dolar as debat trump harris ...
+4     sri mulyani nonton timnas australia terima kas...
+                            ...                        
+95    hasil liga psm vs persib kuat psm makassar pua...
+96    jokowi bonus rp miliar peraih medali paralimpi...
+97    megawati target liga korea pemain asing terbai...
+98    media vietnam indonesia kejutan lawan raksasa ...
+99    respons pssi penonton siluman indonesia vs aus...
+Name: stopwords, Length: 100, dtype: object
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="mereduksi-kata-menjadi-bentuk-dasar">
@@ -1027,178 +794,509 @@ Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\py
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 218/218 [00:05&lt;00:00, 43.02it/s]
-100%|██████████| 182/182 [00:06&lt;00:00, 28.73it/s]
-100%|██████████| 125/125 [00:05&lt;00:00, 21.79it/s]
-100%|██████████| 162/162 [00:08&lt;00:00, 18.03it/s]
-100%|██████████| 284/284 [00:08&lt;00:00, 31.98it/s]
-100%|██████████| 236/236 [00:06&lt;00:00, 36.01it/s]
-100%|██████████| 159/159 [00:04&lt;00:00, 34.69it/s]
-100%|██████████| 188/188 [00:06&lt;00:00, 28.22it/s]
-100%|██████████| 256/256 [00:14&lt;00:00, 18.18it/s]
-100%|██████████| 108/108 [00:03&lt;00:00, 34.63it/s]
-100%|██████████| 256/256 [00:09&lt;00:00, 28.36it/s]
-100%|██████████| 108/108 [00:03&lt;00:00, 28.84it/s]
-100%|██████████| 229/229 [00:06&lt;00:00, 34.30it/s]
-100%|██████████| 193/193 [00:05&lt;00:00, 35.78it/s]
-100%|██████████| 272/272 [00:05&lt;00:00, 48.91it/s]
-100%|██████████| 172/172 [00:08&lt;00:00, 20.81it/s]
-100%|██████████| 199/199 [00:04&lt;00:00, 42.55it/s]
-100%|██████████| 223/223 [00:03&lt;00:00, 60.40it/s]
-100%|██████████| 229/229 [00:07&lt;00:00, 31.66it/s]
-100%|██████████| 150/150 [00:04&lt;00:00, 35.34it/s]
-100%|██████████| 145/145 [00:05&lt;00:00, 27.38it/s]
-100%|██████████| 164/164 [00:04&lt;00:00, 37.15it/s]
-100%|██████████| 218/218 [00:05&lt;00:00, 42.72it/s]
-100%|██████████| 182/182 [00:07&lt;00:00, 25.43it/s]
-100%|██████████| 125/125 [00:05&lt;00:00, 23.20it/s]
-100%|██████████| 162/162 [00:09&lt;00:00, 17.67it/s]
-100%|██████████| 284/284 [00:10&lt;00:00, 27.94it/s]
-100%|██████████| 236/236 [00:04&lt;00:00, 49.11it/s]
-100%|██████████| 159/159 [00:05&lt;00:00, 30.33it/s]
-100%|██████████| 188/188 [00:06&lt;00:00, 30.05it/s]
-100%|██████████| 256/256 [00:09&lt;00:00, 26.96it/s]
-100%|██████████| 108/108 [00:03&lt;00:00, 34.98it/s]
-100%|██████████| 229/229 [00:07&lt;00:00, 31.80it/s]
-100%|██████████| 193/193 [00:05&lt;00:00, 38.55it/s]
-100%|██████████| 272/272 [00:05&lt;00:00, 49.04it/s]
-100%|██████████| 172/172 [00:08&lt;00:00, 20.70it/s]
-100%|██████████| 199/199 [00:04&lt;00:00, 42.65it/s]
-100%|██████████| 223/223 [00:04&lt;00:00, 45.81it/s]
-100%|██████████| 229/229 [00:06&lt;00:00, 38.07it/s]
-100%|██████████| 150/150 [00:04&lt;00:00, 35.19it/s]
-100%|██████████| 145/145 [00:05&lt;00:00, 26.98it/s]
-100%|██████████| 164/164 [00:04&lt;00:00, 39.51it/s]
-100%|██████████| 218/218 [00:05&lt;00:00, 38.82it/s]
-100%|██████████| 182/182 [00:06&lt;00:00, 27.65it/s]
-100%|██████████| 125/125 [00:05&lt;00:00, 24.98it/s]
-100%|██████████| 162/162 [00:09&lt;00:00, 17.53it/s]
-100%|██████████| 284/284 [00:10&lt;00:00, 27.66it/s]
-100%|██████████| 236/236 [00:04&lt;00:00, 50.27it/s]
-100%|██████████| 159/159 [00:05&lt;00:00, 29.89it/s]
-100%|██████████| 188/188 [00:06&lt;00:00, 30.17it/s]
-100%|██████████| 111/111 [00:03&lt;00:00, 28.13it/s]
-100%|██████████| 155/155 [00:06&lt;00:00, 22.72it/s]
-100%|██████████| 170/170 [00:05&lt;00:00, 30.87it/s]
-100%|██████████| 258/258 [00:14&lt;00:00, 18.35it/s]
-100%|██████████| 200/200 [00:12&lt;00:00, 15.88it/s]
-100%|██████████| 234/234 [00:11&lt;00:00, 19.86it/s]
-100%|██████████| 136/136 [00:07&lt;00:00, 17.08it/s]
-100%|██████████| 166/166 [00:05&lt;00:00, 29.26it/s]
-100%|██████████| 146/146 [00:04&lt;00:00, 34.53it/s]
-100%|██████████| 158/158 [00:04&lt;00:00, 31.85it/s]
-100%|██████████| 158/158 [00:03&lt;00:00, 46.43it/s]
-100%|██████████| 215/215 [00:09&lt;00:00, 21.70it/s]
-100%|██████████| 190/190 [00:05&lt;00:00, 32.18it/s]
-100%|██████████| 197/197 [00:07&lt;00:00, 24.95it/s]
-100%|██████████| 173/173 [00:07&lt;00:00, 23.81it/s]
-100%|██████████| 138/138 [00:05&lt;00:00, 23.08it/s]
-100%|██████████| 181/181 [00:04&lt;00:00, 39.71it/s] 
-100%|██████████| 234/234 [00:09&lt;00:00, 25.02it/s]
-100%|██████████| 181/181 [00:06&lt;00:00, 27.99it/s]
-100%|██████████| 173/173 [00:07&lt;00:00, 22.32it/s]
-100%|██████████| 269/269 [00:04&lt;00:00, 54.38it/s] 
-100%|██████████| 111/111 [00:05&lt;00:00, 19.87it/s]
-100%|██████████| 155/155 [00:05&lt;00:00, 29.50it/s]
-100%|██████████| 170/170 [00:06&lt;00:00, 25.96it/s]
-100%|██████████| 258/258 [00:14&lt;00:00, 18.03it/s]
-100%|██████████| 200/200 [00:11&lt;00:00, 17.54it/s]
-100%|██████████| 234/234 [00:11&lt;00:00, 21.16it/s]
-100%|██████████| 136/136 [00:08&lt;00:00, 16.77it/s]
-100%|██████████| 166/166 [00:05&lt;00:00, 29.89it/s]
-100%|██████████| 146/146 [00:05&lt;00:00, 25.25it/s]
-100%|██████████| 158/158 [00:03&lt;00:00, 46.62it/s]
-100%|██████████| 215/215 [00:09&lt;00:00, 21.74it/s]
-100%|██████████| 190/190 [00:05&lt;00:00, 31.99it/s]
-100%|██████████| 197/197 [00:07&lt;00:00, 24.63it/s]
-100%|██████████| 173/173 [00:07&lt;00:00, 23.37it/s]
-100%|██████████| 138/138 [00:05&lt;00:00, 23.39it/s]
-100%|██████████| 181/181 [00:04&lt;00:00, 39.76it/s] 
-100%|██████████| 234/234 [00:09&lt;00:00, 25.24it/s]
-100%|██████████| 181/181 [00:06&lt;00:00, 28.36it/s]
-100%|██████████| 173/173 [00:07&lt;00:00, 22.11it/s]
-100%|██████████| 269/269 [00:04&lt;00:00, 56.14it/s] 
-100%|██████████| 111/111 [00:05&lt;00:00, 19.87it/s]
-100%|██████████| 155/155 [00:05&lt;00:00, 29.31it/s]
-100%|██████████| 170/170 [00:06&lt;00:00, 25.76it/s]
-100%|██████████| 258/258 [00:14&lt;00:00, 17.62it/s]
-100%|██████████| 200/200 [00:11&lt;00:00, 17.07it/s]
-100%|██████████| 234/234 [00:11&lt;00:00, 21.02it/s]
-100%|██████████| 136/136 [00:08&lt;00:00, 16.35it/s]
-100%|██████████| 166/166 [00:05&lt;00:00, 29.41it/s]
-100%|██████████| 146/146 [00:06&lt;00:00, 23.96it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/218 [00:00&lt;?, ?it/s]
 </pre></div>
 </div>
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|█▏                                                                                | 3/218 [00:00&lt;00:15, 13.87it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2%|█▉                                                                                | 5/218 [00:00&lt;00:14, 14.58it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  6%|████▊                                                                            | 13/218 [00:00&lt;00:06, 31.44it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 11%|████████▌                                                                        | 23/218 [00:00&lt;00:04, 43.94it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 17%|█████████████▋                                                                   | 37/218 [00:00&lt;00:02, 66.35it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 23%|██████████████████▉                                                              | 51/218 [00:00&lt;00:02, 71.58it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 27%|█████████████████████▉                                                           | 59/218 [00:01&lt;00:03, 46.38it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 39%|███████████████████████████████▏                                                 | 84/218 [00:01&lt;00:01, 80.35it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 44%|███████████████████████████████████▎                                             | 95/218 [00:01&lt;00:01, 78.90it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 50%|████████████████████████████████████████                                        | 109/218 [00:01&lt;00:01, 77.44it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 56%|████████████████████████████████████████████▊                                   | 122/218 [00:01&lt;00:01, 73.33it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 62%|█████████████████████████████████████████████████▉                              | 136/218 [00:02&lt;00:00, 86.11it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 78%|█████████████████████████████████████████████████████████████▏                 | 169/218 [00:02&lt;00:00, 132.85it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 87%|████████████████████████████████████████████████████████████████████▍          | 189/218 [00:02&lt;00:00, 138.60it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 94%|██████████████████████████████████████████████████████████████████████████▋    | 206/218 [00:02&lt;00:00, 125.49it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 218/218 [00:02&lt;00:00, 77.20it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/182 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|▍                                                                                 | 1/182 [00:00&lt;00:37,  4.81it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|▉                                                                                 | 2/182 [00:00&lt;00:53,  3.37it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  8%|██████▋                                                                          | 15/182 [00:00&lt;00:07, 23.15it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 10%|████████                                                                         | 18/182 [00:01&lt;00:07, 20.96it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 12%|█████████▎                                                                       | 21/182 [00:01&lt;00:11, 13.97it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 16%|████████████▉                                                                    | 29/182 [00:01&lt;00:06, 21.98it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 18%|██████████████▋                                                                  | 33/182 [00:01&lt;00:07, 19.48it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 26%|████████████████████▉                                                            | 47/182 [00:02&lt;00:04, 29.56it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 30%|████████████████████████▍                                                        | 55/182 [00:02&lt;00:05, 24.31it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 34%|███████████████████████████▏                                                     | 61/182 [00:03&lt;00:06, 19.00it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 35%|████████████████████████████▍                                                    | 64/182 [00:03&lt;00:07, 15.77it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 36%|█████████████████████████████▎                                                   | 66/182 [00:03&lt;00:09, 12.89it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 37%|██████████████████████████████▎                                                  | 68/182 [00:04&lt;00:09, 12.30it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 48%|███████████████████████████████████████▏                                         | 88/182 [00:04&lt;00:03, 31.06it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 57%|█████████████████████████████████████████████▋                                  | 104/182 [00:04&lt;00:01, 41.51it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 60%|████████████████████████████████████████████████▎                               | 110/182 [00:04&lt;00:01, 40.41it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 65%|███████████████████████████████████████████████████▊                            | 118/182 [00:04&lt;00:01, 36.86it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 78%|██████████████████████████████████████████████████████████████▍                 | 142/182 [00:05&lt;00:00, 65.23it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 84%|██████████████████████████████████████████████████████████████████▊             | 152/182 [00:05&lt;00:00, 59.03it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 88%|██████████████████████████████████████████████████████████████████████▎         | 160/182 [00:05&lt;00:00, 31.88it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 182/182 [00:05&lt;00:00, 30.35it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/125 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|▋                                                                                 | 1/125 [00:00&lt;00:22,  5.43it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 18%|██████████████▉                                                                  | 23/125 [00:00&lt;00:01, 98.85it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 30%|███████████████████████▉                                                         | 37/125 [00:00&lt;00:01, 63.49it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 38%|██████████████████████████████▍                                                  | 47/125 [00:01&lt;00:03, 24.61it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 42%|██████████████████████████████████▎                                              | 53/125 [00:01&lt;00:02, 25.74it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 46%|█████████████████████████████████████▌                                           | 58/125 [00:01&lt;00:02, 25.67it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 51%|█████████████████████████████████████████▍                                       | 64/125 [00:02&lt;00:02, 21.38it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 54%|████████████████████████████████████████████                                     | 68/125 [00:02&lt;00:02, 21.24it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 57%|██████████████████████████████████████████████                                   | 71/125 [00:02&lt;00:02, 20.02it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 59%|███████████████████████████████████████████████▉                                 | 74/125 [00:03&lt;00:03, 15.97it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 62%|█████████████████████████████████████████████████▉                               | 77/125 [00:03&lt;00:03, 13.07it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 63%|███████████████████████████████████████████████████▏                             | 79/125 [00:03&lt;00:03, 12.27it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 67%|██████████████████████████████████████████████████████▍                          | 84/125 [00:03&lt;00:02, 15.42it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 69%|███████████████████████████████████████████████████████▋                         | 86/125 [00:03&lt;00:02, 15.22it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 71%|█████████████████████████████████████████████████████████▋                       | 89/125 [00:04&lt;00:02, 15.91it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 76%|█████████████████████████████████████████████████████████████▌                   | 95/125 [00:04&lt;00:01, 15.00it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 80%|████████████████████████████████████████████████████████████████                | 100/125 [00:04&lt;00:01, 14.10it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 92%|█████████████████████████████████████████████████████████████████████████▌      | 115/125 [00:05&lt;00:00, 27.21it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 96%|████████████████████████████████████████████████████████████████████████████▊   | 120/125 [00:05&lt;00:00, 24.43it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 125/125 [00:05&lt;00:00, 22.93it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/162 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4%|███▌                                                                              | 7/162 [00:00&lt;00:05, 27.98it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  6%|█████                                                                            | 10/162 [00:00&lt;00:10, 14.11it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 19%|███████████████                                                                  | 30/162 [00:00&lt;00:03, 40.41it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 22%|█████████████████▌                                                               | 35/162 [00:01&lt;00:07, 16.89it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 28%|██████████████████████▌                                                          | 45/162 [00:01&lt;00:05, 22.69it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 31%|█████████████████████████                                                        | 50/162 [00:02&lt;00:04, 23.16it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 33%|███████████████████████████                                                      | 54/162 [00:02&lt;00:05, 19.21it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 35%|████████████████████████████▌                                                    | 57/162 [00:02&lt;00:06, 16.19it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 37%|██████████████████████████████                                                   | 60/162 [00:03&lt;00:06, 15.77it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 38%|███████████████████████████████                                                  | 62/162 [00:03&lt;00:08, 12.37it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 41%|█████████████████████████████████                                                | 66/162 [00:03&lt;00:06, 14.02it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 43%|███████████████████████████████████                                              | 70/162 [00:03&lt;00:05, 16.23it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 44%|████████████████████████████████████                                             | 72/162 [00:03&lt;00:06, 14.76it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 46%|█████████████████████████████████████                                            | 74/162 [00:04&lt;00:07, 11.14it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 47%|██████████████████████████████████████                                           | 76/162 [00:04&lt;00:07, 11.03it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 48%|███████████████████████████████████████                                          | 78/162 [00:04&lt;00:07, 11.15it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 50%|████████████████████████████████████████▌                                        | 81/162 [00:04&lt;00:06, 12.51it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 51%|█████████████████████████████████████████▌                                       | 83/162 [00:05&lt;00:06, 11.84it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 60%|█████████████████████████████████████████████████                                | 98/162 [00:05&lt;00:02, 25.84it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 62%|█████████████████████████████████████████████████▉                              | 101/162 [00:05&lt;00:02, 23.30it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 64%|███████████████████████████████████████████████████▎                            | 104/162 [00:05&lt;00:02, 22.02it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 65%|████████████████████████████████████████████████████▎                           | 106/162 [00:05&lt;00:02, 18.68it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 67%|█████████████████████████████████████████████████████▎                          | 108/162 [00:06&lt;00:03, 15.53it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 69%|██████████████████████████████████████████████████████▊                         | 111/162 [00:06&lt;00:03, 14.95it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 71%|████████████████████████████████████████████████████████▊                       | 115/162 [00:06&lt;00:02, 16.40it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 74%|███████████████████████████████████████████████████████████▎                    | 120/162 [00:06&lt;00:02, 15.60it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 75%|████████████████████████████████████████████████████████████▏                   | 122/162 [00:07&lt;00:02, 13.68it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 77%|█████████████████████████████████████████████████████████████▏                  | 124/162 [00:07&lt;00:02, 14.48it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 78%|██████████████████████████████████████████████████████████████▏                 | 126/162 [00:07&lt;00:02, 13.15it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 79%|███████████████████████████████████████████████████████████████▏                | 128/162 [00:07&lt;00:02, 12.40it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 80%|████████████████████████████████████████████████████████████████▏               | 130/162 [00:07&lt;00:02, 11.69it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 91%|████████████████████████████████████████████████████████████████████████▌       | 147/162 [00:08&lt;00:00, 35.61it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████████████████████████████████████████| 162/162 [00:08&lt;00:00, 20.04it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/284 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|▌                                                                                 | 2/284 [00:00&lt;00:51,  5.44it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|▊                                                                                 | 3/284 [00:00&lt;00:52,  5.39it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|█▏                                                                                | 4/284 [00:00&lt;00:53,  5.24it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2%|█▍                                                                                | 5/284 [00:00&lt;00:52,  5.31it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  7%|█████▍                                                                           | 19/284 [00:01&lt;00:10, 25.59it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 10%|███████▋                                                                         | 27/284 [00:01&lt;00:08, 29.88it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 11%|████████▌                                                                        | 30/284 [00:01&lt;00:10, 25.32it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 12%|█████████▋                                                                       | 34/284 [00:01&lt;00:10, 24.86it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 14%|███████████▍                                                                     | 40/284 [00:01&lt;00:08, 30.20it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 17%|█████████████▋                                                                   | 48/284 [00:02&lt;00:07, 33.25it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 18%|██████████████▊                                                                  | 52/284 [00:02&lt;00:14, 15.57it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 19%|███████████████▋                                                                 | 55/284 [00:03&lt;00:17, 13.32it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 20%|████████████████▌                                                                | 58/284 [00:03&lt;00:21, 10.42it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 21%|█████████████████                                                                | 60/284 [00:03&lt;00:21, 10.38it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 22%|█████████████████▋                                                               | 62/284 [00:04&lt;00:25,  8.58it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 23%|██████████████████▎                                                              | 64/284 [00:04&lt;00:26,  8.37it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 25%|████████████████████▎                                                            | 71/284 [00:04&lt;00:15, 13.70it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 26%|█████████████████████                                                            | 74/284 [00:05&lt;00:17, 12.18it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 30%|███████████████████████▉                                                         | 84/284 [00:05&lt;00:08, 23.01it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 31%|█████████████████████████▍                                                       | 89/284 [00:05&lt;00:08, 23.99it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 37%|█████████████████████████████▎                                                  | 104/284 [00:05&lt;00:05, 35.37it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 38%|██████████████████████████████▋                                                 | 109/284 [00:05&lt;00:05, 31.12it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 40%|███████████████████████████████▊                                                | 113/284 [00:06&lt;00:06, 27.84it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 49%|██████████████████████████████████████▊                                         | 138/284 [00:06&lt;00:02, 54.66it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 53%|██████████████████████████████████████████▎                                     | 150/284 [00:06&lt;00:02, 55.86it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 55%|███████████████████████████████████████████▉                                    | 156/284 [00:06&lt;00:03, 39.90it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 61%|█████████████████████████████████████████████████                               | 174/284 [00:07&lt;00:02, 50.58it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 63%|██████████████████████████████████████████████████▋                             | 180/284 [00:07&lt;00:03, 34.44it/s]
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="n">line</span> <span class="mi">7</span>
+<span class="nn">      4     text = &#39; &#39;.join(st.stem(word) for word</span> in <span class="ni">tqdm(text.split</span><span class="nt">()) if word in text)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="k">return</span> <span class="n">text</span>
+<span class="ne">----&gt; </span><span class="mi">7</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;stemming&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;stopwords&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">sastrawistemmer</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;stemming&#39;</span><span class="p">]</span>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\core\series.py:4630,</span> in <span class="ni">Series.apply</span><span class="nt">(self, func, convert_dtype, args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">4520</span> <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">4521</span>     <span class="bp">self</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">4522</span>     <span class="n">func</span><span class="p">:</span> <span class="n">AggFuncType</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">4525</span>     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">4526</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span> <span class="o">|</span> <span class="n">Series</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">4527</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">4528</span><span class="sd">     Invoke function on values of Series.</span>
+<span class="g g-Whitespace">   </span><span class="mi">4529</span><span class="sd"> </span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">   </span><span class="mi">4628</span><span class="sd">     dtype: float64</span>
+<span class="g g-Whitespace">   </span><span class="mi">4629</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">4630</span>     <span class="k">return</span> <span class="n">SeriesApply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">convert_dtype</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>stemming</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>temu sri mulyani prabowo bahas makan gizi grat...</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>bisnis jokowi cabut larang jual rokok meter se...</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>ihsg lemah tipis sore indeks harga saham gabun...</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>rupiah kuat rp dolar as debat trump harris nil...</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>sri mulyani nonton timnas australia terima kas...</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>95</th>
-      <td>hasil liga psm vs persib kuat psm makassar pua...</td>
-    </tr>
-    <tr>
-      <th>96</th>
-      <td>jokowi bonus rp miliar raih medali paralimpiad...</td>
-    </tr>
-    <tr>
-      <th>97</th>
-      <td>megawati target liga korea main asing baik meg...</td>
-    </tr>
-    <tr>
-      <th>98</th>
-      <td>media vietnam indonesia kejut lawan raksasa as...</td>
-    </tr>
-    <tr>
-      <th>99</th>
-      <td>respons pssi tonton siluman indonesia vs austr...</td>
-    </tr>
-  </tbody>
-</table>
-<p>100 rows × 1 columns</p>
-</div><br><label><b>dtype:</b> object</label></div></div>
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\core\apply.py:1025,</span> in <span class="ni">SeriesApply.apply</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1022</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_str</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1024</span> <span class="c1"># self.f is Callable</span>
+<span class="ne">-&gt; </span><span class="mi">1025</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_standard</span><span class="p">()</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\core\apply.py:1076,</span> in <span class="ni">SeriesApply.apply_standard</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1074</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1075</span>         <span class="n">values</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span><span class="o">.</span><span class="n">_values</span>
+<span class="ne">-&gt; </span><span class="mi">1076</span>         <span class="n">mapped</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">map_infer</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1077</span>             <span class="n">values</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1078</span>             <span class="n">f</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1079</span>             <span class="n">convert</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">convert_dtype</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1080</span>         <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1082</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mapped</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mapped</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ABCSeries</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1083</span>     <span class="c1"># GH#43986 Need to do list(mapped) in order to get treated as nested</span>
+<span class="g g-Whitespace">   </span><span class="mi">1084</span>     <span class="c1">#  See also GH#25959 regarding EA support</span>
+<span class="g g-Whitespace">   </span><span class="mi">1085</span>     <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">_constructor_expanddim</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">mapped</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\_libs\lib.pyx:2834,</span> in <span class="ni">pandas._libs.lib.map_infer</span><span class="nt">()</span>
+
+<span class="nn">Cell In[9], line 4,</span> in <span class="ni">sastrawistemmer</span><span class="nt">(text)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">factory</span> <span class="o">=</span> <span class="n">StemmerFactory</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">st</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">create_stemmer</span><span class="p">()</span>
+<span class="nn">----&gt; 4 text = &#39; &#39;.join(st.stem(word) for word</span> in <span class="ni">tqdm(text.split</span><span class="nt">()) if word in text)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="k">return</span> <span class="n">text</span>
+
+<span class="nn">Cell In[9], line 4,</span> in <span class="ni">&lt;genexpr&gt;</span><span class="nt">(.0)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">factory</span> <span class="o">=</span> <span class="n">StemmerFactory</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">st</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">create_stemmer</span><span class="p">()</span>
+<span class="nn">----&gt; 4 text = &#39; &#39;.join(st.stem(word) for word</span> in <span class="ni">tqdm(text.split</span><span class="nt">()) if word in text)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="k">return</span> <span class="n">text</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\CachedStemmer.py:20,</span> in <span class="ni">CachedStemmer.stem</span><span class="nt">(self, text)</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="n">stems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">word</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">20</span>     <span class="n">stem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">delegatedStemmer</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span>     <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">stem</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span>     <span class="n">stems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stem</span><span class="p">)</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Stemmer.py:27,</span> in <span class="ni">Stemmer.stem</span><span class="nt">(self, text)</span>
+<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="n">stems</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="g g-Whitespace">     </span><span class="mi">26</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">27</span>     <span class="n">stems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stem_word</span><span class="p">(</span><span class="n">word</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">29</span> <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stems</span><span class="p">)</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Stemmer.py:36,</span> in <span class="ni">Stemmer.stem_word</span><span class="nt">(self, word)</span>
+<span class="g g-Whitespace">     </span><span class="mi">34</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stem_plural_word</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">35</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">36</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stem_singular_word</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Stemmer.py:84,</span> in <span class="ni">Stemmer.stem_singular_word</span><span class="nt">(self, word)</span>
+<span class="g g-Whitespace">     </span><span class="mi">82</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Stem a singular word to its common stem form.&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">83</span> <span class="n">context</span> <span class="o">=</span> <span class="n">Context</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">visitor_provider</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">84</span> <span class="n">context</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">86</span> <span class="k">return</span> <span class="n">context</span><span class="o">.</span><span class="n">result</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Context\Context.py:37,</span> in <span class="ni">Context.execute</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">     </span><span class="mi">34</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Execute stemming process; the result can be retrieved with result&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">36</span> <span class="c1">#step 1 - 5</span>
+<span class="ne">---&gt; </span><span class="mi">37</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_stemming_process</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">39</span> <span class="c1">#step 6</span>
+<span class="g g-Whitespace">     </span><span class="mi">40</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_word</span><span class="p">):</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Context\Context.py:80,</span> in <span class="ni">Context.start_stemming_process</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">     </span><span class="mi">77</span>     <span class="k">return</span>
+<span class="g g-Whitespace">     </span><span class="mi">79</span> <span class="c1">#step 4, 5</span>
+<span class="ne">---&gt; </span><span class="mi">80</span> <span class="bp">self</span><span class="o">.</span><span class="n">remove_prefixes</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">81</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_word</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">82</span>     <span class="k">return</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Context\Context.py:89,</span> in <span class="ni">Context.remove_prefixes</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">     </span><span class="mi">87</span> <span class="k">def</span> <span class="nf">remove_prefixes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">88</span>     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">89</span>         <span class="bp">self</span><span class="o">.</span><span class="n">accept_prefix_visitors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix_pisitors</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">90</span>         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_word</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">91</span>             <span class="k">return</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Context\Context.py:110,</span> in <span class="ni">Context.accept_prefix_visitors</span><span class="nt">(self, visitors)</span>
+<span class="g g-Whitespace">    </span><span class="mi">108</span> <span class="n">removalCount</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">removals</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">109</span> <span class="k">for</span> <span class="n">visitor</span> <span class="ow">in</span> <span class="n">visitors</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">110</span>     <span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">(</span><span class="n">visitor</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">111</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_word</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">112</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_word</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Context\Context.py:97,</span> in <span class="ni">Context.accept</span><span class="nt">(self, visitor)</span>
+<span class="g g-Whitespace">     </span><span class="mi">96</span> <span class="k">def</span> <span class="nf">accept</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">visitor</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">97</span>     <span class="n">visitor</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\site-packages\Sastrawi\Stemmer\Context\Visitor\AbstractDisambiguatePrefixRule.py:15,</span> in <span class="ni">AbstractDisambiguatePrefixRule.visit</span><span class="nt">(self, context)</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="k">for</span> <span class="n">disambiguator</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">disambiguators</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span>     <span class="n">result</span> <span class="o">=</span> <span class="n">disambiguator</span><span class="o">.</span><span class="n">disambiguate</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">current_word</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">15</span>     <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">dictionary</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span>         <span class="k">break</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="p">:</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="transformasi-teks-menjadi-matriks-tf-idf-dengan-tfidfvectorizer">
@@ -2440,8 +2538,9 @@ Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\py
 </div>
 </div>
 </section>
-<section id="pencarian-dokumen">
-<h2>Pencarian Dokumen<a class="headerlink" href="#pencarian-dokumen" title="Link to this heading">#</a></h2>
+<section id="pencarian-dokumen-berbasis-kemiripann-similarity">
+<h2>Pencarian Dokumen berbasis Kemiripann (Similarity)<a class="headerlink" href="#pencarian-dokumen-berbasis-kemiripann-similarity" title="Link to this heading">#</a></h2>
+<p>Cosine Similarity adalah sebuah ukuran yang digunakan untuk mengukur kemiripan antara dua vektor dalam ruang vektor, yang dihitung berdasarkan cosinus sudut antara keduanya.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">search_documents</span><span class="p">(</span><span class="n">query</span><span class="p">):</span>
@@ -3209,7 +3308,7 @@ Requirement already satisfied: six&gt;=1.5 in c:\users\isnita\appdata\roaming\py
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengurangi-dimensi-data-teks-dengan-svd">Mengurangi Dimensi Data Teks dengan SVD</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#save-data">Save Data</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing-untuk-query">Preprocessing untuk Query</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pencarian-dokumen">Pencarian Dokumen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pencarian-dokumen-berbasis-kemiripann-similarity">Pencarian Dokumen berbasis Kemiripann (Similarity)</a></li>
 </ul>
   </nav></div>
 
